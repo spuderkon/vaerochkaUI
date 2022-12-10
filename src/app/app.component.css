@@ -1,5 +1,5 @@
 .booking {
-    width: 900px
+    width: 1000px
 }
 
 .booking-input {
@@ -8,4 +8,8 @@
 
 .booking-date {
     width: 150px;
+}
+
+.s-button{
+    background-color: #1976d2;
 }

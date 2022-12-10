@@ -335,48 +335,50 @@
 
       <mat-form-field class="example-form-field" appearance="outline" class="booking-input">
         <mat-label>Город вылета</mat-label>
-        <input matInput type="text">
-        <button *ngIf="title" matSuffix mat-icon-button aria-label="Clear">
+        <input matInput type="text" >
+        <button matSuffix mat-icon-button aria-label="Clear">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
-      <button mat-icon-button>
+      <button mat-icon-button (click)="switchValues()">
         <mat-icon>compare_arrows</mat-icon>
       </button>
 
       <mat-form-field class="example-form-field" appearance="outline" class="booking-input">
         <mat-label>Город прилета</mat-label>
         <input matInput type="text">
-        <button *ngIf="title" matSuffix mat-icon-button aria-label="Clear">
+        <button matSuffix mat-icon-button aria-label="Clear">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
-      <!-- <mat-form-field color="accent" appearance="fill">
-        <mat-label>Custom calendar color</mat-label>
+      <mat-form-field color="accent" appearance="outline">
+        <mat-label>Туда</mat-label>
         <input matInput [matDatepicker]="picker">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker color="primary"></mat-datepicker>
-      </mat-form-field> -->
-
-      <mat-form-field class="example-form-field" appearance="outline" class="booking-date">
-        <mat-label>Обратно</mat-label>
-        <input matInput type="text">
-        <button *ngIf="title" matSuffix mat-icon-button aria-label="Clear">
-          <mat-icon>close</mat-icon>
-        </button>
       </mat-form-field>
+
+      <mat-form-field color="accent" appearance="outline">
+        <mat-label>Обратно</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker color="primary"></mat-datepicker>
+      </mat-form-field>
+
+      
 
       <!-- <mat-form-field class="example-form-field" appearance="outline" class="booking-date">
         <mat-label>Обратно</mat-label>
         <input matInput type="text">
-        <button *ngIf="title" matSuffix mat-icon-button aria-label="Clear">
-          <mat-icon>close</mat-icon>
-        </button>
+        
       </mat-form-field> -->
-
+      <button mat-fab color="primary" class="s-button">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-card-actions>
   </mat-card>
 
