@@ -12,7 +12,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider'
-
+import { FormsModule } from "@angular/forms";
+import { MatTabsModule } from '@angular/material/tabs';
+import { SharedService } from './shared.service';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import { MatSliderModule } from '@angular/material/slider'
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatSliderModule
+    MatSliderModule,
+    FormsModule,
+    MatTabsModule,
   ],
-  providers: [],
+  providers: [SharedService      ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
 }

@@ -6,10 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+  departure="";
+  arrival="";
 
-  switchValues()
+  switchValues(departure : any, arrival : any)
   {
-    
+    this.arrival = departure;
+    this.departure = arrival;
   }
 }
