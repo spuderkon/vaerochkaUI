@@ -15,7 +15,7 @@ namespace vaerochkaAPI.Controllers
         public HttpResponseMessage Get()
         {
           string query = @"
-                           select code,dbo.airport.name as ""airport_name"" , dbo.city.name as ""city_name"" 
+                           select code,dbo.airport.name as ""airport_name"" , dbo.city.name as ""city_name""
                            from dbo.airport
                            join dbo.city on dbo.airport.city_id=dbo.city.id";
           DataTable table = new DataTable();

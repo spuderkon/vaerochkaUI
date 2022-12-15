@@ -337,26 +337,26 @@
         </mat-card-header>
         <mat-card-actions class="booking">
 
-          <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
-            style="margin-right: 5px;">
+          <mat-form-field appearance="outline" class="booking-input">
             <mat-label>Город вылета</mat-label>
-            <input matInput type="text" [(ngModel)]="departure">
-            <button matSuffix mat-icon-button aria-label="Clear">
-              <mat-icon>close</mat-icon>
-            </button>
+            <mat-select>
+              <mat-option *ngFor="let item of airports" [value]="item.code">
+                {{item.city_name}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <button mat-icon-button (click)="switchValues(departure, arrival)">
             <mat-icon>compare_arrows</mat-icon>
           </button>
 
-          <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
-            style="margin-right: 5px; margin-left: 5px;">
-            <mat-label>Город прилета</mat-label>
-            <input matInput type="text" [(ngModel)]="arrival">
-            <button matSuffix mat-icon-button aria-label="Clear">
-              <mat-icon>close</mat-icon>
-            </button>
+          <mat-form-field appearance="outline" class="booking-input" style="margin-right: 5px; margin-left: 5px;">
+            <mat-label>Город прилёта</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let item of airports" [value]="item.code">
+                {{item.city_name}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="margin-right: 5px;">
@@ -379,7 +379,7 @@
         </mat-card-actions>
       </mat-card>
     </mat-tab>
-    <mat-tab label="Поиск"> 
+    <mat-tab label="Поиск">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Бронирование</mat-card-title>
@@ -399,7 +399,7 @@
             <input matInput type="text">
           </mat-form-field>
 
-          <button mat-fab color="primary" class="s-button">
+          <button  color="primary" class="s-button">
             <mat-icon>search</mat-icon>
           </button>
         </mat-card-actions>
