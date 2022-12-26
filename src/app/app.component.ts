@@ -53,26 +53,20 @@ export class AppComponent {
   }
 
   showRoutes() {
+    
     this.tableDisabled = true;
     if(this.arrivalDate == undefined ){
        this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
+       console.log(this.departureCity,this.arrivalCity,this.departureDate)
       // this.service.getRoutesBy3Parameters(this.departureCity,this.arrivalCity,this.departureDate).subscribe(data => {
       //   this.routes = data;
       //   console.log(this.routes);
       //   
-      // });
-      this.qwer.departureCity = this.departureCity;
-      this.qwer.arrivalCity = this.arrivalCity;
-      this.qwer.departureDate = this.departureDate;
-      
+      // })
     }
     else{
       this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
       this.arrivalDate = moment(this.arrivalDate).format('YYYY-MM-DD');
-      this.qwer.departureCity = this.departureCity;
-      this.qwer.arrivalCity = this.arrivalCity;
-      this.qwer.departureDate = this.departureDate;
-      this.qwer.arrivalDate = this.arrivalDate;
       // this.service.getRoutesBy4Parameters(this.departureCity,this.arrivalCity,this.departureDate,this.arrivalDate).subscribe(data => {
       //   this.routes = data;
       //   console.log(this.routes);

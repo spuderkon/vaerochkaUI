@@ -18,11 +18,12 @@ import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { RouteComponent } from './route/route.component';
+import { RouteComponent, routeDialog } from './route/route.component';
 import { MainComponent } from './main/main.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AppComponent,
     RouteComponent,
     MainComponent,
+    routeDialog,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +54,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
+    MatDialogModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

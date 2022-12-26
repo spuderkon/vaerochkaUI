@@ -1,11 +1,10 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { SharedService } from '../shared.service';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Qwe } from 'src/models/qwe.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -15,22 +14,30 @@ import { Qwe } from 'src/models/qwe.model';
 })
 
 
-export class RouteComponent implements OnInit, AfterViewInit  {
-    @Input() qwer: Qwe;
-    displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Button'];
-    dataSource: MatTableDataSource<Routeinf>;
-    PhotoUrl : string;
-    routes : Routeinf[];
+export class RouteComponent implements OnInit, AfterViewInit {
+  @Input() departureDate: string;
+  @Input() arrivalDate: string;
+  @Input() departureCity: number;
+  @Input() arrivalCity: number;
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private service: SharedService) {
-      this.dataSource = new MatTableDataSource(this.routes);
-   }
+
+  displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Button'];
+  dataSource: MatTableDataSource<Routeinf>;
+  PhotoUrl: string;
+  routes: Routeinf[];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private service: SharedService, public dialog: MatDialog) {
+    this.dataSource = new MatTableDataSource(this.routes);
+
+  }
 
   ngOnInit(): void {
     this.refreshData();
+
   }
 
   ngAfterViewInit() {
@@ -38,12 +45,21 @@ export class RouteComponent implements OnInit, AfterViewInit  {
     this.dataSource.sort = this.sort;
   }
 
-  refreshData(){
-    this.service.getRoutesBy3Parameters(this.qwer.departureCity, this.qwer.arrivalCity,this.qwer.departureDate).subscribe(data => {
-      this.routes = data;
-      this.dataSource = new MatTableDataSource(this.routes);
-      console.log(data);
-    })
+  refreshData() {
+    if (this.departureCity == undefined) {
+      this.service.getRoutesBy3Parameters(36, 1, '2022-12-26').subscribe(data => {
+        this.routes = data;
+        this.dataSource = new MatTableDataSource(this.routes);
+        console.log(data);
+      });
+    }
+    else {
+      this.service.getRoutesBy3Parameters(this.departureCity, this.arrivalCity, this.departureDate).subscribe(data => {
+        this.routes = data;
+        this.dataSource = new MatTableDataSource(this.routes);
+        console.log(data);
+      });
+    }
   }
 
   applyFilter(event: Event) {
@@ -54,4 +70,14 @@ export class RouteComponent implements OnInit, AfterViewInit  {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(routeDialog);
+  }
 }
+
+@Component({
+  selector: 'routeDialog',
+  templateUrl: 'routeDialog.html',
+})
+export class routeDialog {}

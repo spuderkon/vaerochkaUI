@@ -1,6 +1,6 @@
 <div class="route">
    
-      <div class="mat-elevation-z8" style="margin-left: 430px; margin-right: 430px;">
+      <div class="mat-elevation-z8" >
         <table mat-table [dataSource]="dataSource" matSort>
       
           <ng-container matColumnDef="Departure">
@@ -34,8 +34,8 @@
           </ng-container>
       
           <ng-container matColumnDef="Button">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:200px; text-align: center;"> Кнопка </th>
-            <td mat-cell *matCellDef="let row" style="text-align: center;"> <button mat-raised-button style="background-color:#1976d2; color:white;">Выбрать рейс</button> </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:200px; text-align: center;"></th>
+            <td mat-cell *matCellDef="let row" style="text-align: center;"> <button mat-raised-button (click)="openDialog()" style="background-color:#1976d2; color:white;">Выбрать рейс</button> </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
