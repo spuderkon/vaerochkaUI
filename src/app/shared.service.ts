@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class SharedService {
   readonly Url = "http://localhost:49975/api/"
-  readonly PhotoURl = "http://localhost:49975/photos/"
+  readonly PhotoURl = "C:\\Users\\Spude\\Desktop\\vaerochkaUI\\"
+
 
   constructor(private http: HttpClient) {
 
@@ -15,5 +16,20 @@ export class SharedService {
 
   getAirports(): Observable<any[]> {
     return this.http.get<any>(this.Url + "airports")
+  }
+
+  getRoutesBy4Parameters(departureCity: number, arrivalCity : number, departureDate : string, arrivalDate : string): Observable<any[]> {
+    return this.http.get<any>(this.Url + "Route?departureCity="+ departureCity+"&arrivalCity="+ arrivalCity +"&departureDate="+ departureDate +"&arrivalDate=" + arrivalDate)
+  }
+  getRoutesBy3Parameters(departureCity: number, arrivalCity : number, departureDate : string): Observable<any[]> {
+    return this.http.get<any>(this.Url + "Route?departureCity="+ departureCity+"&arrivalCity="+ arrivalCity +"&departureDate="+ departureDate)
+  } 
+
+  getTariffsById(id: number) : Observable<any[]>{
+    return this.http.get<any>(this.Url + 'Tariff?airline_id=' + id)
+  }
+
+  getAircraftById(id: number) : Observable<any[]>{
+    return this.http.get<any>(this.Url + 'Aircraft/' + id)
   }
 }

@@ -18,11 +18,18 @@ import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { RouteComponent } from './route/route.component';
+import { MainComponent } from './main/main.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RouteComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,10 @@ import { MatSelectModule } from '@angular/material/select';
     HttpClientModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

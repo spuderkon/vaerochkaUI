@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,8 +15,8 @@ namespace vaerochkaAPI.Controllers
         public HttpResponseMessage Get()
         {
             string query = @"
-                     select id, model from
-                     dbo.aircraft";
+                     select id, model, business_seats, economy_seats
+                     from dbo.aircraft";
             DataTable table = new DataTable();
             using (var con = new SqlConnection(ConfigurationManager.
                 ConnectionStrings["vaerochka"].ConnectionString))
@@ -29,5 +29,24 @@ namespace vaerochkaAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-    }
+
+        public HttpResponseMessage Get(int id)
+        {
+          string query = @"
+                        select id, model, business_seats, economy_seats
+                        from dbo.aircraft
+                        where id = " + id;
+          DataTable table = new DataTable();
+          using (var con = new SqlConnection(ConfigurationManager.
+              ConnectionStrings["vaerochka"].ConnectionString))
+          using (var cmd = new SqlCommand(query, con))
+          using (var da = new SqlDataAdapter(cmd))
+          {
+            cmd.CommandType = CommandType.Text;
+            da.Fill(table);
+          }
+
+          return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+  }
 }

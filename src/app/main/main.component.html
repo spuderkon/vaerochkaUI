@@ -1,0 +1,80 @@
+
+    <!-- <mat-tab-group style="margin-left: 250px; margin-right: 250px;">
+      <mat-tab label="Бронирование" >
+        <mat-card style="display: flex; justify-content: center;">
+          <mat-card-header>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="booking">
+  
+            <mat-form-field appearance="outline" class="booking-input">
+              <mat-label>Город вылета</mat-label>
+              <mat-select [(ngModel)]="departureCity">
+                <mat-option *ngFor="let item of airports" [value]="item.airport_id">
+                  {{item.city_name + item.code}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <button mat-icon-button (click)="switchValues(departureCity, arrivalCity)">
+              <mat-icon>compare_arrows</mat-icon>
+            </button>
+  
+            <mat-form-field appearance="outline" class="booking-input" style="margin-right: 5px; margin-left: 5px;">
+              <mat-label>Город прилёта</mat-label>
+              <mat-select [(ngModel)]="arrivalCity">
+                <mat-option *ngFor="let item of airports" [value]="item.airport_id">
+                  {{item.city_name + item.code}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" style="margin-right: 5px;">
+              <mat-label>Дата вылета</mat-label>
+              <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate"> 
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1 color="primary"></mat-datepicker>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" style="margin-right: 5px;">
+              <mat-label>Обратно</mat-label>
+              <input matInput [matDatepicker]="picker2" autocomplete="off" [(ngModel)]="arrivalDate" [min]="minDate" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+  
+            <button mat-fab color="primary" class="s-button" (click)="showRoutes()" routerLink="/route">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="Поиск">
+        <mat-card style="display: flex; justify-content: center;">
+          <mat-card-header>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="booking">
+  
+            <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
+              style="margin-right: 5px;">
+              <mat-label>Код бронирования</mat-label>
+              <input matInput type="text">
+            </mat-form-field>
+  
+            <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
+              style="margin-right: 5px; margin-left: 5px;">
+              <mat-label>Фамилия</mat-label>
+              <input matInput type="text">
+            </mat-form-field>
+  
+            <button  color="primary" class="s-button">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group> -->
+    <router-outlet></router-outlet>
