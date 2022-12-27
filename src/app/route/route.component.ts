@@ -1,11 +1,16 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject } from '@angular/core';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { SharedService } from '../shared.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Tariff } from 'src/models/tariff/tariff.model';
 
+
+export interface DialogData {
+  airline_id: number;
+}
 
 @Component({
   selector: 'app-route',
@@ -71,8 +76,8 @@ export class RouteComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openDialog(){
-    const dialogRef = this.dialog.open(routeDialog);
+  openDialog(airline_id: number) : void {
+    const dialogRef = this.dialog.open(routeDialog, {data: {airline_id: airline_id}});
   }
 }
 
@@ -80,4 +85,23 @@ export class RouteComponent implements OnInit, AfterViewInit {
   selector: 'routeDialog',
   templateUrl: 'routeDialog.html',
 })
-export class routeDialog {}
+export class routeDialog implements OnInit{
+
+  constructor(private service: SharedService,
+              public dialogRef: MatDialogRef<routeDialog>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData,){
+
+  }
+  tariffs: Tariff[];
+
+  ngOnInit(): void {
+   this.refreshData();
+  }
+
+  refreshData(){
+    this.service.getTariffsById(this.data.airline_id).subscribe(data => {
+      this.tariffs = data;
+      console.log(this.tariffs);
+    })
+  }
+}
