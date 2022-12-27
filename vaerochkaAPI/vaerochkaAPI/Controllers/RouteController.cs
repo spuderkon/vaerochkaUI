@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Globalization;
 
 namespace vaerochkaAPI.Controllers
 {
@@ -46,7 +47,7 @@ namespace vaerochkaAPI.Controllers
 
     public HttpResponseMessage Get(int departureCity, int arrivalCity, DateTime departureDate)
     {
-      string query = @"
+      string query = $@"
                                     select route.id as 'route_id', route.start_date, route.end_date, route.code as 'route_code', route.price ,route.airline_id, route.time_in_fly, airline.name, airline.image, 
                                     flight.aircraft_id, aircraft.model ,flight.boarding_gate, flight.start_airport_id, a1.name as 'departure_airport', a1.name as 'departure_city', a1.code as 'departure_air_code', flight.end_airport_id, a2.name as 'arrive_airport', ac2.name as 'arrive_city' , a2.code as 'arrive_air_code'
 
@@ -59,8 +60,7 @@ namespace vaerochkaAPI.Controllers
                                     join airport as a2 on flight.end_airport_id = a2.id
                                     join city as ac1 on a1.city_id = ac1.id
                                     join city as ac2 on a2.city_id = ac2.id
-                                    where route.start_date >= " + departureDate.ToString("yyyy-MM-dd") + " and ac1.id = " + departureCity + " and ac2.id = " + arrivalCity;
-
+                                    where DATEDIFF(day,route.start_date,'{departureDate.ToString("yyyy-MM-dd")}') = 0 and ac1.id = " + departureCity + " and ac2.id = " + arrivalCity;
       DataTable table = new DataTable();
       using (var con = new SqlConnection(ConfigurationManager.
           ConnectionStrings["vaerochka"].ConnectionString))

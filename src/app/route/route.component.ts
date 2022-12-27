@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { SharedService } from '../shared.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,7 +19,7 @@ export interface DialogData {
 })
 
 
-export class RouteComponent implements OnInit, AfterViewInit {
+export class RouteComponent implements OnInit, AfterViewInit, OnChanges  {
   @Input() departureDate: string;
   @Input() arrivalDate: string;
   @Input() departureCity: number;
@@ -31,6 +31,7 @@ export class RouteComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Routeinf>;
   PhotoUrl: string;
   routes: Routeinf[];
+  listIsFull: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,21 +51,26 @@ export class RouteComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.refreshData();
+  }
+
   refreshData() {
-    if (this.departureCity == undefined) {
-      this.service.getRoutesBy3Parameters(36, 1, '2022-12-26').subscribe(data => {
-        this.routes = data;
-        this.dataSource = new MatTableDataSource(this.routes);
-        console.log(data);
-      });
-    }
-    else {
+    
+    console.log(this.departureCity,this.arrivalCity,this.departureDate + '123')
       this.service.getRoutesBy3Parameters(this.departureCity, this.arrivalCity, this.departureDate).subscribe(data => {
-        this.routes = data;
-        this.dataSource = new MatTableDataSource(this.routes);
-        console.log(data);
+        if (data.length == 0) {
+          this.listIsFull = false;
+          this.routes = new Array<Routeinf>;
+          this.dataSource = new MatTableDataSource();
+        }
+        else{
+          this.routes = data;
+          this.dataSource = new MatTableDataSource(this.routes);
+          this.listIsFull = true;
+        }
       });
-    }
+    
   }
 
   applyFilter(event: Event) {
@@ -76,8 +82,8 @@ export class RouteComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openDialog(airline_id: number) : void {
-    const dialogRef = this.dialog.open(routeDialog, {data: {airline_id: airline_id}});
+  openDialog(airline_id: number): void {
+    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id } });
   }
 }
 
@@ -85,20 +91,20 @@ export class RouteComponent implements OnInit, AfterViewInit {
   selector: 'routeDialog',
   templateUrl: 'routeDialog.html',
 })
-export class routeDialog implements OnInit{
+export class routeDialog implements OnInit {
 
   constructor(private service: SharedService,
-              public dialogRef: MatDialogRef<routeDialog>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,){
+    public dialogRef: MatDialogRef<routeDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,) {
 
   }
   tariffs: Tariff[];
 
   ngOnInit(): void {
-   this.refreshData();
+    this.refreshData();
   }
 
-  refreshData(){
+  refreshData() {
     this.service.getTariffsById(this.data.airline_id).subscribe(data => {
       this.tariffs = data;
       console.log(this.tariffs);

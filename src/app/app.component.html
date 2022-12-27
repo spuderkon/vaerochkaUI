@@ -325,7 +325,7 @@
             <mat-label>Город вылета</mat-label>
             <mat-select [(ngModel)]="departureCity" [formControl]="depCity">
               <mat-option *ngFor="let item of airports" [value]="item.city_id">
-                {{item.city_name + item.code}}
+                {{item.city_name }} <span style="margin-left: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span>
               </mat-option>
             </mat-select>
             <mat-error *ngIf="depCity.hasError('required')">
@@ -341,7 +341,7 @@
             <mat-label>Город прилёта</mat-label>
             <mat-select [(ngModel)]="arrivalCity" [formControl]="arrCity">
               <mat-option *ngFor="let item of airports" [value]="item.city_id">
-                {{item.city_name + item.code}}
+                <span style="margin-right: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span> {{item.city_name}} 
               </mat-option>
             </mat-select>
             <mat-error *ngIf="arrCity.hasError('required')">
@@ -354,7 +354,9 @@
             <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate" [formControl]="depTime">  
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 color="primary"></mat-datepicker>
-           
+            <mat-error *ngIf="depTime.hasError('required')">
+              Дата вылета <strong>обязательна</strong>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="margin-right: 5px;">
@@ -406,7 +408,7 @@
       transform="translate(142.69 -634.312)" fill="#eee" />
   </svg>
 </div>
-<app-route *ngIf="tableDisabled" [departureCity]="departureCity" [arrivalCity]="arrivalCity" [departureDate]="departureDate" [arrivalDate]="arrivalDate "></app-route>
+<app-route *ngIf="tableEnabled" [departureCity]="departureCity" [arrivalCity]="arrivalCity" [departureDate]="departureDate" [arrivalDate]="arrivalDate "></app-route>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->

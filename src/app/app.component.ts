@@ -24,14 +24,14 @@ export class AppComponent {
   arrivalCity: number;
   minDate: Date;
   maxDate: Date;
-  tableDisabled: boolean = false;
+  tableEnabled: boolean = false;
   depCity = new FormControl('',[Validators.required]);
   arrCity = new FormControl('',[Validators.required]);
   depTime = new FormControl('',[Validators.required]);
   constructor(private service: SharedService) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
-    this.minDate = new Date(currentYear - 0, 11, currentDay);
+    this.minDate = new Date(currentYear - 0, 11, 1);
     this.maxDate = new Date(currentYear + 1, 1, 0);
    // this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
   }
@@ -43,7 +43,6 @@ export class AppComponent {
   refreshAirports() {
     this.service.getAirports().subscribe(data => {
       this.airports = data;
-      console.log(this.airports);
     })
   }
 
@@ -54,10 +53,10 @@ export class AppComponent {
 
   showRoutes() {
     
-    this.tableDisabled = true;
+    this.tableEnabled = true;
     if(this.arrivalDate == undefined ){
        this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
-       console.log(this.departureCity,this.arrivalCity,this.departureDate)
+      //  console.log(this.departureCity,this.arrivalCity,this.departureDate)
       // this.service.getRoutesBy3Parameters(this.departureCity,this.arrivalCity,this.departureDate).subscribe(data => {
       //   this.routes = data;
       //   console.log(this.routes);
