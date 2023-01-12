@@ -18,18 +18,26 @@ export class SharedService {
     return this.http.get<any>(this.Url + "airports")
   }
 
-  getRoutesBy4Parameters(departureCity: number, arrivalCity : number, departureDate : string, arrivalDate : string): Observable<any[]> {
-    return this.http.get<any>(this.Url + "Route?departureCity="+ departureCity+"&arrivalCity="+ arrivalCity +"&departureDate="+ departureDate +"&arrivalDate=" + arrivalDate)
+  getRoutesBy4Parameters(departureCity: number, arrivalCity: number, departureDate: string, arrivalDate: string): Observable<any[]> {
+    return this.http.get<any>(this.Url + "Route?departureCity=" + departureCity + "&arrivalCity=" + arrivalCity + "&departureDate=" + departureDate + "&arrivalDate=" + arrivalDate)
   }
-  getRoutesBy3Parameters(departureCity: number, arrivalCity : number, departureDate : string): Observable<any[]> {
-    return this.http.get<any>(this.Url + "Route?departureCity="+ departureCity+"&arrivalCity="+ arrivalCity +"&departureDate="+ departureDate)
-  } 
+  getRoutesBy3Parameters(departureCity: number, arrivalCity: number, departureDate: string): Observable<any[]> {
+    return this.http.get<any>(this.Url + "Route?departureCity=" + departureCity + "&arrivalCity=" + arrivalCity + "&departureDate=" + departureDate)
+  }
 
-  getTariffsById(id: number) : Observable<any[]>{
+  getRouteById(id: number): Observable<any[]> {
+    return this.http.get<any>(this.Url + "Route/" + id)
+  }
+
+  getTariffsById(id: number): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Tariff?airline_id=' + id)
   }
 
-  getAircraftById(id: number) : Observable<any[]>{
+  getAircraftById(id: number): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Aircraft/' + id)
+  }
+
+  getCitysById(departureCity: number, arrivalCity: number) {
+    return this.http.get<any>(this.Url + 'City?departureCity='+departureCity+'&arrivalCity='+arrivalCity)
   }
 }

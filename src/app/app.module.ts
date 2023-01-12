@@ -24,6 +24,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { RegistrationComponent } from './registration/registration/registration.component';
+import { SearchComponent } from './search/search/search.component';
 
 
 @NgModule({
@@ -32,6 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RouteComponent,
     MainComponent,
     routeDialog,
+    RegistrationComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatListModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

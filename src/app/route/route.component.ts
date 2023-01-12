@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { SharedService } from '../shared.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,10 +6,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Tariff } from 'src/models/tariff/tariff.model';
+import { Route } from '@angular/router';
 
 
 export interface DialogData {
   airline_id: number;
+  price: number;
+  route: number;
 }
 
 @Component({
@@ -19,19 +22,21 @@ export interface DialogData {
 })
 
 
-export class RouteComponent implements OnInit, AfterViewInit, OnChanges  {
-  @Input() departureDate: string;
-  @Input() arrivalDate: string;
-  @Input() departureCity: number;
-  @Input() arrivalCity: number;
-
-
+export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any }>();
+  @Input('depCityToChild') depCity: number;
+  @Input('arrCityToChild') arrCity: number;
+  @Input('depDateToChild') depDate: string;
+  @Input('arrDateToChild') arrDate: string;
 
   displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Button'];
   dataSource: MatTableDataSource<Routeinf>;
   PhotoUrl: string;
   routes: Routeinf[];
   listIsFull: boolean = false;
+  listIsEmpty: boolean = false;
+  depCityAsString: string;
+  arrCityAsString: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,8 +47,9 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges  {
   }
 
   ngOnInit(): void {
+    console.log(this.arrCity);
     this.refreshData();
-
+    this.refreshCitys();
   }
 
   ngAfterViewInit() {
@@ -56,34 +62,36 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges  {
   }
 
   refreshData() {
-    
-    console.log(this.departureCity,this.arrivalCity,this.departureDate + '123')
-      this.service.getRoutesBy3Parameters(this.departureCity, this.arrivalCity, this.departureDate).subscribe(data => {
-        if (data.length == 0) {
-          this.listIsFull = false;
-          this.routes = new Array<Routeinf>;
-          this.dataSource = new MatTableDataSource();
-        }
-        else{
-          this.routes = data;
-          this.dataSource = new MatTableDataSource(this.routes);
-          this.listIsFull = true;
-        }
-      });
-    
+    console.log(this.depCity, this.arrCity, this.depDate)
+    this.service.getRoutesBy3Parameters(this.depCity, this.arrCity, this.depDate).subscribe(data => {
+      if (data.length == 0) {
+        this.listIsFull = false;
+        this.listIsEmpty = true;
+        this.routes = new Array<Routeinf>;
+        this.dataSource = new MatTableDataSource();
+      }
+      else {
+        this.routes = data;
+        this.listIsEmpty = false;
+        this.dataSource = new MatTableDataSource(this.routes);
+        this.listIsFull = true;
+      }
+    });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  refreshCitys(){
+    this.service.getCitysById(this.depCity, this.arrCity).subscribe(data => {
+      this.depCityAsString = data.map((m: any) => m.departure);
+      this.arrCityAsString = data.map((m: any) => m.arrival);
+    });
   }
-
-  openDialog(airline_id: number): void {
-    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id } });
+  openDialog(airline_id: number, price: number, route: number): void {
+    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route: route }, height: '500px', width: '900px' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.regInfo.emit({currentRoute: result[0], choosedTariff: result[1]});
+      }
+    });
   }
 }
 
@@ -95,19 +103,27 @@ export class routeDialog implements OnInit {
 
   constructor(private service: SharedService,
     public dialogRef: MatDialogRef<routeDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {
 
   }
   tariffs: Tariff[];
-
+  route: Routeinf[];
+  price: number = this.data.price;
+  dis: boolean = true;
   ngOnInit(): void {
-    this.refreshData();
+    this.refreshTariffs();
+    this.refreshRoute();
   }
 
-  refreshData() {
+  refreshTariffs() {
     this.service.getTariffsById(this.data.airline_id).subscribe(data => {
       this.tariffs = data;
-      console.log(this.tariffs);
+    })
+  }
+  refreshRoute() {
+    this.service.getRouteById(1).subscribe(data => {
+      this.route = data;
     })
   }
 }

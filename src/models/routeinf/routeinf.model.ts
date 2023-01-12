@@ -1,7 +1,7 @@
 export class Routeinf {
     route_id : number;
-    start_date : Date;
-    end_date : Date;
+    start_time : Date;
+    end_time : Date;
     route_code: string;
     price : string;
     airline_id : number;

@@ -1,1 +1,73 @@
-<p>works!</p>
+<style>
+    .main strong {
+        margin-bottom: 5px;
+    }
+    .main mat-icon {
+        margin-bottom: 1px;
+    }
+    td{
+        width: 200px;
+    }
+</style>
+<div class="routeDialog">
+    <table *ngFor="let item of route">
+        <tr >
+            <td style="padding-bottom: 15px; width: 200px;">Рейс</td>
+            <td style="padding-bottom: 15px; width: 200px;">Перевозчик</td>
+            <td style="padding-bottom: 15px; width: 200px;">Направление</td>
+            <td style="padding-bottom: 15px; width: 200px;"></td>
+            <td style="padding-bottom: 15px; width: 200px;"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px;">{{item.route_code}}</td>
+            <td><img [src]="item.image" style="width: 100px;"></td>
+            <td style="width: 300px;"><strong>{{item.departure_city}}</strong> {{item.departure_airport}} {{item.departure_air_code}}</td>
+            <td><mat-divider style="background-color: #1976d2;"></mat-divider></td>
+            <td>{{item.arrive_air_code}} {{item.arrive_airport}} <strong>{{item.arrive_city}}</strong></td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; width: 200px;">{{item.model}}</td>
+            <td></td>
+            <td style="text-align: right;">{{item.start_time | date :'dd MMM'}} <strong>{{item.start_time | date :'HH:mm'}}</strong></td>
+            <td></td>
+            <td style="width: 300px; text-align: left;">{{item.end_time | date :'dd MMM'}} <strong>{{item.end_time | date :'HH:mm'}}</strong>, в полёте {{item.time_in_fly}}</td>
+        </tr>
+    </table>
+    <mat-selection-list #tariff [multiple]="false" style="display: flex;">
+        <mat-list-option [disabled]="dis" style="height: 300px;" class="main">
+            <strong style="color: #1976d2; margin-top: 20px;">Цена:</strong>
+            <strong style="color: #1976d2;">Ручная кладь:</strong>
+            <strong style="color: #1976d2;">Багаж:</strong>
+            <strong style="color: #1976d2;">Обмен:</strong>
+            <strong style="color: #1976d2;">Возврат:</strong>
+            <strong style="color: #1976d2;">Страховка:</strong>
+            <strong style="color: #1976d2;">Выбор места:</strong>
+            <strong style="color: #1976d2;">Вип зал ожидания:</strong>
+            <strong style="color: #1976d2;">Приоритет посадки:</strong>
+        </mat-list-option>
+        <mat-list-option *ngFor="let tariff of tariffs" [value]="tariff" style="height: 300px;" class="main">
+            <h1 style="text-align: center;"><strong>{{tariff.name}}</strong></h1>
+            <span> {{price * (tariff.markup/ 100)}} руб.</span>
+            <mat-icon *ngIf="tariff.hand_luggage; else else1">check</mat-icon>
+            <ng-template #else1><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.luggage; else else2">check</mat-icon>
+            <ng-template #else2><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.rebooking; else else3">check</mat-icon>
+            <ng-template #else3><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.refund; else else4">check</mat-icon>
+            <ng-template #else4><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.insurance; else else5">check</mat-icon>
+            <ng-template #else5><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.seat_choice; else else6">check</mat-icon>
+            <ng-template #else6><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.vip_lounge; else else7">check</mat-icon>
+            <ng-template #else7><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.boarding_priority; else else8">check</mat-icon>
+            <ng-template #else8><mat-icon>close</mat-icon></ng-template>
+        </mat-list-option>
+    </mat-selection-list>
+    <mat-dialog-actions align="end">
+        <button mat-button [disabled]="!tariff.selectedOptions.hasValue()" style="background-color: #1976d2;" [mat-dialog-close]="[route, tariff.selectedOptions.hasValue() ? tariff.selectedOptions.selected[0].value : 0]">Продолжить</button>
+    </mat-dialog-actions>
+    <!-- Option selected: {{shoes.selectedOptions.hasValue() ? shoes.selectedOptions.selected[0].value : 'None'}} -->
+</div>

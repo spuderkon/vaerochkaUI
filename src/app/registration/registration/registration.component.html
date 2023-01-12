@@ -1,0 +1,73 @@
+<div class="registration">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="width: 20px;"><mat-icon>people</mat-icon></div>
+            <mat-card-title>Пассажиры</mat-card-title>
+            <mat-card-subtitle>Пожалуйста, введите данные о пассажирах латинскими буквами.</mat-card-subtitle>
+        </mat-card-header>
+        <p style="font-size: 20px; font-weight: 500; margin-left: 25px;">Взрослый</p>
+        <mat-card-content style="margin-left: 25px;">
+            <mat-form-field appearance="outline">
+                <mat-label>Фамилия</mat-label>
+                <input matInput>
+                <mat-hint>Латинскими буквами</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Имя</mat-label>
+                <input matInput>
+                <mat-hint>Латинскими буквами</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Отчество (если есть)</mat-label>
+                <input matInput>
+                <mat-hint>Латинскими буквами</mat-hint>
+            </mat-form-field>
+        </mat-card-content>
+        <p style="font-size: 20px; font-weight: 500; margin-left: 25px;">Информация о документе</p>
+        <mat-card-content>
+            <mat-form-field appearance="outline" style="margin-left: 25px;">
+                <mat-label>Дата рождения</mat-label>
+                <input matInput [matDatepicker]="picker" autocomplete="off" [min]="minDateBirth" [max]="maxDateBirth">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker ></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Номер</mat-label>
+                <input matInput>
+                <mat-hint></mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Страна выдачи</mat-label>
+                <mat-select>
+                    <mat-option value="Россия">Россия</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Гражданство</mat-label>
+                <input matInput [matDatepicker]="picker1" autocomplete="off" [min]="minDatePass" [max]="maxDatePass">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1 color="primary"></mat-datepicker>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="width: 20px;"><mat-icon>mail</mat-icon></div>
+            <mat-card-title>Контактные данные</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="margin-left: 25px;">
+            <mat-form-field appearance="outline">
+                <mat-label>Электронная почта</mat-label>
+                <input matInput>
+                <mat-hint></mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Телефон</mat-label>
+                <input matInput>
+                <mat-hint></mat-hint>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

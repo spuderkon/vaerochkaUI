@@ -1,0 +1,87 @@
+<mat-tab-group>
+    <mat-tab label="Бронирование" style="width:1200px;">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Бронирование</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions class="booking">
+
+          <mat-form-field appearance="outline" class="booking-input">
+            <mat-label>Город вылета</mat-label>
+            <mat-select [(ngModel)]="departureCity" [formControl]="depCity">
+              <mat-option *ngFor="let item of airports" [value]="item.city_id">
+                {{item.city_name }} <span style="margin-left: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="depCity.hasError('required')">
+              Город вылета <strong>обязателен</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-icon-button (click)="switchValues(departureCity, arrivalCity)">
+            <mat-icon>compare_arrows</mat-icon>
+          </button>
+
+          <mat-form-field appearance="outline" class="booking-input" style="margin-right: 5px; margin-left: 5px;">
+            <mat-label>Город прилёта</mat-label>
+            <mat-select [(ngModel)]="arrivalCity" [formControl]="arrCity">
+              <mat-option *ngFor="let item of airports" [value]="item.city_id">
+                <span style="margin-right: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span> {{item.city_name}} 
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="arrCity.hasError('required')">
+              Город прилёта <strong>обязателен</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="margin-right: 5px;">
+            <mat-label>Дата вылета</mat-label>
+            <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate" [formControl]="depTime">  
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 color="primary"></mat-datepicker>
+            <mat-error *ngIf="depTime.hasError('required')">
+              Дата вылета <strong>обязательна</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="margin-right: 5px;">
+            <mat-label>Обратно</mat-label>
+            <input matInput [matDatepicker]="picker2" autocomplete="off" [(ngModel)]="arrivalDate" [min]="minDate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+          </mat-form-field>
+
+          <button [disabled]="depCity.hasError('required') || arrCity.hasError('required') || depTime.hasError('required')" mat-fab color="primary" class="s-button" (click)="showRoutes()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Поиск">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Поиск по билету</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions class="booking">
+
+          <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
+            style="margin-right: 5px;">
+            <mat-label>Номер рейса</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+
+          <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
+            style="margin-right: 5px; margin-left: 5px;">
+            <mat-label>Код брони</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+
+          <button mat-fab color="primary" class="s-button">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
