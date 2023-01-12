@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { SharedService } from 'src/app/shared.service';
 
 @Component({
@@ -8,6 +10,17 @@ import { SharedService } from 'src/app/shared.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
+
+  clientSurname = new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
+  clientName = new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
+  clientLastName = new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
+  clientBirthday = new FormControl(moment());
+  clientPassportNumber = new FormControl('',[Validators.required, Validators.pattern("[0-9 ]{10}")]);
+  clientCountryOfIssue = new FormControl('',[Validators.required]);
+  clientCitizenship = new FormControl('',[Validators.required]);
+  clientEmail = new FormControl('',[Validators.required, Validators.email]);
+  clientPhoneNumber = new FormControl('',[Validators.required, Validators.pattern("[0-9 ]{11}")]);
+
 
   minDateBirth: Date;
   maxDateBirth: Date;
