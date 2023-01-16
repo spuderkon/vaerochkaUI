@@ -29,7 +29,7 @@ export class SharedService {
     return this.http.get<any>(this.Url + "Route/" + id)
   }
 
-  getTariffsById(id: number): Observable<any[]> {
+  getTariffsByAirlineId(id: number): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Tariff?airline_id=' + id)
   }
 
@@ -39,5 +39,9 @@ export class SharedService {
 
   getCitysById(departureCity: number, arrivalCity: number) {
     return this.http.get<any>(this.Url + 'City?departureCity='+departureCity+'&arrivalCity='+arrivalCity)
+  }
+
+  getTariffById(id: number): Observable<any[]> {
+    return this.http.get<any>(this.Url + 'Tariff/' + id)
   }
 }

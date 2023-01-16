@@ -35,6 +35,9 @@ export class AppComponent implements OnInit, OnChanges {
   arrCity = new FormControl('', [Validators.required]);
   depTime = new FormControl('', [Validators.required]);
   arrTime = new FormControl();
+  regCurrentRoute : any;
+  regCurrentTariff : any;
+
   constructor(private service: SharedService, private router: Router) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
@@ -81,6 +84,9 @@ export class AppComponent implements OnInit, OnChanges {
   regInfoReady(regInfo: any) {
     if (regInfo.currentRoute != undefined) {
       this.registraionEnabled = true;
+      console.log(regInfo);
+      this.regCurrentRoute = regInfo.currentRoute;
+      this.regCurrentTariff = regInfo.choosedTariff;
     }
   }
   

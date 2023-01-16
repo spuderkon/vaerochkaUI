@@ -117,7 +117,7 @@ export class routeDialog implements OnInit {
   }
 
   refreshTariffs() {
-    this.service.getTariffsById(this.data.airline_id).subscribe(data => {
+    this.service.getTariffsByAirlineId(this.data.airline_id).subscribe(data => {
       this.tariffs = data;
     })
   }

@@ -12,7 +12,7 @@ namespace vaerochkaAPI.Controllers
 {
     public class TariffController : ApiController
     {
-        public HttpResponseMessage Get(int airline_id)
+        public HttpResponseMessage GetByAirlineId(int airline_id)
         {
           string query = @"
                          select id , airline_id, name, hand_luggage, luggage, rebooking, refund, markup, insurance, seat_choice, vip_lounge, boarding_priority
@@ -30,5 +30,24 @@ namespace vaerochkaAPI.Controllers
 
           return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        public HttpResponseMessage GetById(int id)
+        {
+          string query = @"
+                             select id , airline_id, name, hand_luggage, luggage, rebooking, refund, markup, insurance, seat_choice, vip_lounge, boarding_priority
+                             from dbo.tariff
+                             where id = " + id;
+          DataTable table = new DataTable();
+          using (var con = new SqlConnection(ConfigurationManager.
+              ConnectionStrings["vaerochka"].ConnectionString))
+          using (var cmd = new SqlCommand(query, con))
+          using (var da = new SqlDataAdapter(cmd))
+          {
+            cmd.CommandType = CommandType.Text;
+            da.Fill(table);
+          }
+
+          return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
   }
 }

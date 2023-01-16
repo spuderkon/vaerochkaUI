@@ -18,21 +18,21 @@
                 <mat-hint>Латинскими буквами</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Отчество (если есть)</mat-label>
-                <input matInput [formControl]="clientLastName" name="lastname">
-                <mat-hint>Латинскими буквами</mat-hint>
+                <mat-label>{{lastNameStatus}}</mat-label>
+                <input [disabled]="lastNameExist" matInput [formControl]="clientLastName" name="lastname">
+                <button mat-icon-button matSuffix (click)="lastNameReverse()"><mat-icon>{{lastNameExist ? 'block' :
+                        'create'}}</mat-icon></button>
+                <mat-hint *ngIf="lastNameExist">Латинскими буквами</mat-hint>
             </mat-form-field>
         </mat-card-content>
         <p style="font-size: 20px; font-weight: 500; margin-left: 25px;">Информация о документе</p>
         <mat-card-content>
             <mat-form-field appearance="outline" style="margin-left: 25px;">
                 <mat-label>Дата рождения</mat-label>
-                <input matInput [matDatepicker]="picker" 
-                       autocomplete="off" [min]="minDateBirth" 
-                       [max]="maxDateBirth" [formControl]="clientBirthday"
-                       name="birthday">
+                <input matInput [matDatepicker]="picker" autocomplete="off" [min]="minDateBirth" [max]="maxDateBirth"
+                    [formControl]="clientBirthday" name="birthday">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker ></mat-datepicker>
+                <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Номер</mat-label>
@@ -69,8 +69,31 @@
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions align="end">
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
+            <button mat-button
+                [disabled]="clientPassportNumber.hasError('pattern') || clientSurname.hasError('required') || clientName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientPhoneNumber.hasError('required')">Продолжить</button>
         </mat-card-actions>
+    </mat-card>
+    <mat-card style="margin-top:15px;">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="width: 20px;">
+                <mat-icon>airline_seat_recline_normal</mat-icon>
+            </div>
+            <mat-card-title>Выбор места</mat-card-title>
+            <mat-card-subtitle>Пожалуйста, выберите место.</mat-card-subtitle>
+        </mat-card-header>
+        <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф : </span><span
+                style="font-size: 20px;"></span></p>
+        <mat-card-content style="margin-left: 25px;">
+            <div>
+                <p *ngFor="let row of businessRows">
+                    <span *ngFor="let letter of businessLetters">{{letter+row}} </span>
+                </p>
+            </div>
+            <div>
+                <p *ngFor="let row of economyRows">
+                    <span *ngFor="let letter of economyLetters">{{letter+row}} </span>
+                </p>
+            </div>
+        </mat-card-content>
     </mat-card>
 </div>
