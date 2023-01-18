@@ -10,11 +10,10 @@ import { SharedService } from 'src/app/shared.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
   @Input() currentRoute: any;
   @Input() currentTariff: any;
   seat: Array<Array<string>>;
-  businessLetters = ['a', 'c', 'd', 'f'];
+  businessLetters = ['A', 'C', 'D', 'F'];
   economyLetters = ['a', 'b', 'c', 'd', 'e', 'f'];
   businessRows: number[];
   economyRows: number[];
@@ -59,8 +58,8 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  show() {
-    this.generateSeats();
+  show(seat: any) {
+    console.log(seat);
   }
 
   lastNameReverse() {

@@ -1,3 +1,13 @@
 mat-card-content mat-form-field{
     margin-right: 10px;
 }
+
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .seats{
+    display: flex;
+  }

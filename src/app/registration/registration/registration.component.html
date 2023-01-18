@@ -81,19 +81,53 @@
             <mat-card-title>Выбор места</mat-card-title>
             <mat-card-subtitle>Пожалуйста, выберите место.</mat-card-subtitle>
         </mat-card-header>
-        <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф : </span><span
+        <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф :</span><span
                 style="font-size: 20px;"></span></p>
         <mat-card-content style="margin-left: 25px;">
-            <div>
+            <!-- <div>
                 <p *ngFor="let row of businessRows">
                     <span *ngFor="let letter of businessLetters">{{letter+row}} </span>
                 </p>
-            </div>
-            <div>
-                <p *ngFor="let row of economyRows">
-                    <span *ngFor="let letter of economyLetters">{{letter+row}} </span>
-                </p>
-            </div>
+            </div> -->
+            <!-- <ol class="cabin fuselage">
+                <li>
+                    <ol *ngFor="let row of businessRows" class="seats">
+                        <li *ngFor="let letter of businessLetters" class="seat">
+                            <input type="checkbox" id="{{row+letter}}" />
+                            <label for="1A">{{letter+row}}</label>
+                        </li>
+                    </ol>
+                </li>
+            </ol> -->
+            <ol class="cabin fuselage">
+                <li>
+                    <ol *ngFor="let row of businessRows" class="seats">
+                       <mat-selection-list #letters [multiple]="false" style="display: flex;">
+                        <mat-list-option *ngFor="let letter of businessLetters" [value]="letter" (click)="show(letter+row)">
+                            {{letter + "" + row}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                    </ol>
+                </li>
+            </ol>
+            <!-- <mat-selection-list #rows [multiple]="false">
+                <mat-list-option *ngFor="let row of businessRows" [value]="row" style="text-align: center;" (click)="show(row)">
+                    <mat-selection-list #letters [multiple]="false" style="display: flex;">
+                        <mat-list-option *ngFor="let letter of businessLetters" [value]="letter" (click)="show(letter+row)">
+                            {{letter + "" + row}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                </mat-list-option>
+              </mat-selection-list>
+              <mat-selection-list #rows [multiple]="false">
+                <mat-list-option *ngFor="let row of economyRows" [value]="row" style="text-align: center;" (click)="show(row)">
+                    <mat-selection-list #letters [multiple]="false" style="display: flex; text-align: center;">
+                        <mat-list-option *ngFor="let letter of economyLetters" [value]="letter" (click)="show(letter+row)">
+                            {{letter + "" + row}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                </mat-list-option>
+              </mat-selection-list> -->
         </mat-card-content>
     </mat-card>
 </div>

@@ -29,6 +29,7 @@ import { RegistrationComponent } from './registration/registration/registration.
 import { SearchComponent } from './search/search/search.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
