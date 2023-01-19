@@ -14,10 +14,12 @@ export class RegistrationComponent implements OnInit {
   @Input() currentTariff: any;
   seat: Array<Array<string>>;
   businessLetters = ['A', 'C', 'D', 'F'];
-  economyLetters = ['a', 'b', 'c', 'd', 'e', 'f'];
+  economyLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
   businessRows: number[];
   economyRows: number[];
-
+  businessSeats: string[] = [];
+  economySeats: string[] = [];
+  
   clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
   clientName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
   clientLastName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
@@ -46,7 +48,9 @@ export class RegistrationComponent implements OnInit {
     this.maxDatePass = new Date(currentYear + 25, 0, 0);
     this.lastNameExist = true;
     this.businessRows = Array(2).fill(1).map((x,i)=>i+1);
-    this.economyRows = Array(12).fill(1).map((x,i)=>i+1)
+    this.economyRows = Array(12).fill(1).map((x,i)=>i+3);
+    this.generateBusinessSeats();
+    this.generateEconomySeats();
   }
 
   ngOnInit(): void {
@@ -58,8 +62,26 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  show(seat: any) {
-    console.log(seat);
+  generateBusinessSeats(){
+    for(let i = 0; i < this.businessRows.length; i++){
+      for(let j = 0;j < this.businessLetters.length; j++){
+        this.businessSeats.push(this.businessLetters[j] + this.businessRows[i]);
+      }
+    }
+    console.log(this.businessSeats);
+  }
+
+  show(wqe: any){
+    console.log(wqe);
+  }
+
+  generateEconomySeats(){
+    for(let i = 0; i < this.economyRows.length; i++){
+      for(let j = 0;j < this.economyLetters.length; j++){
+        this.economySeats.push(this.economyLetters[j] + this.economyRows[i]);
+      }
+    }
+    console.log(this.economySeats);
   }
 
   lastNameReverse() {

@@ -99,35 +99,23 @@
                     </ol>
                 </li>
             </ol> -->
-            <ol class="cabin fuselage">
-                <li>
-                    <ol *ngFor="let row of businessRows" class="seats">
-                       <mat-selection-list #letters [multiple]="false" style="display: flex;">
-                        <mat-list-option *ngFor="let letter of businessLetters" [value]="letter" (click)="show(letter+row)">
-                            {{letter + "" + row}}
-                        </mat-list-option>
-                      </mat-selection-list>
-                    </ol>
-                </li>
-            </ol>
-            <!-- <mat-selection-list #rows [multiple]="false">
-                <mat-list-option *ngFor="let row of businessRows" [value]="row" style="text-align: center;" (click)="show(row)">
-                    <mat-selection-list #letters [multiple]="false" style="display: flex;">
-                        <mat-list-option *ngFor="let letter of businessLetters" [value]="letter" (click)="show(letter+row)">
-                            {{letter + "" + row}}
-                        </mat-list-option>
-                      </mat-selection-list>
-                </mat-list-option>
-              </mat-selection-list>
-              <mat-selection-list #rows [multiple]="false">
-                <mat-list-option *ngFor="let row of economyRows" [value]="row" style="text-align: center;" (click)="show(row)">
-                    <mat-selection-list #letters [multiple]="false" style="display: flex; text-align: center;">
-                        <mat-list-option *ngFor="let letter of economyLetters" [value]="letter" (click)="show(letter+row)">
-                            {{letter + "" + row}}
-                        </mat-list-option>
-                      </mat-selection-list>
-                </mat-list-option>
-              </mat-selection-list> -->
+
+            <mat-selection-list #letters [multiple]="false" style="display: flex; flex-wrap: wrap;" class="buis">
+
+                <mat-list-option *ngFor="let seat of businessSeats" [value]="seat"
+                    (click)="show(seat)" style="text-align: center; width: 50px;">{{seat}}</mat-list-option>
+
+            </mat-selection-list>
+
+            <!-- <ol class="cabin fuselage">
+                <mat-grid-list cols="6" rowHeight="2:1">
+                    <mat-selection-list #letters [multiple]="false">
+                        <mat-grid-tile *ngFor="let seat of economySeats">
+                            <mat-list-option [value]="seat" (click)="show(seat)">{{seat}}</mat-list-option>
+                        </mat-grid-tile>
+                    </mat-selection-list>
+                </mat-grid-list>
+            </ol> -->
         </mat-card-content>
     </mat-card>
 </div>

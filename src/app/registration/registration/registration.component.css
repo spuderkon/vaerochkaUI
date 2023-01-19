@@ -8,6 +8,7 @@ ol {
     margin: 0;
   }
 
-  .seats{
-    display: flex;
+
+  .buis>*{
+    flex: 1 1 200px;
   }

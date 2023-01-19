@@ -27,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { RegistrationComponent } from './registration/registration/registration.component';
 import { SearchComponent } from './search/search/search.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 
@@ -62,6 +63,7 @@ import { SearchComponent } from './search/search/search.component';
     MatPaginatorModule,
     MatDialogModule,
     MatListModule,
+    MatGridListModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]
