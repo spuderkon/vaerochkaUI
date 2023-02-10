@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { SharedService } from 'src/app/shared.service';
+import { Routeinf } from 'src/models/routeinf/routeinf.model';
 
 @Component({
   selector: 'app-registration',
@@ -19,6 +20,7 @@ export class RegistrationComponent implements OnInit {
   economyRows: number[];
   businessSeats: string[] = [];
   economySeats: string[] = [];
+  selectedSeat: string;
   
   clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
   clientName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
@@ -29,7 +31,7 @@ export class RegistrationComponent implements OnInit {
   clientCitizenship = new FormControl('', [Validators.required]);
   clientEmail = new FormControl('', [Validators.required, Validators.email]);
   clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9 ]{11}")]);
-  clientSeat = new FormControl('', [Validators.required]);
+  clientSeat = new FormControl("", [Validators.required]);
 
 
 
@@ -53,6 +55,8 @@ export class RegistrationComponent implements OnInit {
     this.economyRows = Array(12).fill(1).map((x,i)=>i+3);
     this.generateBusinessSeats();
     this.generateEconomySeats();
+    
+    
   }
 
   ngOnInit(): void {

@@ -1,15 +1,5 @@
 <div class="registration">
-    <mat-card class="inforamtion">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image" style="width: 20px;">
-                <mat-icon>airplanemode_active</mat-icon>
-            </div>
-            <mat-card-title>Информация о полёте</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Рейс: {{currentRoute.departure_airport}}</p>
-        </mat-card-content>
-    </mat-card>
+    
     <div style="display: block;">
         <mat-card>
             <mat-card-header>
@@ -90,18 +80,13 @@
                     <mat-icon>airline_seat_recline_normal</mat-icon>
                 </div>
                 <mat-card-title>Выбор места</mat-card-title>
-                <mat-error *ngIf="clientSeat.hasError('required')">
-                    Пожалуйста выберите место
-                </mat-error>
             </mat-card-header>
-            <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф :</span><span
-                    style="font-size: 20px;"> {{currentTariff.name}}</span></p>
             <mat-card-content class="seats">
                 <div>
                     <div class="seatElement">
                         <div class="buisnessSeats">
                             <mat-grid-list cols="4" rowHeight="2:1">
-                                <mat-selection-list #letters [multiple]="false"
+                                <mat-selection-list #businessS [multiple]="false"
                                     [disabled]="!currentTariff.vip_lounge || !currentTariff.seat_choice"
                                     [formControl]="clientSeat">
                                     <mat-grid-tile *ngFor="let seat of businessSeats; let i = index">
@@ -116,7 +101,7 @@
 
                     <div class="economySeats">
                         <mat-grid-list cols="6" rowHeight="2:1">
-                            <mat-selection-list #letters [multiple]="false"
+                            <mat-selection-list #economyS [multiple]="false"
                                 [disabled]="!currentTariff.seat_choice || currentTariff.vip_lounge"
                                 [formControl]="clientSeat">
                                 <mat-grid-tile *ngFor="let seat of economySeats">
@@ -129,9 +114,18 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <footer align="end" style="background-color: white; margin-top: 12px;">
-        <button mat-button
-            [disabled]="clientPassportNumber.hasError('pattern') || clientSurname.hasError('required') || clientName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientPhoneNumber.hasError('required')">Продолжить
-        </button>
-    </footer>
+    <mat-card class="inforamtion">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="width: 20px;">
+                <mat-icon>airplanemode_active</mat-icon>
+            </div>
+            <mat-card-title>Информация о полёте</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> - <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}</p>
+            <p>Тариф: {{currentTariff.name}}</p>
+            <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong></p>
+        </mat-card-content>
+    </mat-card>
+    
 </div>
