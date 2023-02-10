@@ -1,14 +1,41 @@
-mat-card-content mat-form-field{
-    margin-right: 10px;
+mat-grid-tile {
+  border: 1px black solid;
+  border-radius: 10;
+  margin: 5px 5px;
 }
 
-ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+.registration {
+  display: grid;
+  grid-template-columns: 400px 1000px 400px;
+}
 
+.inforamtion {
+  width: 300px;
+  height: 300px;
+  position: sticky;
+  top: 0px;
+  left: 0px;
+}
 
-  .buis>*{
-    flex: 1 1 200px;
-  }
+.buisnessSeats {
+  width: 300px;
+}
+
+.economySeats {
+  width: 450px;
+}
+
+.seats {
+  display: flex;
+  justify-content: center;
+}
+
+.buisnessSeats> {
+  text-align: center;
+}
+
+.seatElement {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}

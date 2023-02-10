@@ -28,6 +28,7 @@ import { MatListModule } from '@angular/material/list';
 import { RegistrationComponent } from './registration/registration/registration.component';
 import { SearchComponent } from './search/search/search.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 
@@ -64,6 +65,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatDialogModule,
     MatListModule,
     MatGridListModule,
+    MatButtonToggleModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

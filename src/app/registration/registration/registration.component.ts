@@ -29,6 +29,8 @@ export class RegistrationComponent implements OnInit {
   clientCitizenship = new FormControl('', [Validators.required]);
   clientEmail = new FormControl('', [Validators.required, Validators.email]);
   clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9 ]{11}")]);
+  clientSeat = new FormControl('', [Validators.required]);
+
 
 
   minDateBirth: Date;
@@ -95,9 +97,5 @@ export class RegistrationComponent implements OnInit {
       this.clientLastName.setValue('');
       this.lastNameStatus = 'Отсутствует';
     }
-  }
-
-  generateSeats() {
-    
   }
 }
