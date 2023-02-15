@@ -25,11 +25,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { RegistrationComponent } from './registration/registration/registration.component';
+import { RegistrationComponent, aircraftInfoDialog } from './registration/registration/registration.component';
 import { SearchComponent } from './search/search/search.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 @NgModule({
@@ -40,6 +40,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     routeDialog,
     RegistrationComponent,
     SearchComponent,
+    aircraftInfoDialog,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +67,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatListModule,
     MatGridListModule,
     MatButtonToggleModule,
+    MatBadgeModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

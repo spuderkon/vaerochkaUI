@@ -12,7 +12,7 @@ namespace vaerochkaAPI.Controllers
 {
     public class TariffController : ApiController
     {
-        public HttpResponseMessage GetByAirlineId(int airline_id)
+        public HttpResponseMessage GetByAirlineId  (int airline_id)
         {
           string query = @"
                          select id , airline_id, name, hand_luggage, luggage, rebooking, refund, markup, insurance, seat_choice, vip_lounge, boarding_priority

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { SharedService } from 'src/app/shared.service';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   businessSeats: string[] = [];
   economySeats: string[] = [];
   selectedSeat: string;
-  
+
   clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
   clientName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
   clientLastName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
@@ -42,7 +43,7 @@ export class RegistrationComponent implements OnInit {
   lastNameExist: boolean;
   lastNameStatus: string = 'Отчество (если есть)';
 
-  constructor(private service: SharedService) {
+  constructor(private service: SharedService, public dialog: MatDialog) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth();
@@ -51,12 +52,12 @@ export class RegistrationComponent implements OnInit {
     this.minDatePass = new Date(currentYear - 20, currentMonth, currentDay);
     this.maxDatePass = new Date(currentYear + 25, 0, 0);
     this.lastNameExist = true;
-    this.businessRows = Array(2).fill(1).map((x,i)=>i+1);
-    this.economyRows = Array(12).fill(1).map((x,i)=>i+3);
+    this.businessRows = Array(2).fill(1).map((x, i) => i + 1);
+    this.economyRows = Array(12).fill(1).map((x, i) => i + 3);
     this.generateBusinessSeats();
     this.generateEconomySeats();
-    
-    
+
+
   }
 
   ngOnInit(): void {
@@ -68,22 +69,22 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  generateBusinessSeats(){
-    for(let i = 0; i < this.businessRows.length; i++){
-      for(let j = 0;j < this.businessLetters.length; j++){
+  generateBusinessSeats() {
+    for (let i = 0; i < this.businessRows.length; i++) {
+      for (let j = 0; j < this.businessLetters.length; j++) {
         this.businessSeats.push(this.businessLetters[j] + this.businessRows[i]);
       }
     }
     console.log(this.businessSeats);
   }
 
-  show(wqe: any){
+  show(wqe: any) {
     console.log(wqe);
   }
 
-  generateEconomySeats(){
-    for(let i = 0; i < this.economyRows.length; i++){
-      for(let j = 0;j < this.economyLetters.length; j++){
+  generateEconomySeats() {
+    for (let i = 0; i < this.economyRows.length; i++) {
+      for (let j = 0; j < this.economyLetters.length; j++) {
         this.economySeats.push(this.economyLetters[j] + this.economyRows[i]);
       }
     }
@@ -101,5 +102,29 @@ export class RegistrationComponent implements OnInit {
       this.clientLastName.setValue('');
       this.lastNameStatus = 'Отсутствует';
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(aircraftInfoDialog, { height: '500px', width: '900px' });
+
+  }
+}
+
+@Component({
+  selector: 'aircraftInfoDialog',
+  templateUrl: 'aircraftInfoDialog.html',
+})
+export class aircraftInfoDialog implements OnInit {
+
+  aircraft: any;
+
+  constructor(private service: SharedService,public dialogRef: MatDialogRef<aircraftInfoDialog>) {
+
+  }
+  ngOnInit(): void {
+    this.service.getAircraftById(4).subscribe(data =>{
+      this.aircraft = data;
+      console.log(data);
+    })
   }
 }

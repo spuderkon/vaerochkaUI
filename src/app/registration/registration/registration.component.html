@@ -1,6 +1,6 @@
 <div class="registration">
-    
-    <div style="display: block;">
+
+    <div style="display: block; width: 950px">
         <mat-card>
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="width: 20px;"><mat-icon>people</mat-icon></div>
@@ -79,7 +79,9 @@
                 <div mat-card-avatar class="example-header-image" style="width: 20px;">
                     <mat-icon>airline_seat_recline_normal</mat-icon>
                 </div>
-                <mat-card-title>Выбор места</mat-card-title>
+                <mat-card-title>Выбор места                    
+                        <a matBadge class="aircraftInfo" (click)="openDialog()"><mat-icon>info</mat-icon></a>
+                </mat-card-title>
             </mat-card-header>
             <mat-card-content class="seats">
                 <div>
@@ -119,13 +121,23 @@
             <div mat-card-avatar class="example-header-image" style="width: 20px;">
                 <mat-icon>airplanemode_active</mat-icon>
             </div>
-            <mat-card-title>Информация о полёте</mat-card-title>
+            <mat-card-title style="font-size:15px;">Информация о рейсе {{currentRoute.route_code}} </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> - <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}</p>
+            <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> -
+                <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}</p>
+            <p>Время отбытия/прибытия: {{currentRoute.start_time | date :'HH:mm'}} / {{currentRoute.end_time | date
+                :'HH:mm'}}</p>
+            <p>Время в полёте: {{currentRoute.time_in_fly}}</p>
             <p>Тариф: {{currentTariff.name}}</p>
+            <p>Итоговая цена: {{currentRoute.price * currentTariff.markup / 100}} руб.</p>
             <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong></p>
+            <p>Пассажиры</p>
+            <div class="quanPassangeres">
+                <p>Взрослые: </p>
+                <p>Дети: </p>
+            </div>
         </mat-card-content>
     </mat-card>
-    
+
 </div>

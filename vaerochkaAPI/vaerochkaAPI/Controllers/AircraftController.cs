@@ -15,7 +15,7 @@ namespace vaerochkaAPI.Controllers
         public HttpResponseMessage Get()
         {
             string query = @"
-                     select id, model, business_seats, economy_seats
+                     select id, model, business_seats, economy_seats, image
                      from dbo.aircraft";
             DataTable table = new DataTable();
             using (var con = new SqlConnection(ConfigurationManager.
@@ -33,7 +33,7 @@ namespace vaerochkaAPI.Controllers
         public HttpResponseMessage Get(int id)
         {
           string query = @"
-                        select id, model, business_seats, economy_seats
+                        select id, model, business_seats, economy_seats, image
                         from dbo.aircraft
                         where id = " + id;
           DataTable table = new DataTable();

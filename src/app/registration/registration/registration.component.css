@@ -4,18 +4,26 @@ mat-grid-tile {
   margin: 5px 5px;
 }
 
+mat-card-content mat-form-field{
+  margin-right: 5px;
+}
+
 .registration {
   display: grid;
-  grid-template-columns: 900px 380px;
+  grid-template-columns: 950px 300px;
 }
 
 .inforamtion {
-  width: 270px;
-  height: 270px;
+  margin-left: 30px;
+  width: 265px;
+  height: 350px;
   position: sticky;
-  top: 0px;
-  left: 900px;
-  
+  top: 15px;
+  left: 0px;
+}
+
+.inforamtion p{
+  font-size:13px;
 }
 
 .buisnessSeats {
@@ -39,4 +47,17 @@ mat-grid-tile {
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
+}
+
+.quanPassangeres{
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.aircraftInfo{
+  color:#1976d2;
+}
+
+.aircraftInfo :hover{
+  color: #551A8B;
 }
