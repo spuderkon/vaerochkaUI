@@ -30,6 +30,7 @@ import { SearchComponent } from './search/search/search.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatGridListModule,
     MatButtonToggleModule,
     MatBadgeModule,
+    MatTooltipModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

@@ -80,11 +80,11 @@
                     <mat-icon>airline_seat_recline_normal</mat-icon>
                 </div>
                 <mat-card-title>Выбор места                    
-                        <a matBadge class="aircraftInfo" (click)="openDialog()"><mat-icon>info</mat-icon></a>
+                        <a matBadge class="aircraftInfo" matTooltip="Схема посадочных мест" matTooltipClass="matTooltipInfo" (click)="openDialog()"><mat-icon>info</mat-icon></a>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="seats">
-                <div>
+                <div style="display: grid; justify-content: center;">
                     <div class="seatElement">
                         <div class="buisnessSeats">
                             <mat-grid-list cols="4" rowHeight="2:1">

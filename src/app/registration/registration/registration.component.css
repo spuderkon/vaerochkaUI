@@ -16,7 +16,7 @@ mat-card-content mat-form-field{
 .inforamtion {
   margin-left: 30px;
   width: 265px;
-  height: 350px;
+  height: 280px;
   position: sticky;
   top: 15px;
   left: 0px;
@@ -56,6 +56,10 @@ mat-card-content mat-form-field{
 
 .aircraftInfo{
   color:#1976d2;
+}
+
+.matTooltipInfo{
+  font-size: 15px;
 }
 
 .aircraftInfo :hover{

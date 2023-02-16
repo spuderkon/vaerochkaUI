@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -9,7 +9,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RegistrationComponent implements OnInit {
   @Input() currentRoute: any;
@@ -105,7 +106,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(aircraftInfoDialog, { height: '500px', width: '900px' });
+    const dialogRef = this.dialog.open(aircraftInfoDialog, { height: '800px', width: '600px', });
 
   }
 }
@@ -123,7 +124,7 @@ export class aircraftInfoDialog implements OnInit {
   }
   ngOnInit(): void {
     this.service.getAircraftById(4).subscribe(data =>{
-      this.aircraft = data;
+      this.aircraft = data[0];
       console.log(data);
     })
   }

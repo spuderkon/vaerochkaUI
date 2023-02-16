@@ -1,6 +1,23 @@
 <style>
+    .aircratfInfoDialog {
+        text-align: center;
+    }
 
+    .seatScheme {
+        display: flex;
+        justify-content: center;
+    }
+
+    img {
+        display: flex;
+        justify-content: center;
+        transform: rotate(90deg);
+        width: 900px;
+    }
 </style>
 <div class="aircratfInfoDialog">
-    <img mat-card-image [src]="aircraft.image" style="max-width: 120px; margin-top:15px;">
+    <h2 mat-dialog-title>Схема посадочных мест в самолёте</h2>
+    <div class="seatScheme">
+        <img [src]="aircraft.image" style="margin-top:400px;">
+    </div>
 </div>
