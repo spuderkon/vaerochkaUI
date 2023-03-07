@@ -66,7 +66,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Телефон</mat-label>
-                    <input matInput [formControl]="clientPhoneNumber" name="phoneNumber">
+                    <input matInput [formControl]="clientPhoneNumber" name="phoneNumber" placeholder="7XXXXXXXXXX">
                     <mat-hint></mat-hint>
                 </mat-form-field>
             </mat-card-content>
@@ -79,8 +79,9 @@
                 <div mat-card-avatar class="example-header-image" style="width: 20px;">
                     <mat-icon>airline_seat_recline_normal</mat-icon>
                 </div>
-                <mat-card-title>Выбор места                    
-                        <a matBadge class="aircraftInfo" matTooltip="Схема посадочных мест" matTooltipClass="matTooltipInfo" (click)="openDialog()"><mat-icon>info</mat-icon></a>
+                <mat-card-title>Выбор места
+                    <a matBadge class="aircraftInfo" matTooltip="Схема посадочных мест" matTooltipClass="matTooltipInfo"
+                        (click)="openAircraftInfoDialog()"><mat-icon>info</mat-icon></a>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="seats">
@@ -116,28 +117,37 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <mat-card class="inforamtion">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image" style="width: 20px;">
-                <mat-icon>airplanemode_active</mat-icon>
-            </div>
-            <mat-card-title style="font-size:15px;">Информация о рейсе {{currentRoute.route_code}} </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> -
-                <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}</p>
-            <p>Время отбытия/прибытия: {{currentRoute.start_time | date :'HH:mm'}} / {{currentRoute.end_time | date
-                :'HH:mm'}}</p>
-            <p>Время в полёте: {{currentRoute.time_in_fly}}</p>
-            <p>Тариф: {{currentTariff.name}}</p>
-            <p>Итоговая цена: {{currentRoute.price * currentTariff.markup / 100}} руб.</p>
-            <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong></p>
-            <p>Пассажиры</p>
-            <div class="quanPassangeres">
-                <p>Взрослые: </p>
-                <p>Дети: </p>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
+    <div class="information">
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar style="width: 20px;">
+                    <mat-icon>airplanemode_active</mat-icon>
+                </div>
+                <mat-card-title style="font-size:15px;">Информация о рейсе {{currentRoute.route_code}} </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> -
+                    <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}
+                </p>
+                <p>Время отбытия/прибытия: {{currentRoute.start_time | date :'HH:mm'}} / {{currentRoute.end_time | date
+                    :'HH:mm'}}</p>
+                <p>Время в полёте: {{currentRoute.time_in_fly}}</p>
+                <p>Тариф: {{currentTariff.name}}</p>
+                <p>Итоговая цена: {{currentRoute.price * currentTariff.markup / 100}} руб.</p>
+                <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong>
+                </p>
+                <!-- <p>Пассажиры</p>
+                <div class="quanPassangeres">
+                    <p>Взрослые: </p>
+                    <p>Дети: </p>
+                </div> -->
+               
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)" [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button> -->
+                <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>
+<div style="margin-top: 10px;"></div>

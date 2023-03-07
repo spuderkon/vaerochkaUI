@@ -13,13 +13,15 @@ mat-card-content mat-form-field{
   grid-template-columns: 950px 300px;
 }
 
-.inforamtion {
-  margin-left: 30px;
-  width: 265px;
-  height: 280px;
+.information {
   position: sticky;
   top: 15px;
   left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin-left: 30px;
+  width: 300px;
+  height: 280px;
 }
 
 .inforamtion p{

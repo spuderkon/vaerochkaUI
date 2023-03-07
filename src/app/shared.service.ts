@@ -44,4 +44,8 @@ export class SharedService {
   getTariffById(id: number): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Tariff/' + id)
   }
+  
+  getSeatsInfo(id: number): Observable<any[]> {
+    return this.http.get<any>(this.Url + 'Registration/' + id)
+  }
 }

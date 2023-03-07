@@ -1,0 +1,20 @@
+<style>
+    .paymentDialog {
+        display: block;
+    }
+
+    .cardInfo{
+        margin-top: 80px;
+    }
+</style>
+
+<div class="paymenDialog">
+    <h2 style="font-weight: 500">Банковская карта</h2>
+    <div class="cardInfo">
+        <mat-form-field appearance="outline" style="width:450px; height: 20px">
+            <mat-label>Номер карты</mat-label>
+            <input matInput #postalCode maxlength="16" (ngModelChange)="addSpace()">
+            <mat-hint align="end">{{postalCode.value.length}} / 16</mat-hint>
+        </mat-form-field>
+    </div>
+</div>

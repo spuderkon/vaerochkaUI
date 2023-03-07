@@ -1,10 +1,14 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewEncapsulation, Inject, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { SharedService } from 'src/app/shared.service';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+export interface DialogData {
+  price: number;
+}
 
 @Component({
   selector: 'app-registration',
@@ -54,7 +58,7 @@ export class RegistrationComponent implements OnInit {
     this.maxDatePass = new Date(currentYear + 25, 0, 0);
     this.lastNameExist = true;
     this.businessRows = Array(2).fill(1).map((x, i) => i + 1);
-    this.economyRows = Array(12).fill(1).map((x, i) => i + 3);
+    this.economyRows = Array(26).fill(1).map((x, i) => i + 3);
     this.generateBusinessSeats();
     this.generateEconomySeats();
 
@@ -105,9 +109,12 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
+  openAircraftInfoDialog(): void {
     const dialogRef = this.dialog.open(aircraftInfoDialog, { height: '800px', width: '600px', });
+  }
 
+  openPaymentDialog(price: number): void {
+    const dialogRef = this.dialog.open(paymentDialog, {data: { price: price }, height: '400px', width: '500px', });
   }
 }
 
@@ -119,13 +126,42 @@ export class aircraftInfoDialog implements OnInit {
 
   aircraft: any;
 
-  constructor(private service: SharedService,public dialogRef: MatDialogRef<aircraftInfoDialog>) {
+  constructor(private service: SharedService, public dialogRef: MatDialogRef<aircraftInfoDialog>) {
 
   }
   ngOnInit(): void {
-    this.service.getAircraftById(4).subscribe(data =>{
+    this.service.getAircraftById(4).subscribe(data => {
       this.aircraft = data[0];
       console.log(data);
     })
+  }
+
+  
+}
+
+@Component({
+  selector: 'paymentDialog',
+  templateUrl: 'paymentDialog.html',
+})
+export class paymentDialog implements OnInit, OnChanges {
+
+  constructor(private service: SharedService, 
+    public dialogRef: MatDialogRef<aircraftInfoDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,) {
+  }
+
+  price : number = this.data.price;
+  creditCard = new FormControl('', [Validators.required, Validators.pattern("[0-9]{16}")]);
+
+  ngOnInit(): void {
+    
+  }
+
+  addSpace(): void {
+    console.log(1);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 }

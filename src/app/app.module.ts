@@ -25,7 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { RegistrationComponent, aircraftInfoDialog } from './registration/registration/registration.component';
+import { RegistrationComponent, aircraftInfoDialog, paymentDialog } from './registration/registration/registration.component';
 import { SearchComponent } from './search/search/search.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -42,6 +42,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     RegistrationComponent,
     SearchComponent,
     aircraftInfoDialog,
+    paymentDialog,
   ],
   imports: [
     BrowserModule,
