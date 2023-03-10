@@ -114,7 +114,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   openPaymentDialog(price: number): void {
-    const dialogRef = this.dialog.open(paymentDialog, {data: { price: price }, height: '400px', width: '500px', });
+    const dialogRef = this.dialog.open(paymentDialog, { data: { price: price }, height: '400px', width: '500px', });
   }
 }
 
@@ -136,32 +136,25 @@ export class aircraftInfoDialog implements OnInit {
     })
   }
 
-  
+
 }
 
 @Component({
   selector: 'paymentDialog',
   templateUrl: 'paymentDialog.html',
 })
-export class paymentDialog implements OnInit, OnChanges {
+export class paymentDialog implements OnInit {
+  cardNumber: string = '';
 
-  constructor(private service: SharedService, 
+  constructor(private service: SharedService,
     public dialogRef: MatDialogRef<aircraftInfoDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,) {
   }
 
-  price : number = this.data.price;
+  price: number = this.data.price;
   creditCard = new FormControl('', [Validators.required, Validators.pattern("[0-9]{16}")]);
 
   ngOnInit(): void {
-    
-  }
-
-  addSpace(): void {
-    console.log(1);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    console.log(213123121);
   }
 }

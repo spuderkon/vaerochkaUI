@@ -3,8 +3,19 @@
         display: block;
     }
 
-    .cardInfo{
-        margin-top: 80px;
+    .cardInfo {
+        margin-top: 70px;
+    }
+
+    .validityPeriod {
+        display: flex;
+        margin-top: -10px;
+    }
+
+    .shortInput {
+        width: 50px;
+        height: 10px;
+        font-size: 12px;
     }
 </style>
 
@@ -13,8 +24,33 @@
     <div class="cardInfo">
         <mat-form-field appearance="outline" style="width:450px; height: 20px">
             <mat-label>Номер карты</mat-label>
-            <input matInput #postalCode maxlength="16" (ngModelChange)="addSpace()">
-            <mat-hint align="end">{{postalCode.value.length}} / 16</mat-hint>
+            <input matInput #cardNumber maxlength="16">
+            <mat-hint align="end">{{cardNumber.value.length}} / 16</mat-hint>
         </mat-form-field>
+        <div >
+            <div style="margin-top: 40px">
+                <p>Срок действия</p>
+                <div class="validityPeriod">
+                    <mat-form-field appearance="outline" class="shortInput">
+                        <input matInput maxlength="22" placeholder="ММ">
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                    <p style="font-size: 17px">/</p>
+                    <mat-form-field appearance="outline" class="shortInput">
+                        <input matInput maxlength="2" placeholder="ГГ">
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <p>Код</p>
+                    <div class="validityPeriod">
+                        <mat-form-field appearance="outline" class="shortInput">
+                            <input matInput maxlength="2" placeholder="ГГ">
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
