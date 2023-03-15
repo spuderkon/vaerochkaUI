@@ -46,6 +46,6 @@ export class SharedService {
   }
   
   getSeatsInfo(id: number): Observable<any[]> {
-    return this.http.get<any>(this.Url + 'Registration/' + id)
+    return this.http.get<any>(this.Url + 'Registration?route_id=' + id)
   }
 }

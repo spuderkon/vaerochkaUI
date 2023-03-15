@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, ViewEncapsulation, Inject, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewEncapsulation, Inject, SimpleChanges, AfterViewInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -16,9 +16,10 @@ export interface DialogData {
   styleUrls: ['./registration.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, AfterViewInit {
   @Input() currentRoute: any;
   @Input() currentTariff: any;
+  @Input() busySeats: string[];
   seat: Array<Array<string>>;
   businessLetters = ['A', 'C', 'D', 'F'];
   economyLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -36,7 +37,7 @@ export class RegistrationComponent implements OnInit {
   clientCountryOfIssue = new FormControl('', [Validators.required]);
   clientCitizenship = new FormControl('', [Validators.required]);
   clientEmail = new FormControl('', [Validators.required, Validators.email]);
-  clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9 ]{11}")]);
+  clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")]);
   clientSeat = new FormControl("", [Validators.required]);
 
 
@@ -61,30 +62,31 @@ export class RegistrationComponent implements OnInit {
     this.economyRows = Array(26).fill(1).map((x, i) => i + 3);
     this.generateBusinessSeats();
     this.generateEconomySeats();
-
-
   }
 
   ngOnInit(): void {
-    this.service.getTariffById(4).subscribe(data => {
+    this.service.getTariffById(this.currentTariff.id).subscribe(data => {
       this.currentTariff = data[0];
     });
-    this.service.getRouteById(1).subscribe(data => {
+    this.service.getRouteById(this.currentRoute.route_id).subscribe(data => {
       this.currentRoute = data[0];
-    })
+    });
   }
 
+  ngAfterViewInit(): void {
+  }
+  
   generateBusinessSeats() {
     for (let i = 0; i < this.businessRows.length; i++) {
       for (let j = 0; j < this.businessLetters.length; j++) {
         this.businessSeats.push(this.businessLetters[j] + this.businessRows[i]);
       }
     }
-    console.log(this.businessSeats);
   }
-
-  show(wqe: any) {
-    console.log(wqe);
+  
+  busy(seat: string) : boolean {
+    if(this.busySeats.includes(seat)) return true;
+    return false;
   }
 
   generateEconomySeats() {
@@ -93,7 +95,6 @@ export class RegistrationComponent implements OnInit {
         this.economySeats.push(this.economyLetters[j] + this.economyRows[i]);
       }
     }
-    console.log(this.economySeats);
   }
 
   lastNameReverse() {
@@ -114,7 +115,13 @@ export class RegistrationComponent implements OnInit {
   }
 
   openPaymentDialog(price: number): void {
-    const dialogRef = this.dialog.open(paymentDialog, { data: { price: price }, height: '400px', width: '500px', });
+    const dialogRef = this.dialog.open(paymentDialog, { data: { price: price }, height: '450px', width: '500px', });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined){
+        //case для отправления данных
+      }
+    })
   }
 }
 
@@ -132,7 +139,6 @@ export class aircraftInfoDialog implements OnInit {
   ngOnInit(): void {
     this.service.getAircraftById(4).subscribe(data => {
       this.aircraft = data[0];
-      console.log(data);
     })
   }
 
@@ -144,7 +150,6 @@ export class aircraftInfoDialog implements OnInit {
   templateUrl: 'paymentDialog.html',
 })
 export class paymentDialog implements OnInit {
-  cardNumber: string = '';
 
   constructor(private service: SharedService,
     public dialogRef: MatDialogRef<aircraftInfoDialog>,
@@ -152,9 +157,15 @@ export class paymentDialog implements OnInit {
   }
 
   price: number = this.data.price;
-  creditCard = new FormControl('', [Validators.required, Validators.pattern("[0-9]{16}")]);
+  cardNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9]{16}")]);
+  cardValidPer = new FormControl('', [Validators.required, Validators.pattern("[0-9]{2}")]);
+  cardCvv= new FormControl('', [Validators.required, Validators.pattern("[0-9]{3}")]);
 
   ngOnInit(): void {
-    console.log(213123121);
+   
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

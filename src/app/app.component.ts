@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnChanges {
   arrTime = new FormControl();
   regCurrentRoute : any;
   regCurrentTariff : any;
+  regBusySeats: string[];
 
   constructor(private service: SharedService, private router: Router) {
     const currentYear = new Date().getFullYear();
@@ -48,7 +49,6 @@ export class AppComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.refreshAirports();
-    console.log(this.router.url);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,9 +84,9 @@ export class AppComponent implements OnInit, OnChanges {
   regInfoReady(regInfo: any) {
     if (regInfo.currentRoute != undefined) {
       this.registraionEnabled = true;
-      console.log(regInfo);
-      this.regCurrentRoute = regInfo.currentRoute;
+      this.regCurrentRoute = regInfo.currentRoute[0];
       this.regCurrentTariff = regInfo.choosedTariff;
+      this.regBusySeats = regInfo.busySeats;
     }
   }
   

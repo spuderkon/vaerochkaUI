@@ -17,40 +17,57 @@
         height: 10px;
         font-size: 12px;
     }
+
+    .cardCvv {
+        margin-top: -10px;
+    }
 </style>
 
 <div class="paymenDialog">
     <h2 style="font-weight: 500">Банковская карта</h2>
     <div class="cardInfo">
-        <mat-form-field appearance="outline" style="width:450px; height: 20px">
-            <mat-label>Номер карты</mat-label>
-            <input matInput #cardNumber maxlength="16">
-            <mat-hint align="end">{{cardNumber.value.length}} / 16</mat-hint>
-        </mat-form-field>
-        <div >
-            <div style="margin-top: 40px">
-                <p>Срок действия</p>
-                <div class="validityPeriod">
-                    <mat-form-field appearance="outline" class="shortInput">
-                        <input matInput maxlength="22" placeholder="ММ">
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                    <p style="font-size: 17px">/</p>
-                    <mat-form-field appearance="outline" class="shortInput">
-                        <input matInput maxlength="2" placeholder="ГГ">
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <p>Код</p>
+        <div class="cardNumber">
+            <mat-form-field appearance="outline" style="width:450px; height: 20px">
+                <mat-label>Номер карты</mat-label>
+                <input matInput maxlength="16" #creditNumber [formControl]="cardNumber">
+                <mat-hint align="end">{{creditNumber.value.length}} / 16</mat-hint>
+            </mat-form-field>
+        </div>
+        <div style="margin-top:30px;">
+            <div style="display: flex;">
+                <div class="cardDates">
+                    <p>Срок действия</p>
                     <div class="validityPeriod">
                         <mat-form-field appearance="outline" class="shortInput">
-                            <input matInput maxlength="2" placeholder="ГГ">
+                            <input matInput maxlength="2" placeholder="ММ" [formControl]="cardValidPer">
                             <mat-hint></mat-hint>
+                        </mat-form-field>
+                        <p style="font-size: 17px">/</p>
+                        <mat-form-field appearance="outline" class="shortInput">
+                            <input matInput maxlength="2" placeholder="ГГ" [formControl]="cardValidPer">
+                            <mat-hint></mat-hint>
+                            <mat-error *ngIf="cardValidPer.hasError('required')">
+                                
+                            </mat-error>
+                            <mat-error *ngIf="cardValidPer.hasError('pattern')">
+                                
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div style="margin-left: 290px;">
+                    <p>Код</p>
+                    <div class="cardCvv">
+                        <mat-form-field appearance="outline" class="shortInput">
+                            <input matInput maxlength="3" placeholder="cvv" [formControl]="cardCvv">
+                            <mat-hint *ngIf="cardCvv.hasError('required') || cardCvv.hasError('pattern')"></mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="data.price" [disabled]="cardNumber.hasError('required') || cardNumber.hasError('pattern') || cardValidPer.hasError('required') || cardValidPer.hasError('pattern') || cardCvv.hasError('required') || cardCvv.hasError('pattern')" style="margin-left: 80px; width: 300px; height: 50px; margin-top: 50px; border: 0.5px solid #DADADA;"> Оплатить : {{price}}</button>
     </div>
 </div>

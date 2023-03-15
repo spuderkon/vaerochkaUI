@@ -1,5 +1,5 @@
 export class Routeinf {
-    route_id : number | null;
+    route_id : number;
     start_time : Date | null;
     end_time : Date | null;
     route_code: string | null;

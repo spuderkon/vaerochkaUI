@@ -38,7 +38,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Номер</mat-label>
-                    <input matInput [formControl]="clientPassportNumber" name="passportNumber">
+                    <input matInput [formControl]="clientPassportNumber" name="passportNumber" maxlength="10">
                     <mat-hint></mat-hint>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
@@ -66,7 +66,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Телефон</mat-label>
-                    <input matInput [formControl]="clientPhoneNumber" name="phoneNumber" placeholder="7XXXXXXXXXX">
+                    <input matInput [formControl]="clientPhoneNumber" name="phoneNumber" placeholder="7XXXXXXXXXX" maxlength="11">
                     <mat-hint></mat-hint>
                 </mat-form-field>
             </mat-card-content>
@@ -93,7 +93,7 @@
                                     [disabled]="!currentTariff.vip_lounge || !currentTariff.seat_choice"
                                     [formControl]="clientSeat">
                                     <mat-grid-tile *ngFor="let seat of businessSeats; let i = index">
-                                        <mat-list-option [value]="seat" (click)="show(seat)">
+                                        <mat-list-option [value]="seat" [disabled]="busy(seat)" [ngStyle]="{'background-color': busy(seat)? '#f7e540' :  ''}">
                                             {{seat}}
                                         </mat-list-option>
                                     </mat-grid-tile>
@@ -108,7 +108,7 @@
                                 [disabled]="!currentTariff.seat_choice || currentTariff.vip_lounge"
                                 [formControl]="clientSeat">
                                 <mat-grid-tile *ngFor="let seat of economySeats">
-                                    <mat-list-option [value]="seat" (click)="show(seat)">{{seat}}</mat-list-option>
+                                    <mat-list-option [value]="seat" [disabled]="busy(seat)" [ngStyle]="{'background-color': busy(seat)? '#f7e540' :  ''}">{{seat}}</mat-list-option>
                                 </mat-grid-tile>
                             </mat-selection-list>
                         </mat-grid-list>
@@ -136,16 +136,10 @@
                 <p>Итоговая цена: {{currentRoute.price * currentTariff.markup / 100}} руб.</p>
                 <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong>
                 </p>
-                <!-- <p>Пассажиры</p>
-                <div class="quanPassangeres">
-                    <p>Взрослые: </p>
-                    <p>Дети: </p>
-                </div> -->
-               
             </mat-card-content>
             <mat-card-actions align="end">
-                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)" [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button> -->
-                <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button>
+                <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)" [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button>
+                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button> -->
             </mat-card-actions>
         </mat-card>
     </div>

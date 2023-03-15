@@ -12,7 +12,7 @@ import { Route } from '@angular/router';
 export interface DialogData {
   airline_id: number;
   price: number;
-  route: number;
+  route_id: number;
 }
 
 @Component({
@@ -23,13 +23,13 @@ export interface DialogData {
 
 
 export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
-  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any }>();
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any, busySeats: string[]}>();
   @Input('depCityToChild') depCity: number;
   @Input('arrCityToChild') arrCity: number;
   @Input('depDateToChild') depDate: string;
   @Input('arrDateToChild') arrDate: string;
 
-  displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Button'];
+  displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Seats','Button'];
   dataSource: MatTableDataSource<Routeinf>;
   PhotoUrl: string;
   routes: Routeinf[];
@@ -47,7 +47,6 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.arrCity);
     this.refreshData();
     this.refreshCitys();
   }
@@ -62,7 +61,6 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   refreshData() {
-    console.log(this.depCity, this.arrCity, this.depDate)
     this.service.getRoutesBy3Parameters(this.depCity, this.arrCity, this.depDate).subscribe(data => {
       if (data.length == 0) {
         this.listIsFull = false;
@@ -85,11 +83,11 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
       this.arrCityAsString = data.map((m: any) => m.arrival);
     });
   }
-  openDialog(airline_id: number, price: number, route: number): void {
-    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route: route }, height: '500px', width: '900px' });
+  openDialog(airline_id: number, price: number, route_id: number): void {
+    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route_id: route_id }, height: '500px', width: '900px' });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
-        this.regInfo.emit({currentRoute: result[0], choosedTariff: result[1]});
+        this.regInfo.emit({currentRoute: result[0], choosedTariff: result[1], busySeats: result[2]});
       }
     });
   }
@@ -111,9 +109,12 @@ export class routeDialog implements OnInit {
   route: Routeinf[];
   price: number = this.data.price;
   dis: boolean = true;
+  busySeats: string[];
+
   ngOnInit(): void {
     this.refreshTariffs();
     this.refreshRoute();
+    this.refreshSeats();
   }
 
   refreshTariffs() {
@@ -121,8 +122,15 @@ export class routeDialog implements OnInit {
       this.tariffs = data;
     })
   }
+
+  refreshSeats() {
+    this.service.getSeatsInfo(this.data.route_id).subscribe(data => {
+      this.busySeats = data.map((m: any) => m.seat)
+    });
+  }
+
   refreshRoute() {
-    this.service.getRouteById(1).subscribe(data => {
+    this.service.getRouteById(this.data.route_id).subscribe(data => {
       this.route = data;
     })
   }
