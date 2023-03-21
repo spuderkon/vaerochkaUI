@@ -1,5 +1,5 @@
 export class Routeinf {
-    route_id : number;
+    route_id : number | null;
     start_time : Date | null;
     end_time : Date | null;
     route_code: string | null;
@@ -19,4 +19,5 @@ export class Routeinf {
     time_in_fly : string | null;
     arrive_air_code: string | null;
     departure_air_code : string | null;
+    available_seats: number | null;
 }

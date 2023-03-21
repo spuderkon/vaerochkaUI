@@ -31,6 +31,6 @@ namespace vaerochkaAPI.Controllers
       return Request.CreateResponse(HttpStatusCode.OK, table);
     }
 
-    public string Post
+    //public string Post
   }
 }

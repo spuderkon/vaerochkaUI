@@ -20,12 +20,11 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   @Input() currentRoute: any;
   @Input() currentTariff: any;
   @Input() busySeats: string[];
-  seat: Array<Array<string>>;
   businessLetters = ['A', 'C', 'D', 'F'];
   economyLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
   businessRows: number[];
   economyRows: number[];
-  businessSeats: string[] = [];
+  businessSeats: string[] = [] ;
   economySeats: string[] = [];
   selectedSeat: string;
 
@@ -37,7 +36,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   clientCountryOfIssue = new FormControl('', [Validators.required]);
   clientCitizenship = new FormControl('', [Validators.required]);
   clientEmail = new FormControl('', [Validators.required, Validators.email]);
-  clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")]);
+  clientPhoneNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9]{11}")]);
   clientSeat = new FormControl("", [Validators.required]);
 
 

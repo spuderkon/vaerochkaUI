@@ -7,6 +7,7 @@ import { Airport } from 'src/models/airport/airport.model';
 import * as moment from 'moment';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { Router } from '@angular/router';
+import { RouteInformation } from 'src/models/routeInformation/route-information.model';
 
 @Component({
   selector: 'app-root',
@@ -17,27 +18,37 @@ export class AppComponent implements OnInit, OnChanges {
   title = "";
   routes: Routeinf[];
   airports: Airport[];
-  departureDate: string;
-  arrivalDate: string;
-  departureCity: number;
-  arrivalCity: number;
+  departureDate: string = '2023-03-22';
+  arrivalDate: string | null = null;
+  departureCity: number = 36;
+  arrivalCity: number = 1;
   minDate: Date;
   maxDate: Date;
   tableEnabled: boolean = false;
   registraionEnabled: boolean = false;
+
   depCityToChild: number;
   arrCityToChild: number;
   depDateToChild: string;
   arrDateToChild: string;
   depCityAsString: string;
   arrCityAsString: string;
+
   depCity = new FormControl('', [Validators.required]);
   arrCity = new FormControl('', [Validators.required]);
   depTime = new FormControl('', [Validators.required]);
   arrTime = new FormControl();
-  regCurrentRoute : any;
-  regCurrentTariff : any;
-  regBusySeats: string[];
+
+  routeDepartureInfo: any;
+  tariffDepartureInfo: any;
+  busySeatsDepartureInfo: string[];
+
+  routeArrivalInfo: any;
+  tariffArrivalInfo: any;
+  busySeatsArrivalInfo: string[];
+
+  departureRouteIsSelected: boolean = false;
+  arrivalRouteIsSelected: boolean = false;
 
   constructor(private service: SharedService, private router: Router) {
     const currentYear = new Date().getFullYear();
@@ -49,6 +60,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.refreshAirports();
+    this.showRoutes(); //удалить
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,29 +80,68 @@ export class AppComponent implements OnInit, OnChanges {
 
   showRoutes() {
     this.tableEnabled = true;
-    if (this.arrivalDate == undefined) {
-      this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
-      this.depDateToChild = this.departureDate;
-      this.depCityToChild = this.departureCity
+    if (this.arrivalDate == null) {
+      this.arrivalRouteIsSelected = true;
+      this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
+      this.depCityToChild = this.departureCity;
       this.arrCityToChild = this.arrivalCity;
     }
     else {
-      this.departureDate = moment(this.departureDate).format('YYYY-MM-DD');
-      this.arrivalDate = moment(this.arrivalDate).format('YYYY-MM-DD');
+      this.arrivalRouteIsSelected = false;
+      this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
+      this.arrDateToChild = moment(this.arrivalDate).format('YYYY-MM-DD');
+      this.depCityToChild = this.departureCity;
+      this.arrCityToChild = this.arrivalCity;
     }
 
   }
 
-  regInfoReady(regInfo: any) {
+  departureRouteSelectedChange(routeIsSelected: boolean): void {
+    this.departureRouteIsSelected = routeIsSelected;
+    console.log(routeIsSelected + '1');
+  }
+
+  arrivalRouteSelectedChange(routeIsSelected: boolean): void {
+    this.arrivalRouteIsSelected = routeIsSelected;
+    console.log(routeIsSelected + '2');
+  }
+
+  departureRouteInfoChange(regInfo: any) {
+
     if (regInfo.currentRoute != undefined) {
-      this.registraionEnabled = true;
-      this.regCurrentRoute = regInfo.currentRoute[0];
-      this.regCurrentTariff = regInfo.choosedTariff;
-      this.regBusySeats = regInfo.busySeats;
+      if (this.departureRouteIsSelected == false) {
+
+        this.registraionEnabled = false;//?????????
+        this.routeDepartureInfo = undefined;
+        this.tariffDepartureInfo = undefined;
+        this.busySeatsDepartureInfo = new Array<string>;
+      }
+      this.registraionEnabled = false;
+      this.routeDepartureInfo = regInfo.currentRoute[0];
+      this.tariffDepartureInfo = regInfo.choosedTariff;
+      this.busySeatsDepartureInfo = regInfo.busySeats;
     }
+
   }
-  
-  refreshPage(){
+
+  arrivalRouteInfoChange(regInfo: any) {
+
+    if (regInfo.currentRoute != undefined) {
+      this.registraionEnabled = false;
+      this.routeArrivalInfo = regInfo.currentRoute[0];
+      this.tariffArrivalInfo = regInfo.choosedTariff;
+      this.busySeatsArrivalInfo = regInfo.busySeats;
+    }
+
+  }
+
+  refreshPage() {
     window.location.reload();
+  }
+
+  test() {
+    console.log(this.departureRouteIsSelected);
+    console.log(this.routeDepartureInfo);
+    console.log(this.routeArrivalInfo);
   }
 } 
