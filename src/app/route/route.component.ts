@@ -23,7 +23,7 @@ export interface DialogData {
 
 
 export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
-  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any, busySeats: string[] }>();
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any | undefined, choosedTariff: any | undefined, busySeats: string[] }>();
   @Input('depCityToChild') depCity: number;
   @Input('arrCityToChild') arrCity: number;
   @Input('depDateToChild') depDate: string;
@@ -73,7 +73,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
         this.dataSource = new MatTableDataSource();
         this.routeIsSelected = true;
         this.routeIsSelectedChange.emit(this.routeIsSelected);
-        this.regInfo.emit({ currentRoute: undefined, choosedTariff: undefined, busySeats: new Array<string> });
+        this.regInfo.emit({ currentRoute: '', choosedTariff: '', busySeats: new Array<string> });
       }
       else {
         this.routes = data;
@@ -87,7 +87,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   unselectRoute(): void {
     this.tariffChoosed = false;
     this.routeIsSelected = false;
-    this.regInfo.emit({ currentRoute:  null, choosedTariff: undefined, busySeats: new Array<string> });
+    this.regInfo.emit({ currentRoute: '', choosedTariff: '', busySeats: new Array<string> });
     this.routeIsSelectedChange.emit(this.routeIsSelected);
   }
 
