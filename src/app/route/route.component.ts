@@ -23,7 +23,7 @@ export interface DialogData {
 
 
 export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
-  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any | undefined, choosedTariff: any | undefined, busySeats: string[] }>();
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any, totalPrice: number,busySeats: string[] }>();
   @Input('depCityToChild') depCity: number;
   @Input('arrCityToChild') arrCity: number;
   @Input('depDateToChild') depDate: string;
@@ -50,8 +50,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.refreshRoutes();
-    this.refreshCitys();
+    
   }
 
   ngAfterViewInit() {
@@ -71,15 +70,18 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
         this.listIsEmpty = true;
         this.routes = new Array<Routeinf>;
         this.dataSource = new MatTableDataSource();
+        this.tariffChoosed = false;
         this.routeIsSelected = true;
         this.routeIsSelectedChange.emit(this.routeIsSelected);
-        this.regInfo.emit({ currentRoute: '', choosedTariff: '', busySeats: new Array<string> });
+        this.regInfo.emit({ currentRoute: '', choosedTariff: '', totalPrice: 0, busySeats: new Array<string>, });
       }
       else {
         this.routes = data;
         this.listIsEmpty = false;
         this.dataSource = new MatTableDataSource(this.routes);
         this.listIsFull = true;
+         this.routeIsSelected = false;
+        this.routeIsSelectedChange.emit(this.routeIsSelected);
       }
     });
   }
@@ -87,7 +89,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   unselectRoute(): void {
     this.tariffChoosed = false;
     this.routeIsSelected = false;
-    this.regInfo.emit({ currentRoute: '', choosedTariff: '', busySeats: new Array<string> });
+    this.regInfo.emit({ currentRoute: '', choosedTariff: '', totalPrice: 0, busySeats: new Array<string> });
     this.routeIsSelectedChange.emit(this.routeIsSelected);
   }
 
@@ -104,7 +106,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
         this.tariffChoosed = true;
         this.routeIsSelected = true;
         this.routeIsSelectedChange.emit(this.routeIsSelected)
-        this.regInfo.emit({ currentRoute: result[0], choosedTariff: result[1], busySeats: result[2] });
+        this.regInfo.emit({ currentRoute: result[0], choosedTariff: result[1], totalPrice: result[2], busySeats: result[3] });
       }
     });
   }
@@ -132,6 +134,10 @@ export class routeDialog implements OnInit {
     this.refreshTariffs();
     this.refreshRoute();
     this.refreshSeats();
+  }
+
+  qwe(qwe: any): void {
+    console.log(qwe);
   }
 
   refreshTariffs() {

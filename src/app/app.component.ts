@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnChanges {
   title = "";
   routes: Routeinf[];
   airports: Airport[];
-  departureDate: string = '2023-03-22';
+  departureDate: string;
   arrivalDate: string | null = null;
   departureCity: number = 36;
   arrivalCity: number = 1;
@@ -26,6 +26,11 @@ export class AppComponent implements OnInit, OnChanges {
   maxDate: Date;
   tableEnabled: boolean = false;
   registraionEnabled: boolean = false;
+  arrivalTableEnabled: boolean = false;
+
+  totalPrice: number;
+  departurePrice: number = 0;
+  arrivalPrice: number = 0;
 
   depCityToChild: number;
   arrCityToChild: number;
@@ -82,18 +87,19 @@ export class AppComponent implements OnInit, OnChanges {
     this.tableEnabled = true;
     if (this.arrivalDate == null) {
       this.arrivalRouteIsSelected = true;
+      this.arrivalTableEnabled = false;
       this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
       this.depCityToChild = this.departureCity;
       this.arrCityToChild = this.arrivalCity;
     }
     else {
       this.arrivalRouteIsSelected = false;
+      this.arrivalTableEnabled = true;
       this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
       this.arrDateToChild = moment(this.arrivalDate).format('YYYY-MM-DD');
       this.depCityToChild = this.departureCity;
       this.arrCityToChild = this.arrivalCity;
     }
-
   }
 
   departureRouteSelectedChange(routeIsSelected: boolean): void {
@@ -107,32 +113,23 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   departureRouteInfoChange(regInfo: any) {
-
     if (regInfo.currentRoute != undefined) {
-      if (this.departureRouteIsSelected == false) {
-
-        this.registraionEnabled = false;//?????????
-        this.routeDepartureInfo = undefined;
-        this.tariffDepartureInfo = undefined;
-        this.busySeatsDepartureInfo = new Array<string>;
-      }
       this.registraionEnabled = false;
       this.routeDepartureInfo = regInfo.currentRoute[0];
       this.tariffDepartureInfo = regInfo.choosedTariff;
       this.busySeatsDepartureInfo = regInfo.busySeats;
+      this.departurePrice = regInfo.totalPrice;
     }
-
   }
 
   arrivalRouteInfoChange(regInfo: any) {
-
     if (regInfo.currentRoute != undefined) {
       this.registraionEnabled = false;
       this.routeArrivalInfo = regInfo.currentRoute[0];
       this.tariffArrivalInfo = regInfo.choosedTariff;
       this.busySeatsArrivalInfo = regInfo.busySeats;
+      this.arrivalPrice = regInfo.totalPrice;
     }
-
   }
 
   refreshPage() {

@@ -67,7 +67,7 @@
         </mat-list-option>
     </mat-selection-list>
     <mat-dialog-actions align="end">
-        <button mat-button [disabled]="!tariff.selectedOptions.hasValue()" style="background-color: #1976d2;" [mat-dialog-close]="[route, tariff.selectedOptions.hasValue() ? tariff.selectedOptions.selected[0].value : 0, busySeats]">Продолжить</button>
+        <button mat-button [disabled]="!tariff.selectedOptions.hasValue()" style="background-color: #1976d2;" [mat-dialog-close]="[route, tariff.selectedOptions.hasValue() ? tariff.selectedOptions.selected[0].value : 0,tariff.selectedOptions.hasValue() ?  price * (tariff.selectedOptions.selected[0].value.markup / 100): 0,busySeats]">Продолжить</button>
     </mat-dialog-actions>
     <!-- Option selected: {{shoes.selectedOptions.hasValue() ? shoes.selectedOptions.selected[0].value : 'None'}} -->
 </div>
