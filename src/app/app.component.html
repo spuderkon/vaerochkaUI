@@ -351,10 +351,10 @@
 
           <mat-form-field appearance="outline" style="margin-right: 5px;">
             <mat-label>Дата вылета</mat-label>
-            <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate" [formControl]="depTime">  
+            <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate" [formControl]="depDate">  
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 color="primary"></mat-datepicker>
-            <mat-error *ngIf="depTime.hasError('required')">
+            <mat-error *ngIf="depDate.hasError('required')">
               Дата вылета <strong>обязательна</strong>
             </mat-error>
           </mat-form-field>
@@ -366,7 +366,7 @@
             <mat-datepicker #picker2 color="primary"></mat-datepicker>
           </mat-form-field>
 
-          <button [disabled]="depCity.hasError('required') || arrCity.hasError('required') || depTime.hasError('required')" mat-fab color="primary" class="s-button" (click)="showRoutes()">
+          <button [disabled]="depCity.hasError('required') || arrCity.hasError('required') || depDate.hasError('required') ||  depDate.hasError('pattern')" mat-fab color="primary" class="s-button" (click)="showRoutes()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-card-actions>
@@ -408,13 +408,13 @@
       transform="translate(142.69 -634.312)" fill="#eee" />
   </svg>
   
-  <app-route  *ngIf="tableEnabled && !registraionEnabled" (regInfo)='departureRouteInfoChange($event)' (routeIsSelectedChange)="departureRouteSelectedChange($event)" [routeIsSelected]="departureRouteIsSelected"  [depCityToChild]="depCityToChild" [arrCityToChild]="arrCityToChild" [depDateToChild]="depDateToChild"></app-route>
-  <app-route  *ngIf="arrivalTableEnabled && !registraionEnabled" (regInfo)='arrivalRouteInfoChange($event)' (routeIsSelectedChange)="arrivalRouteSelectedChange($event)" [routeIsSelected]="arrivalRouteIsSelected" [depCityToChild]="arrCityToChild" [arrCityToChild]="depCityToChild" [depDateToChild]="arrDateToChild"></app-route> 
+  <app-route  *ngIf="depDateToChild != null && !registraionEnabled" (regInfo)='departureRouteInfoChange($event)' (routeIsSelectedChange)="departureRouteSelectedChange($event)" (routesListIsFullChange)="departureRoutesListIsFullChange($event)"  [depCityToChild]="depCityToChild" [arrCityToChild]="arrCityToChild" [depDateToChild]="depDateToChild"></app-route>
+  <app-route  *ngIf="arrDateToChild != null && !registraionEnabled" (regInfo)='arrivalRouteInfoChange($event)' (routeIsSelectedChange)="arrivalRouteSelectedChange($event)" (routesListIsFullChange)="arrivalRoutesListIsFullChange($event)" [depCityToChild]="arrCityToChild" [arrCityToChild]="depCityToChild" [depDateToChild]="arrDateToChild"></app-route> 
   
   <app-registration *ngIf="registraionEnabled" [currentRoute]="routeDepartureInfo" [currentTariff]="tariffDepartureInfo" [busySeats]="busySeatsDepartureInfo"></app-registration>
   
   <footer align="end">
-    <button mat-button (click)="test()" [disabled]="!departureRouteIsSelected || !arrivalRouteIsSelected">Продолжить {{departurePrice + arrivalPrice}} руб.</button> <!---->
+    <button mat-button (click)="test()" matTooltip="Перейти на страницу ввода контактной информации и выбора места" >Продолжить <span *ngIf="departureRouteIsSelected">{{departurePrice + arrivalPrice}} руб.</span></button> <!--[disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)"-->
   </footer>
 </div>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

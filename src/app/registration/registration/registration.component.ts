@@ -19,12 +19,12 @@ export interface DialogData {
 export class RegistrationComponent implements OnInit, AfterViewInit {
   @Input() currentRoute: any;
   @Input() currentTariff: any;
-  @Input() busySeats: string[];
+  @Input() busySeats: string[] | null;
   businessLetters = ['A', 'C', 'D', 'F'];
   economyLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
   businessRows: number[];
   economyRows: number[];
-  businessSeats: string[] = [] ;
+  businessSeats: string[] = []  ;
   economySeats: string[] = [];
   selectedSeat: string;
 
@@ -84,7 +84,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   }
   
   busy(seat: string) : boolean {
-    if(this.busySeats.includes(seat)) return true;
+    if(this.busySeats?.includes(seat)) return true;
     return false;
   }
 

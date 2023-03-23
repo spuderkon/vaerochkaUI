@@ -1,6 +1,6 @@
 <div class="route" >
-  <h1 *ngIf="listIsFull">{{depCityAsString}} - {{arrCityAsString}}</h1>
-      <div class="mat-elevation-z8" *ngIf="listIsFull">
+  <h1>{{depCityAsString}} - {{arrCityAsString}}</h1>
+      <div class="mat-elevation-z8" *ngIf="routesListIsFull">
         <table mat-table [dataSource]="dataSource" matSort style="background-color: #D9D9D9;">
       
           <ng-container matColumnDef="Departure">
@@ -53,7 +53,7 @@
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="background-color: #D9D9D9;"></mat-paginator>
       </div>
 </div>
-<div *ngIf="listIsEmpty" style="text-align: center;">
+<div *ngIf="!routesListIsFull" style="text-align: center;">
   <p style="font-size: 20px; font-weight: bold;">К сожалению на эту дату рейсов нету</p>
 </div>
 <router-outlet></router-outlet>

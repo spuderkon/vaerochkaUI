@@ -24,9 +24,7 @@ export class AppComponent implements OnInit, OnChanges {
   arrivalCity: number = 1;
   minDate: Date;
   maxDate: Date;
-  tableEnabled: boolean = false;
   registraionEnabled: boolean = false;
-  arrivalTableEnabled: boolean = false;
 
   totalPrice: number;
   departurePrice: number = 0;
@@ -34,26 +32,29 @@ export class AppComponent implements OnInit, OnChanges {
 
   depCityToChild: number;
   arrCityToChild: number;
-  depDateToChild: string;
-  arrDateToChild: string;
+  depDateToChild: string | null;
+  arrDateToChild: string | null;
   depCityAsString: string;
   arrCityAsString: string;
 
   depCity = new FormControl('', [Validators.required]);
   arrCity = new FormControl('', [Validators.required]);
-  depTime = new FormControl('', [Validators.required]);
-  arrTime = new FormControl();
+  depDate = new FormControl('', [Validators.required]);
+  arrDate = new FormControl('', []);
 
-  routeDepartureInfo: any;
-  tariffDepartureInfo: any;
-  busySeatsDepartureInfo: string[];
+  routeDepartureInfo: any = null;
+  tariffDepartureInfo: any = null;
+  busySeatsDepartureInfo: string[] | null = null;
 
-  routeArrivalInfo: any;
-  tariffArrivalInfo: any;
-  busySeatsArrivalInfo: string[];
+  routeArrivalInfo: any = null;
+  tariffArrivalInfo: any = null;
+  busySeatsArrivalInfo: string[] | null = null;
 
+  arrivalRouteIsOff: boolean = true;
   departureRouteIsSelected: boolean = false;
   arrivalRouteIsSelected: boolean = false;
+  departureRoutesListIsFull: boolean = false;
+  arrivalRoutesListIsFull: boolean = false;
 
   constructor(private service: SharedService, private router: Router) {
     const currentYear = new Date().getFullYear();
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.refreshAirports();
-    this.showRoutes(); //удалить
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,52 +85,64 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   showRoutes() {
-    this.tableEnabled = true;
+    // this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
+    // this.arrDateToChild = moment(this.arrivalDate).format('YYYY-MM-DD');
+
     if (this.arrivalDate == null) {
-      this.arrivalRouteIsSelected = true;
-      this.arrivalTableEnabled = false;
       this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
+      this.arrDateToChild = null;
       this.depCityToChild = this.departureCity;
       this.arrCityToChild = this.arrivalCity;
+      this.arrivalRouteIsOff = true;
     }
     else {
-      this.arrivalRouteIsSelected = false;
-      this.arrivalTableEnabled = true;
       this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
       this.arrDateToChild = moment(this.arrivalDate).format('YYYY-MM-DD');
       this.depCityToChild = this.departureCity;
       this.arrCityToChild = this.arrivalCity;
+      this.arrivalRouteIsOff = false;
     }
+    console.log('arrivalRouteIsOff = ' + this.arrivalRouteIsOff);
+    // console.log('depDate = ' + this.depDateToChild)
+    // console.log('arrDate = ' + this.arrDateToChild)
+    // console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
+    // console.log('arrRouteIsSelected = ' + this.arrivalRouteIsSelected);
   }
 
   departureRouteSelectedChange(routeIsSelected: boolean): void {
     this.departureRouteIsSelected = routeIsSelected;
-    console.log(routeIsSelected + '1');
+    console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
   }
 
   arrivalRouteSelectedChange(routeIsSelected: boolean): void {
     this.arrivalRouteIsSelected = routeIsSelected;
-    console.log(routeIsSelected + '2');
+    console.log('arrRouteIsSelected = ' + this.arrivalRouteIsSelected);
+  }
+
+  departureRoutesListIsFullChange(listIsFull: boolean): void {
+    this.departureRoutesListIsFull = listIsFull;
+    console.log('depRoutesListIsFull = ' + this.departureRoutesListIsFull);
+  }
+
+  arrivalRoutesListIsFullChange(listIsFull: boolean): void {
+    this.arrivalRoutesListIsFull = listIsFull;
+    console.log('arrRoutesListIsFull = ' + this.arrivalRoutesListIsFull);
   }
 
   departureRouteInfoChange(regInfo: any) {
-    if (regInfo.currentRoute != undefined) {
       this.registraionEnabled = false;
-      this.routeDepartureInfo = regInfo.currentRoute[0];
+      this.routeDepartureInfo = regInfo.currentRoute;
       this.tariffDepartureInfo = regInfo.choosedTariff;
       this.busySeatsDepartureInfo = regInfo.busySeats;
       this.departurePrice = regInfo.totalPrice;
-    }
   }
 
   arrivalRouteInfoChange(regInfo: any) {
-    if (regInfo.currentRoute != undefined) {
       this.registraionEnabled = false;
-      this.routeArrivalInfo = regInfo.currentRoute[0];
+      this.routeArrivalInfo = regInfo.currentRoute;
       this.tariffArrivalInfo = regInfo.choosedTariff;
       this.busySeatsArrivalInfo = regInfo.busySeats;
-      this.arrivalPrice = regInfo.totalPrice;
-    }
+      this.arrivalPrice = regInfo.totalPrice;   
   }
 
   refreshPage() {
@@ -137,8 +150,22 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   test() {
-    console.log(this.departureRouteIsSelected);
-    console.log(this.routeDepartureInfo);
-    console.log(this.routeArrivalInfo);
+    console.log('routeDepartureInfo = ');
+    console.log(this.routeDepartureInfo)
+    console.log('routeArrivalInfo = ');
+    console.log(this.routeArrivalInfo)
+    console.log('tariffDepartureInfo = ');
+    console.log(this.tariffDepartureInfo)
+    console.log('tariffArrivalInfo = ');
+    console.log(this.tariffArrivalInfo)
+    console.log('busySeatsDepartureInfo = ');
+    console.log(this.busySeatsDepartureInfo)
+    console.log('busySeatsArrivalInfo = ');
+    console.log(this.busySeatsArrivalInfo)
+    console.log();
+    console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
+    console.log('arrRouteIsSelected = ' + this.arrivalRouteIsSelected);
+    console.log('depRoutesListIsFull = ' + this.departureRoutesListIsFull);
+    console.log('arrRoutesListIsFull = ' + this.arrivalRoutesListIsFull);
   }
 } 

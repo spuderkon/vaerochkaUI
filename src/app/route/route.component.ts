@@ -23,23 +23,24 @@ export interface DialogData {
 
 
 export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
-  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any, totalPrice: number,busySeats: string[] }>();
+  @Output() routeIsSelectedChange = new EventEmitter<boolean>();
+  @Output() routesListIsFullChange = new EventEmitter<boolean>();
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any , choosedTariff: any, totalPrice: number | null,busySeats: string[] | null }>();
   @Input('depCityToChild') depCity: number;
   @Input('arrCityToChild') arrCity: number;
   @Input('depDateToChild') depDate: string;
-  @Input('routeIsSelected') routeIsSelected: boolean;
-  @Output() routeIsSelectedChange = new EventEmitter<boolean>();
 
   displayedColumns: string[] = ['Departure', 'Arrive', 'Airline', 'Route', 'InJourney', 'Price', 'Seats', 'Button'];
   dataSource: MatTableDataSource<Routeinf>;
   PhotoUrl: string;
   routes: Routeinf[];
-  listIsFull: boolean = false;
-  listIsEmpty: boolean = false;
   depCityAsString: string;
   arrCityAsString: string;
-  tariffChoosed: boolean;
   busySeats: string[];
+  
+  tariffChoosed: boolean = false;
+  routeIsSelected: boolean = false;
+  routesListIsFull: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -66,22 +67,23 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   refreshRoutes() {
     this.service.getRoutesBy3Parameters(this.depCity, this.arrCity, this.depDate).subscribe(data => {
       if (data.length == 0) {
-        this.listIsFull = false;
-        this.listIsEmpty = true;
+        this.tariffChoosed = false;
+        this.routeIsSelected = false;
+        this.routesListIsFull = false;
         this.routes = new Array<Routeinf>;
         this.dataSource = new MatTableDataSource();
-        this.tariffChoosed = false;
-        this.routeIsSelected = true;
         this.routeIsSelectedChange.emit(this.routeIsSelected);
-        this.regInfo.emit({ currentRoute: '', choosedTariff: '', totalPrice: 0, busySeats: new Array<string>, });
+        this.routesListIsFullChange.emit(this.routesListIsFull);
+        this.regInfo.emit({ currentRoute: null, choosedTariff: null, totalPrice: null, busySeats: null, });
       }
       else {
         this.routes = data;
-        this.listIsEmpty = false;
+        this.tariffChoosed = false;
+        this.routeIsSelected = false;
+        this.routesListIsFull = true;
         this.dataSource = new MatTableDataSource(this.routes);
-        this.listIsFull = true;
-         this.routeIsSelected = false;
         this.routeIsSelectedChange.emit(this.routeIsSelected);
+        this.routesListIsFullChange.emit(this.routesListIsFull);
       }
     });
   }
@@ -89,8 +91,10 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   unselectRoute(): void {
     this.tariffChoosed = false;
     this.routeIsSelected = false;
-    this.regInfo.emit({ currentRoute: '', choosedTariff: '', totalPrice: 0, busySeats: new Array<string> });
+    this.routesListIsFull = true;
     this.routeIsSelectedChange.emit(this.routeIsSelected);
+    this.routesListIsFullChange.emit(this.routesListIsFull);
+    this.regInfo.emit({ currentRoute: null, choosedTariff: null, totalPrice: null, busySeats: null });
   }
 
   refreshCitys() {
@@ -99,14 +103,17 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
       this.arrCityAsString = data.map((m: any) => m.arrival);
     });
   }
+
   openDialog(airline_id: number, price: number, route_id: number): void {
     const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route_id: route_id }, height: '500px', width: '900px' });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.tariffChoosed = true;
         this.routeIsSelected = true;
-        this.routeIsSelectedChange.emit(this.routeIsSelected)
-        this.regInfo.emit({ currentRoute: result[0], choosedTariff: result[1], totalPrice: result[2], busySeats: result[3] });
+        this.routesListIsFull = true;
+        this.routeIsSelectedChange.emit(this.routeIsSelected);
+        this.routesListIsFullChange.emit(this.routesListIsFull);
+        this.regInfo.emit({ currentRoute: result[0][0], choosedTariff: result[1], totalPrice: result[2], busySeats: result[3] });
       }
     });
   }
