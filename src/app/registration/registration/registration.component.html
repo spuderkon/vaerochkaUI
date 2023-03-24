@@ -1,27 +1,5 @@
 <div class="registration">
-    <mat-card class="inforamtion">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image" style="width: 20px;">
-                <mat-icon>airplanemode_active</mat-icon>
-            </div>
-            <mat-card-title>Информация о полёте</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Рейс: {{currentRoute.departure_city}} <strong>{{currentRoute.departure_air_code}}</strong> -
-                <strong>{{currentRoute.arrive_air_code}}</strong> {{currentRoute.arrive_city}}
-            </p>
-            <p>Время отбытия/прибытия: {{currentRoute.start_time | date :'HH:mm'}} / {{currentRoute.end_time | date
-                :'HH:mm'}}</p>
-            <p>Время в полёте: {{currentRoute.time_in_fly}}</p>
-            <p>Тариф: {{currentTariff.name}}</p>
-            <p>Итоговая цена: {{currentRoute.price * currentTariff.markup / 100}} руб.</p>
-            <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong></p>
-            <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)" [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button>
-                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button> -->
-            <mat-card-actions align="end"></mat-card-actions>
-        </mat-card-content>
-    </mat-card>
-    <div style="display: block;">
+    <div class="client-fields">
         <mat-card>
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="width: 20px;"><mat-icon>people</mat-icon></div>
@@ -95,25 +73,28 @@
 
             </mat-card-actions>
         </mat-card>
-        <mat-card style="margin-top:15px;">
+        <mat-card style="margin-top:15px;" class="departureSeats">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="width: 20px;">
                     <mat-icon>airline_seat_recline_normal</mat-icon>
                 </div>
-                <mat-card-title>Выбор места</mat-card-title>
+                <mat-card-title>Выбор места<a matBadge class="aircraftInfo" matTooltip="Схема посадочных мест"
+                        matTooltipClass="matTooltipInfo"
+                        (click)="openAircraftInfoDialog()"><mat-icon>info</mat-icon></a>
+                </mat-card-title>
                 <mat-error *ngIf="clientSeat.hasError('required')">
                     Пожалуйста выберите место
                 </mat-error>
             </mat-card-header>
             <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф :</span><span
-                    style="font-size: 20px;"> {{currentTariff.name}}</span></p>
+                    style="font-size: 20px;"> {{departureClientInfo.tariff.name}}</span></p>
             <mat-card-content class="seats">
                 <div>
                     <div class="seatElement">
                         <div class="buisnessSeats">
                             <mat-grid-list cols="4" rowHeight="2:1">
                                 <mat-selection-list #letters [multiple]="false"
-                                    [disabled]="!currentTariff.vip_lounge || !currentTariff.seat_choice"
+                                    [disabled]="!departureClientInfo.tariff.vip_lounge || !departureClientInfo.tariff.seat_choice"
                                     [formControl]="clientSeat">
                                     <mat-grid-tile *ngFor="let seat of businessSeats; let i = index">
                                         <mat-list-option [value]="seat" (click)="busy(seat)">
@@ -124,25 +105,133 @@
                             </mat-grid-list>
                         </div>
                     </div>
-
-                    <div class="economySeats">
-                        <mat-grid-list cols="6" rowHeight="2:1">
-                            <mat-selection-list #letters [multiple]="false"
-                                [disabled]="!currentTariff.seat_choice || currentTariff.vip_lounge"
-                                [formControl]="clientSeat">
-                                <mat-grid-tile *ngFor="let seat of economySeats">
-                                    <mat-list-option [value]="seat" (click)="busy(seat)">{{seat}}</mat-list-option>
-                                </mat-grid-tile>
-                            </mat-selection-list>
-                        </mat-grid-list>
+                    <div class="seatElement">
+                        <div class="economySeats">
+                            <mat-grid-list cols="6" rowHeight="2:1">
+                                <mat-selection-list #letters [multiple]="false"
+                                    [disabled]="!departureClientInfo.tariff.eat_choice || departureClientInfo.tariff.vip_lounge"
+                                    [formControl]="clientSeat">
+                                    <mat-grid-tile *ngFor="let seat of economySeats">
+                                        <mat-list-option [value]="seat" (click)="busy(seat)">{{seat}}</mat-list-option>
+                                    </mat-grid-tile>
+                                </mat-selection-list>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top:15px;" class="arrivalSeats">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="width: 20px;">
+                    <mat-icon>airline_seat_recline_normal</mat-icon>
+                </div>
+                <mat-card-title>Выбор места
+                    <a matBadge class="aircraftInfo" matTooltip="Схема посадочных мест" matTooltipClass="matTooltipInfo"
+                        (click)="openAircraftInfoDialog()"><mat-icon>info</mat-icon></a>
+                </mat-card-title>
+                <mat-error *ngIf="clientSeat.hasError('required')">
+                    Пожалуйста выберите место
+                </mat-error>
+            </mat-card-header>
+            <p><span style="font-size: 20px; font-weight: 500; margin-left: 25px;">Ваш тариф :</span><span
+                    style="font-size: 20px;"> {{departureClientInfo.tariff.name}}</span></p>
+            <mat-card-content class="seats">
+                <div>
+                    <div class="seatElement">
+                        <div class="buisnessSeats">
+                            <mat-grid-list cols="4" rowHeight="2:1">
+                                <mat-selection-list #letters [multiple]="false"
+                                    [disabled]="!departureClientInfo.tariff.vip_lounge || !departureClientInfo.tariff.seat_choice"
+                                    [formControl]="clientSeat">
+                                    <mat-grid-tile *ngFor="let seat of businessSeats; let i = index">
+                                        <mat-list-option [value]="seat" (click)="busy(seat)">
+                                            {{seat}}
+                                        </mat-list-option>
+                                    </mat-grid-tile>
+                                </mat-selection-list>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                    <div class="seatElement">
+                        <div class="economySeats">
+                            <mat-grid-list cols="6" rowHeight="2:1">
+                                <mat-selection-list #letters [multiple]="false"
+                                    [disabled]="!departureClientInfo.tariff.eat_choice || departureClientInfo.tariff.vip_lounge"
+                                    [formControl]="clientSeat">
+                                    <mat-grid-tile *ngFor="let seat of economySeats">
+                                        <mat-list-option [value]="seat" (click)="busy(seat)">{{seat}}</mat-list-option>
+                                    </mat-grid-tile>
+                                </mat-selection-list>
+                            </mat-grid-list>
+                        </div>
                     </div>
                 </div>
             </mat-card-content>
         </mat-card>
     </div>
-    <footer align="end" style="background-color: white; margin-top: 12px;">
+    <div class="information">
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="width: 20px;">
+                    <mat-icon>airplanemode_active</mat-icon>
+                </div>
+                <mat-card-title>Информация о полёте</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Рейс: {{departureClientInfo.route.departure_city}}
+                    <strong>{{departureClientInfo.route.departure_air_code}}</strong> -
+                    <strong>{{departureClientInfo.route.arrive_air_code}}</strong>
+                    {{departureClientInfo.route.arrive_city}}
+                </p>
+                <p>Время отбытия/прибытия: {{departureClientInfo.route.start_time | date :'HH:mm'}} /
+                    {{departureClientInfo.route.end_time | date
+                    :'HH:mm'}}</p>
+                <p>Время в полёте: {{departureClientInfo.route.time_in_fly}}</p>
+                <p>Тариф: {{departureClientInfo.route.name}}</p>
+                <p>Итоговая цена: {{departureClientInfo.route.price * departureClientInfo.route.markup / 100}} руб.</p>
+                <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong>
+                </p>
+                <button mat-raised-button
+                    (click)="openPaymentDialog(departureClientInfo.route.price * departureClientInfo.route.markup / 100)"
+                    [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button>
+                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button> -->
+                <mat-card-actions align="end"></mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card style="margin-top:15px;">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="width: 20px;">
+                    <mat-icon>airplanemode_active</mat-icon>
+                </div>
+                <mat-card-title>Информация о полёте</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Рейс: {{departureClientInfo.route.departure_city}}
+                    <strong>{{departureClientInfo.route.departure_air_code}}</strong> -
+                    <strong>{{departureClientInfo.route.arrive_air_code}}</strong>
+                    {{departureClientInfo.route.arrive_city}}
+                </p>
+                <p>Время отбытия/прибытия: {{departureClientInfo.route.start_time | date :'HH:mm'}} /
+                    {{departureClientInfo.route.end_time | date
+                    :'HH:mm'}}</p>
+                <p>Время в полёте: {{departureClientInfo.route.time_in_fly}}</p>
+                <p>Тариф: {{departureClientInfo.route.name}}</p>
+                <p>Итоговая цена: {{departureClientInfo.route.price * departureClientInfo.route.markup / 100}} руб.</p>
+                <p>Место: {{clientSeat.value}} <strong *ngIf="clientSeat.hasError('required')">Выберите место</strong>
+                </p>
+                <button mat-raised-button
+                    (click)="openPaymentDialog(departureClientInfo.route.price * departureClientInfo.route.markup / 100)"
+                    [disabled]="clientSurname.hasError('required') || clientSurname.hasError('pattern') || clientName.hasError('required') || clientName.hasError('pattern') || clientLastName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientPassportNumber.hasError('pattern') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientEmail.hasError('email') || clientPhoneNumber.hasError('required') || clientPhoneNumber.hasError('pattern') || clientSeat.hasError('required')">Оформить</button>
+                <!-- <button mat-raised-button (click)="openPaymentDialog(currentRoute.price * currentTariff.markup / 100)">Оформить</button> -->
+                <mat-card-actions align="end"></mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <!-- <footer align="end" style="background-color: white; margin-top: 12px;">
         <button mat-button
             [disabled]="clientPassportNumber.hasError('pattern') || clientSurname.hasError('required') || clientName.hasError('required') || clientLastName.hasError('required') || clientBirthday.hasError('required') || clientPassportNumber.hasError('required') || clientCountryOfIssue.hasError('required') || clientCitizenship.hasError('required') || clientEmail.hasError('required') || clientPhoneNumber.hasError('required')">Продолжить
         </button>
-    </footer>
+    </footer> -->
 </div>

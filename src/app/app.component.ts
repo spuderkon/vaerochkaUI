@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { Router } from '@angular/router';
 import { RouteInformation } from 'src/models/routeInformation/route-information.model';
+import { ClentInfo } from 'src/models/clientInfo/clent-info.model';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,9 @@ export class AppComponent implements OnInit, OnChanges {
   arrivalCity: number = 1;
   minDate: Date;
   maxDate: Date;
-  registraionEnabled: boolean = false;
+  registraionEnabled: boolean = true;
 
-  totalPrice: number;
+  totalPrice: number | null = 0;
   departurePrice: number = 0;
   arrivalPrice: number = 0;
 
@@ -36,6 +37,8 @@ export class AppComponent implements OnInit, OnChanges {
   arrDateToChild: string | null;
   depCityAsString: string;
   arrCityAsString: string;
+  departureClientInfo: ClentInfo = new ClentInfo();
+  arrivalClientInfo: ClentInfo = new ClentInfo();
 
   depCity = new FormControl('', [Validators.required]);
   arrCity = new FormControl('', [Validators.required]);
@@ -85,9 +88,6 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   showRoutes() {
-    // this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
-    // this.arrDateToChild = moment(this.arrivalDate).format('YYYY-MM-DD');
-
     if (this.arrivalDate == null) {
       this.depDateToChild = moment(this.departureDate).format('YYYY-MM-DD');
       this.arrDateToChild = null;
@@ -102,7 +102,7 @@ export class AppComponent implements OnInit, OnChanges {
       this.arrCityToChild = this.arrivalCity;
       this.arrivalRouteIsOff = false;
     }
-    console.log('arrivalRouteIsOff = ' + this.arrivalRouteIsOff);
+    // console.log('arrivalRouteIsOff = ' + this.arrivalRouteIsOff);
     // console.log('depDate = ' + this.depDateToChild)
     // console.log('arrDate = ' + this.arrDateToChild)
     // console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
@@ -130,38 +130,43 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   departureRouteInfoChange(regInfo: any) {
-      this.registraionEnabled = false;
-      this.routeDepartureInfo = regInfo.currentRoute;
-      this.tariffDepartureInfo = regInfo.choosedTariff;
-      this.busySeatsDepartureInfo = regInfo.busySeats;
-      this.departurePrice = regInfo.totalPrice;
+    this.departureClientInfo.route = regInfo.currentRoute;
+    this.departureClientInfo.tariff = regInfo.choosedTariff;
+    this.departureClientInfo.busySeats = regInfo.busySeats;
+    this.departureClientInfo.price = regInfo.totalPrice;
+    this.departurePrice = regInfo.totalPrice;
   }
 
   arrivalRouteInfoChange(regInfo: any) {
-      this.registraionEnabled = false;
-      this.routeArrivalInfo = regInfo.currentRoute;
-      this.tariffArrivalInfo = regInfo.choosedTariff;
-      this.busySeatsArrivalInfo = regInfo.busySeats;
-      this.arrivalPrice = regInfo.totalPrice;   
+    this.arrivalClientInfo.route = regInfo.currentRoute;
+    this.arrivalClientInfo.tariff = regInfo.choosedTariff;
+    this.arrivalClientInfo.busySeats = regInfo.busySeats;
+    this.arrivalClientInfo.price = regInfo.totalPrice;
+    this.arrivalPrice = regInfo.totalPrice;
   }
 
   refreshPage() {
     window.location.reload();
   }
 
+  goToRegistration(): void {
+    this.totalPrice = this.departureClientInfo.price! + this.arrivalClientInfo.price!;
+
+  }
+
   test() {
     console.log('routeDepartureInfo = ');
-    console.log(this.routeDepartureInfo)
-    console.log('routeArrivalInfo = ');
-    console.log(this.routeArrivalInfo)
+    console.log(this.departureClientInfo.route)
     console.log('tariffDepartureInfo = ');
-    console.log(this.tariffDepartureInfo)
-    console.log('tariffArrivalInfo = ');
-    console.log(this.tariffArrivalInfo)
+    console.log(this.departureClientInfo.tariff)
     console.log('busySeatsDepartureInfo = ');
-    console.log(this.busySeatsDepartureInfo)
+    console.log(this.departureClientInfo.busySeats)
+    console.log('routeArrivalInfo = ');
+    console.log(this.arrivalClientInfo.route)
+    console.log('tariffArrivalInfo = ');
+    console.log(this.arrivalClientInfo.tariff)
     console.log('busySeatsArrivalInfo = ');
-    console.log(this.busySeatsArrivalInfo)
+    console.log(this.arrivalClientInfo.busySeats)
     console.log();
     console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
     console.log('arrRouteIsSelected = ' + this.arrivalRouteIsSelected);

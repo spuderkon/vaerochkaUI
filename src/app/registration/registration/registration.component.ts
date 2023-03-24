@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { SharedService } from 'src/app/shared.service';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ClentInfo } from 'src/models/clientInfo/clent-info.model';
 
 export interface DialogData {
   price: number;
@@ -17,15 +18,18 @@ export interface DialogData {
   encapsulation: ViewEncapsulation.None,
 })
 export class RegistrationComponent implements OnInit, AfterViewInit {
-  @Input() currentRoute: any;
-  @Input() currentTariff: any;
-  @Input() busySeats: string[] | null;
+  @Input() departureClientInfo: ClentInfo = new ClentInfo(); //УДАЛИТь
+  @Input() arrivalClientInfo: ClentInfo = new ClentInfo(); //УДАЛИТь
+  @Input() totalPrice: number | null;
   businessLetters = ['A', 'C', 'D', 'F'];
   economyLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
   businessRows: number[];
   economyRows: number[];
-  businessSeats: string[] = []  ;
-  economySeats: string[] = [];
+  departureBusinessSeats: string[];
+  departureEconomySeats: string[] = [];
+  arrivalBusinessSeats: string[] = [];
+  arrivalEconomySeats: string[] = [];
   selectedSeat: string;
 
   clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
@@ -57,41 +61,113 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     this.minDatePass = new Date(currentYear - 20, currentMonth, currentDay);
     this.maxDatePass = new Date(currentYear + 25, 0, 0);
     this.lastNameExist = true;
-    this.businessRows = Array(2).fill(1).map((x, i) => i + 1);
-    this.economyRows = Array(26).fill(1).map((x, i) => i + 3);
-    this.generateBusinessSeats();
-    this.generateEconomySeats();
   }
 
   ngOnInit(): void {
-    this.service.getTariffById(this.currentTariff.id).subscribe(data => {
-      this.currentTariff = data[0];
-    });
-    this.service.getRouteById(this.currentRoute.route_id).subscribe(data => {
-      this.currentRoute = data[0];
-    });
+    //УДАЛИТЬ!!!
+    this.refreshDepartureRouteById(4);
+    this.refreshDepartureTariffById(2);
+    this.refreshDepartureSeatsByRouteId(6);
+    this.departureClientInfo.price = 13;
+    this.refreshArrivalRouteById(6);
+    this.refreshArrivalTariffById(4);
+    this.refreshArrivalSeatsByRouteId(4);
+    this.arrivalClientInfo.price = 12;
+    this.generateDepartureSeats();
+
+    if (this.departureClientInfo.route != null) {
+      this.generateArrivalSeats();
+    }
   }
 
   ngAfterViewInit(): void {
+
   }
-  
-  generateBusinessSeats() {
-    for (let i = 0; i < this.businessRows.length; i++) {
-      for (let j = 0; j < this.businessLetters.length; j++) {
-        this.businessSeats.push(this.businessLetters[j] + this.businessRows[i]);
-      }
+
+  generateDepartureSeats(): void {
+    if (this.departureClientInfo.route.aircraft_id == 1) {
+      this.businessRows = Array(4).fill(1).map((x, i) => i + 1);
+      this.economyRows = Array(20).fill(1).map((x, i) => i + 3);
+      this.generateBusinessSeats(this.departureBusinessSeats);
+    }
+    else if (this.departureClientInfo.route.aircraft_id == 4) {
+      this.businessRows = Array(2).fill(1).map((x, i) => i + 1);
+      this.economyRows = Array(26).fill(1).map((x, i) => i + 3);
+      this.generateEconomySeats(this.departureEconomySeats);
     }
   }
-  
-  busy(seat: string) : boolean {
-    if(this.busySeats?.includes(seat)) return true;
+
+  generateArrivalSeats(): void {
+    if (this.arrivalClientInfo.route.aircraft_id == 1) {
+      this.businessRows = Array(3).fill(1).map((x, i) => i + 1);
+      this.economyRows = Array(20).fill(1).map((x, i) => i + 3);
+      this.generateBusinessSeats(this.arrivalBusinessSeats);
+    }
+    else if (this.arrivalClientInfo.route.aircraft_id == 4) {
+      this.businessRows = Array(2).fill(1).map((x, i) => i + 1);
+      this.economyRows = Array(26).fill(1).map((x, i) => i + 3);
+      this.generateEconomySeats(this.arrivalEconomySeats);
+    }
+  }
+
+  refreshDepartureRouteById(id: number): void {
+    this.service.getRouteById(id).subscribe(data => {
+      this.departureClientInfo.route = data[0];
+    });
+  }
+
+  refreshDepartureTariffById(id: number): void {
+    this.service.getTariffById(id).subscribe(data => {
+      this.departureClientInfo.tariff = data[0];
+    });
+  }
+
+  refreshDepartureSeatsByRouteId(id: number): void {
+    this.service.getSeatsInfo(id).subscribe(data => {
+      this.departureClientInfo.busySeats = data[0];
+    })
+  }
+
+  refreshArrivalRouteById(id: number): void {
+    this.service.getRouteById(id).subscribe(data => {
+      this.arrivalClientInfo.route = data[0];
+    });
+  }
+
+  refreshArrivalTariffById(id: number): void {
+    this.service.getTariffById(id).subscribe(data => {
+      this.arrivalClientInfo.tariff = data[0];
+    });
+  }
+
+  refreshArrivalSeatsByRouteId(id: number): void {
+    this.service.getSeatsInfo(id).subscribe(data => {
+      this.arrivalClientInfo.busySeats = data[0];
+    })
+  }
+
+  departureSeatIsBusy(seat: string): boolean {
+    if (this.departureClientInfo.busySeats?.includes(seat)) return true;
     return false;
   }
 
-  generateEconomySeats() {
+  arrivalSeatIsBusy(seat: string): boolean {
+    if (this.arrivalClientInfo.busySeats?.includes(seat)) return true;
+    return false;
+  }
+
+  generateBusinessSeats(array: string[]) {
+    for (let i = 0; i < this.businessRows.length; i++) {
+      for (let j = 0; j < this.businessLetters.length; j++) {
+        array.push(this.businessLetters[j] + this.businessRows[i]);
+      }
+    }
+  }
+
+  generateEconomySeats(array: string[]) {
     for (let i = 0; i < this.economyRows.length; i++) {
       for (let j = 0; j < this.economyLetters.length; j++) {
-        this.economySeats.push(this.economyLetters[j] + this.economyRows[i]);
+        array.push(this.economyLetters[j] + this.economyRows[i]);
       }
     }
   }
@@ -115,9 +191,9 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
   openPaymentDialog(price: number): void {
     const dialogRef = this.dialog.open(paymentDialog, { data: { price: price }, height: '450px', width: '500px', });
-  
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined){
+      if (result != undefined) {
         //case для отправления данных
       }
     })
@@ -158,10 +234,10 @@ export class paymentDialog implements OnInit {
   price: number = this.data.price;
   cardNumber = new FormControl('', [Validators.required, Validators.pattern("[0-9]{16}")]);
   cardValidPer = new FormControl('', [Validators.required, Validators.pattern("[0-9]{2}")]);
-  cardCvv= new FormControl('', [Validators.required, Validators.pattern("[0-9]{3}")]);
+  cardCvv = new FormControl('', [Validators.required, Validators.pattern("[0-9]{3}")]);
 
   ngOnInit(): void {
-   
+
   }
 
   onNoClick(): void {

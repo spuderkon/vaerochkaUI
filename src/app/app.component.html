@@ -411,10 +411,10 @@
   <app-route  *ngIf="depDateToChild != null && !registraionEnabled" (regInfo)='departureRouteInfoChange($event)' (routeIsSelectedChange)="departureRouteSelectedChange($event)" (routesListIsFullChange)="departureRoutesListIsFullChange($event)"  [depCityToChild]="depCityToChild" [arrCityToChild]="arrCityToChild" [depDateToChild]="depDateToChild"></app-route>
   <app-route  *ngIf="arrDateToChild != null && !registraionEnabled" (regInfo)='arrivalRouteInfoChange($event)' (routeIsSelectedChange)="arrivalRouteSelectedChange($event)" (routesListIsFullChange)="arrivalRoutesListIsFullChange($event)" [depCityToChild]="arrCityToChild" [arrCityToChild]="depCityToChild" [depDateToChild]="arrDateToChild"></app-route> 
   
-  <app-registration *ngIf="registraionEnabled" [currentRoute]="routeDepartureInfo" [currentTariff]="tariffDepartureInfo" [busySeats]="busySeatsDepartureInfo"></app-registration>
+  <app-registration *ngIf="registraionEnabled" [departureClientInfo]="departureClientInfo" [arrivalClientInfo]="arrivalClientInfo" [totalPrice]="totalPrice"></app-registration>
   
-  <footer align="end">
-    <button mat-button (click)="test()" matTooltip="Перейти на страницу ввода контактной информации и выбора места" >Продолжить <span *ngIf="departureRouteIsSelected">{{departurePrice + arrivalPrice}} руб.</span></button> <!--[disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)"-->
+  <footer align="end" *ngIf="!registraionEnabled">
+    <button mat-button (click)="registraionEnabled = true" matTooltip="Перейти на страницу ввода контактной информации и выбора места" [disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)">Продолжить <span *ngIf="departureRouteIsSelected">{{departurePrice + arrivalPrice}} руб.</span></button> <!---->
   </footer>
 </div>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
