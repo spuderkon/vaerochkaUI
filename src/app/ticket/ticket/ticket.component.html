@@ -1,0 +1,539 @@
+<table border="0" cellpadding="0" bgcolor="#f3f9ff" cellspacing="0"
+    style="margin:0;padding:0;font-family:Arial,sans-serif" width="100%" align="center" *ngIf="!ticketNotFound">
+    <tbody>
+
+        <tr>
+            <td style="height:20px;line-height:20px;padding-left:25px;padding-right:25px"></td>
+        </tr>
+
+        <tr>
+            <td
+                style="font-size:12px;line-height:21px;vertical-align:top;color:#8a8a8a;padding-left:25px;padding-right:25px">
+                Код бронирования:</td>
+        </tr>
+
+        <tr>
+            <td>
+                <table border="0" cellpadding="0" bgcolor="#f3f9ff" cellspacing="0"
+                    style="margin:0;padding:0;font-family:Arial,sans-serif" width="100%" align="left">
+                    <tbody>
+                        <tr>
+                            <td width="33%" style="font-size:32px;line-height:32px;padding-left:25px">
+                                {{registrationCode}}</td>
+                            <td align="right" style="padding-left:25px;padding-right:25px;vertical-align:top"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="departureTicket">
+            <td style="padding:0 20px">
+                <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                    style="margin:0;padding:0;font-family:Arial,sans-serif;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#b2daf1;border-spacing:5px 0px"
+                    width="100%">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="height:20px;line-height:20px;padding-left:25px;padding-right:25px">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px;line-height:16px">
+                                <span>{{departureTicket.departureCity}}</span>
+                                <div
+                                    style="display:inline-block;vertical-align:middle;background-color:#000000;width:26px;height:1px">
+                                </div>
+                                <span style="padding:0 8px 0 0">{{departureTicket.arrivalCity}}</span>
+                            </td>
+
+                            <td align="right" style="font-size:14px;line-height:18px;vertical-align:bottom">
+                                <strong>{{departureTicket.startTime | date: 'd MMM, EE' }}, время в пути:
+                                    {{departureTicket.timeInFly}}</strong>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height:12px;line-height:12px;padding-left:25px;padding-right:25px">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                        style="margin:0;padding:0;border-spacing:5px 0px;font-family:Arial,sans-serif" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding:0">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                        style="padding:0;margin:0;font-family:Arial,sans-serif" width="100%"
+                                        align="center">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7" style="height:12px;line-height:12px"></td>
+                                            </tr>
+                                            <tr
+                                                style="font-size:12px;line-height:12px;text-transform:uppercase;color:#8a8a8a">
+                                                <td width="18%">
+                                                    Рейс
+                                                </td>
+                                                <td width="43%" colspan="3">
+                                                    Вылет / Прилет
+                                                </td>
+                                                <td width="6%"></td>
+                                                <td width="16%">
+                                                    В пути
+                                                </td>
+                                                <td width="17%" align="right">
+                                                    Перевозчик
+                                                </td>
+                                            </tr>
+                                            <tr style="height:10px;line-height:10px"></tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td style="padding-right:5px" valign="top">
+                                                    <p style="display:block;width:100%;margin:0">
+                                                        <strong>{{departureTicket.routeCode}}</strong>
+                                                    </p>
+                                                    <span
+                                                        style="color:#8a8a8a;padding:7px 10px 0 0;display:table;width:100%">{{departureTicket.aircraftModel}}</span>
+                                                </td>
+                                                <td style="min-width:105px" valign="top">
+                                                    <span
+                                                        style="color:#000000;font-size:18px;line-height:18px;text-decoration:none">{{departureTicket.startTime
+                                                        | date: 'HH:mm'}} </span>
+                                                    <span
+                                                        style="font-size:14px;line-height:14px;color:#8a8a8a">{{departureTicket.departureAirportCode}}</span>
+                                                    <span style="font-size:14px;line-height:14px"></span>
+
+                                                    <span
+                                                        style="display:table;width:100%;padding:6px 0 0 0">{{departureTicket.departureCity}}</span>
+                                                </td>
+                                                <td align="center" valign="top"
+                                                    style="font-size:14px;padding:10px 5px;vertical-align:top">
+                                                    <div style="background-color:#000000;width:30px;height:1px"></div>
+                                                </td>
+                                                <td align="right" valign="top" style="text-align:right;min-width:105px">
+                                                    <span
+                                                        style="font-size:14px;line-height:14px;color:#8a8a8a">{{departureTicket.arrivalAirportCode}}
+                                                    </span>
+                                                    <span style="font-size:14px;line-height:14px"></span>
+                                                    <span
+                                                        style="color:#000000;font-size:18px;line-height:18px;text-decoration:none">{{departureTicket.endTime
+                                                        | date: 'HH:mm'}} </span>
+                                                    <strong
+                                                        style="font-size:12px;line-height:14px;color:#8a8a8a;color:#e87722"></strong>
+
+                                                    <span style="display:table;width:100%;padding:6px 0 0 0">
+                                                        {{departureTicket.arrivalCity}}
+                                                    </span>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td valign="top">{{departureTicket.timeInFly}}</td>
+                                                <td align="right" valign="top">
+                                                    <span class="il">{{departureTicket.airline}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" style="height:7px;line-height:7px">&nbsp;</td>
+                                            </tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td></td>
+                                                <td colspan="5" valign="middle"
+                                                    style="color:#e87722;border-width:1px;border-color:#bdccde;border-style:solid;padding:2px 8px 1px 8px;border-radius:3px">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                                        style="font-family:Arial,sans-serif;color:#e87722;font-size:12px">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-right:5px">
+                                                                    <img width="12" height="13" border="0" alt=""
+                                                                        style="display:inline-block"
+                                                                        src="https://ci6.googleusercontent.com/proxy/pu0lntmG4ZPSM1VYp9nz37jWQwABDYjhjLb_7mkf-dE6r2hK3blUwdUJqH6oZjm3aNuXr6I1rvK6denAjMseCyNA=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/clock.png"
+                                                                        class="CToWUd" data-bit="iit">
+                                                                </td>
+                                                                <td>
+                                                                    <span>Выход на посадку начинается за 40 мин. до времени вылета</span>
+                                                                </td>
+                                                                <td style="padding-right:5px">
+                                                                    <img width="12" height="13" border="0" alt=""
+                                                                        style="display:inline-block"
+                                                                        src="https://ci6.googleusercontent.com/proxy/pu0lntmG4ZPSM1VYp9nz37jWQwABDYjhjLb_7mkf-dE6r2hK3blUwdUJqH6oZjm3aNuXr6I1rvK6denAjMseCyNA=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/clock.png"
+                                                                        class="CToWUd" data-bit="iit">
+                                                                </td>
+                                                                <td>
+                                                                    <span>Посадка заканчивается за 20 мин. до времени вылета</span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                
+                                                <td></td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <tr>
+                            <td colspan="2" style="height:20px;line-height:20px;padding-left:25px;padding-right:25px">
+                                &nbsp;
+                            </td>
+                        </tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                        style="margin:0;padding:0;border-spacing:5px 0px;font-family:Arial,sans-serif" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding:0">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                        style="padding:0;margin:0;font-family:Arial,sans-serif" width="100%"
+                                        align="center">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7" style="height:18px;line-height:18px">&nbsp;</td>
+                                            </tr>
+                                            <tr
+                                                style="font-size:12px;line-height:12px;text-transform:uppercase;color:#8a8a8a">
+                                                <td width="235">Питание</td>
+                                                <td>Тариф</td>
+                                                <td align="right" width="17%">
+                                                    Статус
+                                                </td>
+                                            </tr>
+                                            <tr style="height:10px;line-height:10px"></tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td style="font-size:12px;line-height:14px" valign="top">
+                                                    <span *ngIf="departureTicket.meal; else else1">Включено</span>
+                                                    <ng-template #else1>Не включено</ng-template>
+
+                                                </td>
+                                                <td style="font-size:12px;line-height:14px" valign="top">
+                                                    <span>{{departureTicket.tariffName}}</span>
+                                                </td>
+                                                <td style="font-size:12px;line-height:14px" align="right" valign="top">
+                                                    <strong
+                                                        *ngIf="departureTicket.registered; else else2">Подтвержден</strong>
+                                                    <ng-template #else2><strong>Не подтвержден</strong></ng-template>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </td>
+        </tr>
+
+        <tr class="arrivalTicket" *ngIf="arrivalTicket.routeId != null">
+            <td style="padding:0 20px">
+                <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                    style="margin:0;padding:0;font-family:Arial,sans-serif;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#b2daf1;border-spacing:5px 0px"
+                    width="100%">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="height:20px;line-height:20px;padding-left:25px;padding-right:25px">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px;line-height:16px">
+                                <span>{{arrivalTicket.departureCity}}</span>
+                                <div
+                                    style="display:inline-block;vertical-align:middle;background-color:#000000;width:26px;height:1px">
+                                </div>
+                                <span style="padding:0 8px 0 0">{{arrivalTicket.arrivalCity}}</span>
+                            </td>
+
+                            <td align="right" style="font-size:14px;line-height:18px;vertical-align:bottom">
+                                <strong>{{arrivalTicket.startTime | date: 'd MMM, EE' }}, время в пути:
+                                    {{arrivalTicket.timeInFly}}</strong>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height:12px;line-height:12px;padding-left:25px;padding-right:25px">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                        style="margin:0;padding:0;border-spacing:5px 0px;font-family:Arial,sans-serif" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding:0">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                        style="padding:0;margin:0;font-family:Arial,sans-serif" width="100%"
+                                        align="center">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7" style="height:12px;line-height:12px"></td>
+                                            </tr>
+                                            <tr
+                                                style="font-size:12px;line-height:12px;text-transform:uppercase;color:#8a8a8a">
+                                                <td width="18%">
+                                                    Рейс
+                                                </td>
+                                                <td width="43%" colspan="3">
+                                                    Вылет / Прилет
+                                                </td>
+                                                <td width="6%"></td>
+                                                <td width="16%">
+                                                    В пути
+                                                </td>
+                                                <td width="17%" align="right">
+                                                    Перевозчик
+                                                </td>
+                                            </tr>
+                                            <tr style="height:10px;line-height:10px"></tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td style="padding-right:5px" valign="top">
+                                                    <p style="display:block;width:100%;margin:0">
+                                                        <strong>{{arrivalTicket.routeCode}}</strong>
+                                                    </p>
+                                                    <span
+                                                        style="color:#8a8a8a;padding:7px 10px 0 0;display:table;width:100%">{{arrivalTicket.aircraftModel}}</span>
+                                                </td>
+                                                <td style="min-width:105px" valign="top">
+                                                    <span
+                                                        style="color:#000000;font-size:18px;line-height:18px;text-decoration:none">{{arrivalTicket.startTime
+                                                        | date: 'HH:mm'}} </span>
+                                                    <span
+                                                        style="font-size:14px;line-height:14px;color:#8a8a8a">{{arrivalTicket.departureAirportCode}}</span>
+                                                    <span style="font-size:14px;line-height:14px"></span>
+
+                                                    <span
+                                                        style="display:table;width:100%;padding:6px 0 0 0">{{arrivalTicket.departureCity}}</span>
+                                                </td>
+                                                <td align="center" valign="top"
+                                                    style="font-size:14px;padding:10px 5px;vertical-align:top">
+                                                    <div style="background-color:#000000;width:30px;height:1px"></div>
+                                                </td>
+                                                <td align="right" valign="top" style="text-align:right;min-width:105px">
+                                                    <span
+                                                        style="font-size:14px;line-height:14px;color:#8a8a8a">{{arrivalTicket.arrivalAirportCode}}
+                                                    </span>
+                                                    <span style="font-size:14px;line-height:14px"></span>
+                                                    <span
+                                                        style="color:#000000;font-size:18px;line-height:18px;text-decoration:none">{{arrivalTicket.endTime
+                                                        | date: 'HH:mm'}} </span>
+                                                    <strong
+                                                        style="font-size:12px;line-height:14px;color:#8a8a8a;color:#e87722"></strong>
+
+                                                    <span style="display:table;width:100%;padding:6px 0 0 0">
+                                                        {{arrivalTicket.arrivalCity}}
+                                                    </span>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td valign="top">{{arrivalTicket.timeInFly}}</td>
+                                                <td align="right" valign="top">
+                                                    <span class="il">{{arrivalTicket.airline}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" style="height:7px;line-height:7px">&nbsp;</td>
+                                            </tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td></td>
+                                                <td colspan="5" valign="middle"
+                                                    style="color:#e87722;border-width:1px;border-color:#bdccde;border-style:solid;padding:2px 8px 1px 8px;border-radius:3px">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                                        style="font-family:Arial,sans-serif;color:#e87722;font-size:12px">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-right:5px">
+                                                                    <img width="12" height="13" border="0" alt=""
+                                                                        style="display:inline-block"
+                                                                        src="https://ci6.googleusercontent.com/proxy/pu0lntmG4ZPSM1VYp9nz37jWQwABDYjhjLb_7mkf-dE6r2hK3blUwdUJqH6oZjm3aNuXr6I1rvK6denAjMseCyNA=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/clock.png"
+                                                                        class="CToWUd" data-bit="iit">
+                                                                </td>
+                                                                <td>
+                                                                    <span>Выход на посадку начинается за 40 мин. до времени вылета</span>
+                                                                </td>
+                                                                <td style="padding-right:5px">
+                                                                    <img width="12" height="13" border="0" alt=""
+                                                                        style="display:inline-block"
+                                                                        src="https://ci6.googleusercontent.com/proxy/pu0lntmG4ZPSM1VYp9nz37jWQwABDYjhjLb_7mkf-dE6r2hK3blUwdUJqH6oZjm3aNuXr6I1rvK6denAjMseCyNA=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/clock.png"
+                                                                        class="CToWUd" data-bit="iit">
+                                                                </td>
+                                                                <td>
+                                                                    <span>Посадка заканчивается за 20 мин. до времени вылета</span>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F9FF"
+                        style="margin:0;padding:0;border-spacing:5px 0px;font-family:Arial,sans-serif" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding:0">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                        style="padding:0;margin:0;font-family:Arial,sans-serif" width="100%"
+                                        align="center">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7" style="height:18px;line-height:18px">&nbsp;</td>
+                                            </tr>
+                                            <tr
+                                                style="font-size:12px;line-height:12px;text-transform:uppercase;color:#8a8a8a">
+                                                <td width="235">Питание</td>
+                                                <td>Тариф</td>
+                                                <td align="right" width="17%">
+                                                    Статус
+                                                </td>
+                                            </tr>
+                                            <tr style="height:10px;line-height:10px"></tr>
+                                            <tr style="font-size:13px;line-height:13px;vertical-align:baseline">
+                                                <td style="font-size:12px;line-height:14px" valign="top">
+                                                    <span *ngIf="arrivalTicket.meal; else else3">Включено</span>
+                                                    <ng-template #else3>Не включено</ng-template>
+
+                                                </td>
+                                                <td style="font-size:12px;line-height:14px" valign="top">
+                                                    <span>{{arrivalTicket.tariffName}}</span>
+                                                </td>
+                                                <td style="font-size:12px;line-height:14px" align="right" valign="top">
+                                                    <strong
+                                                        *ngIf="arrivalTicket.registered; else else4">Подтвержден</strong>
+                                                    <ng-template #else4><strong>Не подтвержден</strong></ng-template>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:0 20px">
+                <table border="0" cellpadding="0" cellspacing="0"
+                    style="margin:0;padding:0;font-family:Arial,sans-serif;border-spacing:5px 0px" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="height:15px;line-height:15px">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:12px;line-height:18px;color:#8a8a8a">
+                                Время отправления и прибытия указано местное. Для регистрации в аэропорту необходимо
+                                предъявить документ, на который приобретался билет.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="height:25px;line-height:25px">&nbsp;</td>
+                        </tr>
+
+
+                        <tr>
+                            <td
+                                style="font-size:12px;line-height:17px;padding-left:16px;padding-right:25px;padding-top:12px;padding-bottom:12px;border-radius:2px;border-left:4px solid #e87722;background-color:#ffffff">
+                                <table border="0" cellpadding="0" cellspacing="0"
+                                    style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:12px;line-height:12px"
+                                    width="100%" bgcolor="#ffffff">
+                                    <tbody>
+                                        <tr *ngIf="departureTicket.luggage">
+                                            <td>
+                                                <img width="46" height="46" border="0" alt=""
+                                                    style="display:inline;padding:0 5px 0 0;vertical-align:middle"
+                                                    src="https://ci6.googleusercontent.com/proxy/Rfe9zrfIjzOsJDpeZBPUs7obGFp5o_1OmHaRDYO__0EU4A8T4jOXwBcALRPffYYDf1_KbkjrP8H1Hh7Y-fn15hT1WGxcXy0Hbwo=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/icon--baggage.png"
+                                                    class="CToWUd" data-bit="iit">
+                                            </td>
+                                            <td>
+                                                <table border="0" cellpadding="0" cellspacing="0"
+                                                    style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:12px;line-height:12px"
+                                                    width="100%" bgcolor="#ffffff">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color:#e87722">Внимание!</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="height:10px;line-height:10px">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span></span>
+                                                                <span style="color:#8a8a8a;line-height:17px">По условиям тарифа на рейс {{arrivalTicket.routeCode}} включена только ручная кладь.</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            
+                                        </tr>
+                                        
+                                        <tr *ngIf="arrivalTicket.luggage">
+                                            <td>
+                                                <img width="46" height="46" border="0" alt=""
+                                                    style="display:inline;padding:0 5px 0 0;vertical-align:middle"
+                                                    src="https://ci6.googleusercontent.com/proxy/Rfe9zrfIjzOsJDpeZBPUs7obGFp5o_1OmHaRDYO__0EU4A8T4jOXwBcALRPffYYDf1_KbkjrP8H1Hh7Y-fn15hT1WGxcXy0Hbwo=s0-d-e1-ft#http://netstorage.aeroflot.ru/mailimg/icon--baggage.png"
+                                                    class="CToWUd" data-bit="iit">
+                                            </td>
+                                            <td>
+                                                <table border="0" cellpadding="0" cellspacing="0"
+                                                    style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:12px;line-height:12px"
+                                                    width="100%" bgcolor="#ffffff">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color:#e87722">Внимание!</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="height:10px;line-height:10px">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span></span>
+                                                                <span style="color:#8a8a8a;line-height:17px">По условиям тарифа на рейс {{arrivalTicket.routeCode}} включена только ручная кладь.</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:14px;line-height:14px">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="ticketNotFound">
+    <h1>Такого билета не существует</h1>
+</div>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, Inject, OnChanges, SimpleChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { SharedService } from '../shared.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,14 +18,15 @@ export interface DialogData {
 @Component({
   selector: 'app-route',
   templateUrl: './route.component.html',
-  styleUrls: ['./route.component.css']
+  styleUrls: ['./route.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 
 export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() routeIsSelectedChange = new EventEmitter<boolean>();
   @Output() routesListIsFullChange = new EventEmitter<boolean>();
-  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any , choosedTariff: any, totalPrice: number | null,busySeats: string[] | null }>();
+  @Output('regInfo') regInfo = new EventEmitter<{ currentRoute: any, choosedTariff: any, totalPrice: number | null, busySeats: string[] | null }>();
   @Input('depCityToChild') depCity: number;
   @Input('arrCityToChild') arrCity: number;
   @Input('depDateToChild') depDate: string;
@@ -37,7 +38,8 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   depCityAsString: string;
   arrCityAsString: string;
   busySeats: string[];
-  
+  choosedRoute: any;
+
   tariffChoosed: boolean = false;
   routeIsSelected: boolean = false;
   routesListIsFull: boolean = false;
@@ -51,7 +53,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   ngAfterViewInit() {
@@ -78,6 +80,9 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
       }
       else {
         this.routes = data;
+        this.routes.forEach(x => {
+          x.isChoosed = false;
+        });
         this.tariffChoosed = false;
         this.routeIsSelected = false;
         this.routesListIsFull = true;
@@ -88,7 +93,27 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  unselectRoute(): void {
+  routeIsChoosedChange(id: number, change: boolean): void {
+    if (change) {
+      let x = this.routes.filter(x => x.route_id == id)
+      this.routes.forEach(item => {
+        if (x[0] == item) {
+          item.isChoosed = true;
+        }
+      });
+    }
+    else {
+      let x = this.routes.filter(x => x.route_id == id)
+      this.routes.forEach(item => {
+        if (x[0] == item) {
+          item.isChoosed = false;
+        }
+      });
+    }
+  }
+
+  unselectRoute(id: number): void {
+    this.routeIsChoosedChange(id, false);
     this.tariffChoosed = false;
     this.routeIsSelected = false;
     this.routesListIsFull = true;
@@ -108,6 +133,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
     const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route_id: route_id }, height: '500px', width: '900px' });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
+        this.routeIsChoosedChange(route_id, true);
         this.tariffChoosed = true;
         this.routeIsSelected = true;
         this.routesListIsFull = true;

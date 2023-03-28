@@ -29,9 +29,15 @@ import { RegistrationComponent, aircraftInfoDialog, paymentDialog } from './regi
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+import { LOCALE_ID } from '@angular/core';
+import { TicketComponent } from './ticket/ticket/ticket.component';
+import { RegisterFlightComponent } from './registerFlight/register-flight/register-flight.component';
 
 
+registerLocaleData(localeRu);
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     RegistrationComponent,
     aircraftInfoDialog,
     paymentDialog,
+    TicketComponent,
+    RegisterFlightComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +78,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatBadgeModule,
     MatTooltipModule,
   ],
-  providers: [SharedService],
+  providers: [SharedService, {provide: LOCALE_ID, useValue: 'ru'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

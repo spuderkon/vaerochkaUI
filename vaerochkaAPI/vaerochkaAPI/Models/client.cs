@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace vaerochkaAPI.Models
 {
-    public class client
+    public class Client
     {
         public int id { get; set; }
 
@@ -15,8 +15,6 @@ namespace vaerochkaAPI.Models
 
         public string lastname { get; set; }
 
-        public string sex { get; set; }
-
-        public passport passport_id { get; set; }
+        public int passport_id { get; set; }
     }
 }

@@ -20,4 +20,5 @@ export class Routeinf {
     arrive_air_code: string | null;
     departure_air_code : string | null;
     available_seats: number | null;
+    isChoosed?: boolean;
 }

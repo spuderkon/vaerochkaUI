@@ -40,6 +40,7 @@
             <strong style="color: #1976d2;">Багаж:</strong>
             <strong style="color: #1976d2;">Обмен:</strong>
             <strong style="color: #1976d2;">Возврат:</strong>
+            <strong style="color: #1976d2;">Питание:</strong>
             <strong style="color: #1976d2;">Страховка:</strong>
             <strong style="color: #1976d2;">Выбор места:</strong>
             <strong style="color: #1976d2;">Вип зал ожидания:</strong>
@@ -56,6 +57,8 @@
             <ng-template #else3><mat-icon>close</mat-icon></ng-template>
             <mat-icon *ngIf="tariff.refund; else else4">check</mat-icon>
             <ng-template #else4><mat-icon>close</mat-icon></ng-template>
+            <mat-icon *ngIf="tariff.hand_luggage; else else9">check</mat-icon>
+            <ng-template #else9><mat-icon>close</mat-icon></ng-template>
             <mat-icon *ngIf="tariff.insurance; else else5">check</mat-icon>
             <ng-template #else5><mat-icon>close</mat-icon></ng-template>
             <mat-icon *ngIf="tariff.seat_choice; else else6">check</mat-icon>

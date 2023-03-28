@@ -68,6 +68,7 @@
         </div>
     </div>
     <div mat-dialog-actions>
-        <button mat-button [mat-dialog-close]="data.price" [disabled]="cardNumber.hasError('required') || cardNumber.hasError('pattern') || cardValidPer.hasError('required') || cardValidPer.hasError('pattern') || cardCvv.hasError('required') || cardCvv.hasError('pattern')" style="margin-left: 80px; width: 300px; height: 50px; margin-top: 50px; border: 0.5px solid #DADADA;"> Оплатить : {{price}}</button>
+        <button mat-button (click)="confirm()" [disabled]="cardNumber.hasError('required') || cardNumber.hasError('pattern') || cardValidPer.hasError('required') || cardValidPer.hasError('pattern') || cardCvv.hasError('required') || cardCvv.hasError('pattern') || dataConfirmed" style="margin-left: 80px; width: 300px; height: 50px; margin-top: 50px; border: 0.5px solid #DADADA;"> Подтвердить данные</button>
+        <button mat-button [mat-dialog-close]="true" [disabled]="cardNumber.hasError('required') || cardNumber.hasError('pattern') || cardValidPer.hasError('required') || cardValidPer.hasError('pattern') || cardCvv.hasError('required') || cardCvv.hasError('pattern') || !dataConfirmed" style="margin-left: 80px; width: 300px; height: 50px; border: 0.5px solid #DADADA;"> Оплатить : {{totalPrice}}</button>
     </div>
 </div>

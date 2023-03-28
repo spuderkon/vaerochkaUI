@@ -20,7 +20,7 @@ mat-card-content mat-form-field{
   right: 0px;
   bottom: 0px;
   margin-left: 30px;
-  width: 300px;
+  width: 320px;
   height: 280px;
 }
 
@@ -66,4 +66,24 @@ mat-card-content mat-form-field{
 
 .aircraftInfo :hover{
   color: #551A8B;
+}
+
+.departureSeats{
+  margin-top:15px;
+}
+
+.arrivalSeats{
+  margin-top:15px;
+}
+
+.departureInfo{
+  margin-top:15px;
+}
+
+.arrivalInfo{
+  margin-top:15px;
+}
+
+[ngAria="true"] {
+  opacity: 0.5;
 }

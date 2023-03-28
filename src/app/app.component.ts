@@ -9,6 +9,7 @@ import { Routeinf } from 'src/models/routeinf/routeinf.model';
 import { Router } from '@angular/router';
 import { RouteInformation } from 'src/models/routeInformation/route-information.model';
 import { ClentInfo } from 'src/models/clientInfo/clent-info.model';
+import { Contact } from 'src/models/contact/contact.model';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,9 @@ export class AppComponent implements OnInit, OnChanges {
   arrivalCity: number = 1;
   minDate: Date;
   maxDate: Date;
-  registraionEnabled: boolean = true;
+  registraionEnabled: boolean = false;
+  ticketEnabled: boolean = false;
+  registerFlightEnabled = false;
 
   totalPrice: number | null = 0;
   departurePrice: number = 0;
@@ -44,6 +47,7 @@ export class AppComponent implements OnInit, OnChanges {
   arrCity = new FormControl('', [Validators.required]);
   depDate = new FormControl('', [Validators.required]);
   arrDate = new FormControl('', []);
+  registrationCode = new FormControl('RONKIQ12', [Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{8}$')]);
 
   routeDepartureInfo: any = null;
   tariffDepartureInfo: any = null;
@@ -58,8 +62,9 @@ export class AppComponent implements OnInit, OnChanges {
   arrivalRouteIsSelected: boolean = false;
   departureRoutesListIsFull: boolean = false;
   arrivalRoutesListIsFull: boolean = false;
+  regCode: string = '';
 
-  constructor(private service: SharedService, private router: Router) {
+  constructor(private service: SharedService, public router: Router) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth();
@@ -69,7 +74,6 @@ export class AppComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.refreshAirports();
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -102,11 +106,16 @@ export class AppComponent implements OnInit, OnChanges {
       this.arrCityToChild = this.arrivalCity;
       this.arrivalRouteIsOff = false;
     }
-    // console.log('arrivalRouteIsOff = ' + this.arrivalRouteIsOff);
-    // console.log('depDate = ' + this.depDateToChild)
-    // console.log('arrDate = ' + this.arrDateToChild)
-    // console.log('depRouteIsSelected = ' + this.departureRouteIsSelected);
-    // console.log('arrRouteIsSelected = ' + this.arrivalRouteIsSelected);
+  }
+
+  showTicket(): void{
+    this.regCode = this.registrationCode.value!;
+    this.ticketEnabled = true;
+  }
+
+  showRegisterFlight(): void{
+    this.regCode = this.registrationCode.value!;
+    this.registerFlightEnabled = true;
   }
 
   departureRouteSelectedChange(routeIsSelected: boolean): void {
@@ -151,7 +160,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   goToRegistration(): void {
     this.totalPrice = this.departureClientInfo.price! + this.arrivalClientInfo.price!;
-
+    this.registraionEnabled = true
   }
 
   test() {

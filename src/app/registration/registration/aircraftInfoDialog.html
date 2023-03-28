@@ -12,13 +12,13 @@
         display: flex;
         justify-content: center;
         transform: rotate(90deg);
-        width: 900px;
     }
 </style>
+
 <div class="aircratfInfoDialog">
     <h2 mat-dialog-title>Схема посадочных мест в самолёте</h2>
-    <h3>Модель: {{aircraft.model}}</h3>
+    <h3>Модель: {{model}}</h3>
     <div class="seatScheme">
-        <img [src]="aircraft.image" style="margin-top:400px;">
+        <img [src]="image" [ngStyle]="{'margin-top': data.id == 1 ? '200px' : '400px'}">
     </div>
 </div>
