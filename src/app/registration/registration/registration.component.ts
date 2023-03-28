@@ -75,6 +75,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
   minValidPeriod: Date;
   lastNameExist: boolean; //21.03.73
   lastNameStatus: string = 'Отчество (если есть)';
+  booking_code: string;
 
   constructor(private service: SharedService, public dialog: MatDialog) {
     const currentYear = new Date().getFullYear();
@@ -130,21 +131,21 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   findContact(email: string, number: string): void {
-    this.service.getContactId(email, number).subscribe(data => {
+    this.service.getContact(email, number).subscribe(data => {
       this.contact = data[0];
       console.log(this.contact);
     })
   }
 
   findClient(name: string, surname: string, lastname: string): void {
-    this.service.getClientId(name, surname, lastname).subscribe(data => {
+    this.service.getClient(name, surname, lastname).subscribe(data => {
       this.client = data[0];
       console.log(this.client);
     })
   }
 
   findPassport(number: string): void {
-    this.service.getPassportIdByNumber(number).subscribe(data => {
+    this.service.getPassport(number).subscribe(data => {
       this.passport = data[0];
       console.log(this.passport);
     })
@@ -236,8 +237,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-
-
   refreshDepartureRouteById(id: number): void {
     this.service.getRouteById(id).subscribe(data => {
       this.departureClientInfo.route = data[0];
@@ -305,7 +304,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
     let rtFirstDigitNum = Number(rtFirstDigitStr);
     let clFirstDigitStr = String(client_id)[0];
     let clFirstDigitNum = Number(clFirstDigitStr);
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
@@ -320,6 +319,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.passport == undefined!) {
       this.passport = new Passport();
       this.passport.birthdate = moment(this.clientBirthday.value).format('YYYY-MM-DD');
+      console.log(moment(this.clientBirthday.value).format('YYYY-MM-DD'));
       this.passport.citizenship_id = this.clientCountryOfIssue.value;
       this.passport.country_of_issue_id = this.clientCountryOfIssue.value;
       this.passport.number = this.clientPassportNumber.value;
@@ -350,19 +350,20 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
     dialogRef.afterClosed().subscribe(data => {
       console.log(data);
       if (data != undefined) {
-        let generatedCode = this.generateRegistrationCode(this.departureClientInfo.route.route_id, this.client.id!);
+        this.booking_code = this.generateRegistrationCode(this.departureClientInfo.route.route_id, this.client.id!);
         this.registration.route_id = this.departureClientInfo.route.route_id;
-        this.registration.code = generatedCode;
+        this.registration.code = this.booking_code;
         this.registration.client_id = this.client.id;
         this.registration.contact_id = this.contact.id;
         this.registration.tariff_id = this.departureClientInfo.tariff.id;
         this.registration.seat = this.clientDepartureSeat.value![0];
         this.registration.price = this.departurePrice;
         this.registration.registered = false;
+        console.log(this.registration)
         this.postRegistration(this.registration)
         if (this.arrivalClientInfo.route != null) {
           this.registration.route_id = this.arrivalClientInfo.route.route_id;
-          this.registration.code = generatedCode;
+          this.registration.code = this.booking_code;
           this.registration.tariff_id = this.arrivalClientInfo.tariff.id;
           this.registration.seat = this.clientArrivalSeat.value![0];
           this.registration.price = this.arrivalPrice;
@@ -417,14 +418,14 @@ export class paymentDialog implements OnInit {
   }
 
   findClient(name: string, surname: string, lastname: string): void {
-    this.service.getClientId(name, surname, lastname).subscribe(data => {
+    this.service.getClient(name, surname, lastname).subscribe(data => {
       this.data.client = data[0];
       console.log(this.data.client);
     })
   }
 
   findPassport(number: string): void {
-    this.service.getPassportIdByNumber(number).subscribe(data => {
+    this.service.getPassport(number).subscribe(data => {
       this.data.passport = data[0];
       console.log(this.data.passport);
     })
@@ -461,50 +462,3 @@ export class aircraftInfoDialog implements OnInit {
     })
   }
 }
-// dialogRef.afterOpened().subscribe(data => {
-//   this.findPassport(this.clientPassportNumber.value!);
-//   this.findContact(this.clientEmail.value!, this.clientPhoneNumber.value!);
-//   this.client.name = this.clientName.value;
-//   this.client.surname = this.clientSurname.value;
-//   this.client.lastname = this.clientLastName.value;
-// })
-
-// dialogRef.beforeClosed().subscribe(result => {
-//   // console.log(this.contact);
-//   // console.log(this.client);
-//   // console.log(this.passport);
-//   if (result != undefined) {
-//     if (this.client.id == null) {
-//       this.client.name = this.clientName.value;
-//       this.client.surname = this.clientSurname.value;
-//       this.client.lastname = this.clientLastName.value;
-//       this.client.passport_id = this.passport.id;
-//       this.postClient(this.client);
-//     }
-//     // this.findPassport(this.clientPassportNumber.value!);
-//     // this.findContact(this.clientEmail.value!, this.clientPhoneNumber.value!);
-//   }
-// });
-
-// dialogRef.afterClosed().subscribe(result => {
-//   console.log(result);
-//   // console.log(this.contact);
-//   let generatedCode = this.generateRegistrationCode(this.departureClientInfo.route.route_id, this.client.id!);
-//   this.registration.route_id = this.departureClientInfo.route.route_id;
-//   this.registration.code = generatedCode;
-//   this.registration.client_id = this.client.id;
-//   this.registration.contact_id = this.contact.id;
-//   this.registration.tariff_id = this.departureClientInfo.tariff.id;
-//   this.registration.seat = this.clientDepartureSeat.value;
-//   this.registration.price = this.departurePrice;
-//   this.postRegistration(this.registration)
-//   if (this.arrivalClientInfo.route != null) {
-//     generatedCode = this.generateRegistrationCode(this.arrivalClientInfo.route.route_id, this.client.id!)
-//     this.registration.route_id = this.arrivalClientInfo.route.route_id;
-//     this.registration.code = generatedCode;
-//     this.registration.tariff_id = this.arrivalClientInfo.tariff.id;
-//     this.registration.seat = this.clientArrivalSeat.value;
-//     this.registration.price = this.arrivalPrice;
-//     this.postRegistration(this.registration)
-//   }
-// })

@@ -31,8 +31,7 @@ export class RegisterFlightComponent implements OnInit, OnChanges {
   constructor(private service: SharedService) { }
 
   ngOnInit(): void {
-    this.getRegistrationFullInfoByCodeAndSurname();
-    this.getRegistration();
+    
   }
 
   ngOnChanges(): void {
@@ -58,20 +57,19 @@ export class RegisterFlightComponent implements OnInit, OnChanges {
         this.departureRegistration = data[0];
         this.arrivalRegistration = data[1];
       }
-      else {  
+      else if(data.length == 0) {
         this.departureRegistration = new Registration();
         this.arrivalRegistration = new Registration();
       }
+
     })
   }
 
   updateRegistration(registration: Registration) {
     registration.registered = true;
-    console.log(registration);
     this.service.updateRegistration(registration).subscribe(data => {
-      console.log(data);
-      this.getRegistrationFullInfoByCodeAndSurname();
-      this.getRegistration();
+       this.getRegistrationFullInfoByCodeAndSurname();
+       this.getRegistration();
     });
   }
 

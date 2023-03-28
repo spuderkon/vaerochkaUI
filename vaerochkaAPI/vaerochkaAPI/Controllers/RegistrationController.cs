@@ -80,7 +80,7 @@ namespace vaerochkaAPI.Controllers
       return Request.CreateResponse(HttpStatusCode.OK, table);
     }
 
-    [Route("api/Registration/GetFullRegistrationInfo")]
+    [Route("api/Registration/GetFullRegistrationInfoByCode")]
     [HttpGet]
     public HttpResponseMessage GetFullRegistrationInfoByCode(string code)
     {
@@ -140,7 +140,7 @@ namespace vaerochkaAPI.Controllers
     { 
       try
       {
-        string query = $@"insert into registration values ({reg.route_id}, '{reg.code}',{reg.client_id},{reg.contact_id},{reg.tariff_id},'{reg.seat}',{reg.price}, '{reg.registered}' where code = '{reg.code}' and route_id = {reg.route_id})";
+        string query = $@"insert into registration values ({reg.route_id}, '{reg.code}',{reg.client_id},{reg.contact_id},{reg.tariff_id},'{reg.seat}',{reg.price}, '{reg.registered}')";
 
         DataTable table = new DataTable();
         using (var con = new SqlConnection(ConfigurationManager.

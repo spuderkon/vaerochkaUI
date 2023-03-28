@@ -53,7 +53,7 @@ export class SharedService {
     return this.http.get<any>(this.Url + 'Registration?route_id=' + id)
   }
 
-  getClientId(name: string, surname: string, lastname: string): Observable<any[]> {
+  getClient(name: string, surname: string, lastname: string): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Client?name='+name+'&surname='+surname+'&lastname='+lastname)
   }
 
@@ -61,7 +61,7 @@ export class SharedService {
     return this.http.post(this.Url + 'Client', client)
   }
 
-  getContactId(email: string, number: string): Observable<any[]> {
+  getContact(email: string, number: string): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Contact?email='+email+'&number='+number)
   }
 
@@ -69,7 +69,7 @@ export class SharedService {
     return this.http.post(this.Url + 'Contact', contact)
   }
 
-  getPassportIdByNumber(number: string): Observable<any[]> {
+  getPassport(number: string): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Passport?number='+number)
   }
 

@@ -130,7 +130,7 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   openDialog(airline_id: number, price: number, route_id: number): void {
-    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route_id: route_id }, height: '500px', width: '900px' });
+    const dialogRef = this.dialog.open(routeDialog, { data: { airline_id: airline_id, price: price, route_id: route_id }, height: '530px', width: '900px' });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.routeIsChoosedChange(route_id, true);

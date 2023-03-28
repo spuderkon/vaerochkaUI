@@ -378,7 +378,7 @@
           <mat-form-field appearance="outline" style="margin-right: 5px;">
             <mat-label>Обратно</mat-label>
             <input matInput [matDatepicker]="picker2" autocomplete="off" [(ngModel)]="arrivalDate" [min]="minDate"
-              [max]="maxDate">
+              >
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2 color="primary"></mat-datepicker>
           </mat-form-field>
@@ -462,7 +462,7 @@
   <app-registration *ngIf="registraionEnabled" [departureClientInfo]="departureClientInfo"
     [arrivalClientInfo]="arrivalClientInfo" [totalPrice]="totalPrice"></app-registration>
   <footer
-    *ngIf="(departureRouteIsSelected || arrivalRouteIsSelected) && (departureRouteIsSelected || !arrivalRoutesListIsFull) && (departureRouteIsSelected || arrivalRouteIsOff)">
+    *ngIf="(departureRouteIsSelected || arrivalRouteIsSelected) && (departureRouteIsSelected || !arrivalRoutesListIsFull) && (departureRouteIsSelected || arrivalRouteIsOff) && !registraionEnabled">
     <button mat-button (click)="goToRegistration()"
       matTooltip="Перейти на страницу ввода контактной информации и выбора места"
       [disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)">Продолжить

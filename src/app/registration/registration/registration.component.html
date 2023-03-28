@@ -261,4 +261,5 @@
     </footer> -->
 </div>
 
-<app-ticket *ngIf="ticketEnabled"></app-ticket>
+<h2 *ngIf="ticketEnabled">Сфотографируйте или запишите код бронирования</h2>
+<app-ticket *ngIf="ticketEnabled" [registrationCode]="booking_code" [clientSurname]="clientSurname.value!"></app-ticket>
