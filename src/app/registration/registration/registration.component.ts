@@ -301,10 +301,15 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
   generateRegistrationCode(route_id: number, client_id: number): string {
     let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     let text = '';
+    let rtFirstDigitStr = String(route_id)[0];
+    let rtFirstDigitNum = Number(rtFirstDigitStr);
+    let clFirstDigitStr = String(client_id)[0];
+    let clFirstDigitNum = Number(clFirstDigitStr);
     for (let i = 0; i < 5; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    return text + route_id + client_id;
+
+    return text + rtFirstDigitNum + clFirstDigitNum;
   }
 
   openAircraftInfoDialog(id: number): void {

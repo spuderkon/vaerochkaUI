@@ -31,13 +31,15 @@
   }
 
   .spacer {
-    margin-left: 33%;
+    margin-left: 25%;
   }
-  .spacer a{
+
+  .spacer a {
     color: white;
     margin-left: 20px;
   }
-  .spacer a:hover{
+
+  .spacer a:hover {
     color: #125699;
   }
 
@@ -314,16 +316,16 @@
 <div class="toolbar" role="banner">
   <img width="40" alt="Angular Logo"
     src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
-  <span><a class="refreshA" (click)="refreshPage()">Vaerochka</a></span>
+  <span><a class="refreshA" (click)="refreshPage()">VAEROCHKA</a></span>
   <div class="spacer">
     <a href="/">Бронирование</a>
     <a href="/ticket">Просмотр билета</a>
-    <a href="/registerFlight">Регистрация на рейс</a>
+    <a href="/registerFlight">Онлайн-регистрация</a>
   </div>
 </div>
 
 <div class="content" role="main">
-   <mat-tab-group *ngIf="!registraionEnabled">
+  <mat-tab-group *ngIf="!registraionEnabled">
     <mat-tab label="Бронирование" style="width:1200px;" *ngIf="router.url == '/'">
       <mat-card>
         <mat-card-header>
@@ -336,7 +338,8 @@
             <mat-label>Город вылета</mat-label>
             <mat-select [(ngModel)]="departureCity" [formControl]="depCity">
               <mat-option *ngFor="let item of airports" [value]="item.city_id">
-                {{item.city_name }} <span style="margin-left: 5px; color: #1976d2; font-size: 10px;" >{{item.code}}</span>
+                {{item.city_name }} <span
+                  style="margin-left: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span>
               </mat-option>
             </mat-select>
             <mat-error *ngIf="depCity.hasError('required')">
@@ -352,7 +355,8 @@
             <mat-label>Город прилёта</mat-label>
             <mat-select [(ngModel)]="arrivalCity" [formControl]="arrCity">
               <mat-option *ngFor="let item of airports" [value]="item.city_id">
-                <span style="margin-right: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span> {{item.city_name}} 
+                <span style="margin-right: 5px; color: #1976d2; font-size: 10px;">{{item.code}}</span>
+                {{item.city_name}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="arrCity.hasError('required')">
@@ -362,7 +366,8 @@
 
           <mat-form-field appearance="outline" style="margin-right: 5px;">
             <mat-label>Дата вылета</mat-label>
-            <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate" [max]="maxDate" [formControl]="depDate">  
+            <input matInput [matDatepicker]="picker1" autocomplete="off" [(ngModel)]="departureDate" [min]="minDate"
+              [max]="maxDate" [formControl]="depDate">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 color="primary"></mat-datepicker>
             <mat-error *ngIf="depDate.hasError('required')">
@@ -372,12 +377,15 @@
 
           <mat-form-field appearance="outline" style="margin-right: 5px;">
             <mat-label>Обратно</mat-label>
-            <input matInput [matDatepicker]="picker2" autocomplete="off" [(ngModel)]="arrivalDate" [min]="minDate" [max]="maxDate">
+            <input matInput [matDatepicker]="picker2" autocomplete="off" [(ngModel)]="arrivalDate" [min]="minDate"
+              [max]="maxDate">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2 color="primary"></mat-datepicker>
           </mat-form-field>
 
-          <button [disabled]="depCity.hasError('required') || arrCity.hasError('required') || depDate.hasError('required') ||  depDate.hasError('pattern')" mat-fab color="primary" class="s-button" (click)="showRoutes()">
+          <button
+            [disabled]="depCity.hasError('required') || arrCity.hasError('required') || depDate.hasError('required') ||  depDate.hasError('pattern')"
+            mat-fab color="primary" class="s-button" (click)="showRoutes()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-card-actions>
@@ -386,26 +394,32 @@
     <mat-tab label="Просмотр билета" *ngIf="router.url == '/ticket'">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Найти билет можно по коду бронирования</mat-card-title>
+          <mat-card-title></mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions class="booking">
           <mat-form-field class="example-form-field" appearance="outline" class="booking-input"
             style="margin-right: 5px; margin-left: 5px;">
-            <mat-label>Код бронирования</mat-label>
+            <mat-label>Введите код бронирования</mat-label>
             <input matInput [formControl]="registrationCode" maxlength="8">
           </mat-form-field>
-          <button mat-fab color="primary" class="s-button" (click)="showTicket()" [disabled]="registrationCode.hasError('required') || registrationCode.hasError('pattern')">
+          <mat-form-field class="example-form-field" appearance="outline" class="clientSurname"
+            style="margin-right: 5px; margin-left: 5px;">
+            <mat-label>Фамилия, латинскими буквами</mat-label>
+            <input matInput [formControl]="clientSurname">
+          </mat-form-field>
+          <button mat-fab color="primary" class="s-button" (click)="showTicket()"
+            [disabled]="registrationCode.hasError('required') || registrationCode.hasError('pattern') || clientSurname.hasError('required') || clientSurname.hasError('pattern')">
             <mat-icon>search</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
 
-    <mat-tab label="Регистрация на рейс" *ngIf="router.url == '/registerFlight'">
+    <mat-tab label="Онлайн-регистрация" *ngIf="router.url == '/registerFlight'">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Зарегестрироваться на рейс можно по коду бронирования</mat-card-title>
+          <mat-card-title></mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions class="booking">
@@ -414,15 +428,20 @@
             <mat-label>Код бронирования</mat-label>
             <input matInput [formControl]="registrationCode" maxlength="8">
           </mat-form-field>
-
-          <button mat-fab color="primary" class="s-button" (click)="showRegisterFlight()" [disabled]="registrationCode.hasError('required') || registrationCode.hasError('pattern')">
+          <mat-form-field class="example-form-field" appearance="outline" class="clientSurname"
+            style="margin-right: 5px; margin-left: 5px;">
+            <mat-label>Фамилия, латинскими буквами</mat-label>
+            <input matInput [formControl]="clientSurname">
+          </mat-form-field>
+          <button mat-fab color="primary" class="s-button" (click)="showRegisterFlight()"
+            [disabled]="registrationCode.hasError('required') || registrationCode.hasError('pattern') || clientSurname.hasError('required') || clientSurname.hasError('pattern')">
             <mat-icon>search</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
   </mat-tab-group>
-  
+
 
   <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
     <title>Gray Clouds Background</title>
@@ -430,16 +449,28 @@
       d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z"
       transform="translate(142.69 -634.312)" fill="#eee" />
   </svg>
-  
-  <app-route  *ngIf="depDateToChild != null && !registraionEnabled" (regInfo)='departureRouteInfoChange($event)' (routeIsSelectedChange)="departureRouteSelectedChange($event)" (routesListIsFullChange)="departureRoutesListIsFullChange($event)"  [depCityToChild]="depCityToChild" [arrCityToChild]="arrCityToChild" [depDateToChild]="depDateToChild"></app-route>
-  <app-route  *ngIf="arrDateToChild != null && !registraionEnabled" (regInfo)='arrivalRouteInfoChange($event)' (routeIsSelectedChange)="arrivalRouteSelectedChange($event)" (routesListIsFullChange)="arrivalRoutesListIsFullChange($event)" [depCityToChild]="arrCityToChild" [arrCityToChild]="depCityToChild" [depDateToChild]="arrDateToChild"></app-route> 
-  
-  <app-registration *ngIf="registraionEnabled" [departureClientInfo]="departureClientInfo" [arrivalClientInfo]="arrivalClientInfo" [totalPrice]="totalPrice"></app-registration>
-  <footer *ngIf="(departureRouteIsSelected || arrivalRouteIsSelected) && (departureRouteIsSelected || !arrivalRoutesListIsFull) && (departureRouteIsSelected || arrivalRouteIsOff)">
-    <button mat-button (click)="goToRegistration()" matTooltip="Перейти на страницу ввода контактной информации и выбора места" [disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)">Продолжить <span *ngIf="departureRouteIsSelected">{{departurePrice + arrivalPrice}} руб.</span></button> <!---->
+
+  <app-route *ngIf="depDateToChild != null && !registraionEnabled" (regInfo)='departureRouteInfoChange($event)'
+    (routeIsSelectedChange)="departureRouteSelectedChange($event)"
+    (routesListIsFullChange)="departureRoutesListIsFullChange($event)" [depCityToChild]="depCityToChild"
+    [arrCityToChild]="arrCityToChild" [depDateToChild]="depDateToChild"></app-route>
+  <app-route *ngIf="arrDateToChild != null && !registraionEnabled" (regInfo)='arrivalRouteInfoChange($event)'
+    (routeIsSelectedChange)="arrivalRouteSelectedChange($event)"
+    (routesListIsFullChange)="arrivalRoutesListIsFullChange($event)" [depCityToChild]="arrCityToChild"
+    [arrCityToChild]="depCityToChild" [depDateToChild]="arrDateToChild"></app-route>
+
+  <app-registration *ngIf="registraionEnabled" [departureClientInfo]="departureClientInfo"
+    [arrivalClientInfo]="arrivalClientInfo" [totalPrice]="totalPrice"></app-registration>
+  <footer
+    *ngIf="(departureRouteIsSelected || arrivalRouteIsSelected) && (departureRouteIsSelected || !arrivalRoutesListIsFull) && (departureRouteIsSelected || arrivalRouteIsOff)">
+    <button mat-button (click)="goToRegistration()"
+      matTooltip="Перейти на страницу ввода контактной информации и выбора места"
+      [disabled]="(!departureRouteIsSelected || !arrivalRouteIsSelected) && (!departureRouteIsSelected || arrivalRoutesListIsFull) && (!departureRouteIsSelected || !arrivalRouteIsOff)">Продолжить
+      <span *ngIf="departureRouteIsSelected">{{departurePrice + arrivalPrice}} руб.</span></button> <!---->
   </footer>
-  <app-ticket *ngIf="router.url == '/ticket' && ticketEnabled" [registrationCode]="regCode"></app-ticket>
-  <app-register-flight *ngIf="router.url == '/registerFlight' && registerFlightEnabled" [registrationCode]="regCode"></app-register-flight>
+  <app-ticket *ngIf="router.url == '/ticket' && ticketEnabled" [registrationCode]="regCode" [clientSurname]="cliSurn"></app-ticket>
+  <app-register-flight *ngIf="router.url == '/registerFlight' && registerFlightEnabled"
+    [registrationCode]="regCode" [clientSurname]="cliSurn"></app-register-flight>
 </div>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
@@ -448,4 +479,3 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-

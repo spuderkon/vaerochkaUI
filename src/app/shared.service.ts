@@ -77,7 +77,15 @@ export class SharedService {
     return this.http.post(this.Url + 'Passport', passport)
   }
 
-  getRegistrationInfoBycode(code: string): Observable<any[]> {
+  getRegistrationFullInfoByCode(code: string): Observable<any[]> {
+    return this.http.get<any>(this.Url + 'Registration/GetFullRegistrationInfoByCode?code='+code)
+  }
+
+  getRegistrationFullInfoByCodeAndSurname(code: string, surname: string): Observable<any[]> {
+    return this.http.get<any>(this.Url + 'Registration/GetFullRegistrationInfoByCodeAndSurname?code='+code+'&surname='+surname)
+  }
+
+  getRegistrationByCode(code: string): Observable<any[]> {
     return this.http.get<any>(this.Url + 'Registration?code='+code)
   }
 
@@ -85,7 +93,7 @@ export class SharedService {
     return this.http.post(this.Url + 'Registration', registration)
   }
 
-  updateRegistered(registration: Registration) {
-    return this.http.patch(this.Url + 'Registration', registration);
+  updateRegistration(registration: Registration) {
+    return this.http.put(this.Url + 'Registration', registration);
   }
 }

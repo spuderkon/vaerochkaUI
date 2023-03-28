@@ -1,0 +1,13 @@
+.routes{
+    display: flex;
+    justify-content: start;
+    width: 1000px;
+}
+
+.arrivalCard{
+    margin-left: 20px;
+}
+
+mat-card{
+    background-color: #fafafa;
+}

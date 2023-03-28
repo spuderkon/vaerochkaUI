@@ -1,20 +1,52 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Регистрация на рейс {{departureTicket.routeCode}}</mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions>
-        <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card>
-<mat-card *ngIf="arrivalTicket.routeId != null">
-    <mat-card-header>
-        <mat-card-title>Регистрация на рейс {{arrivalTicket.routeCode}}</mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card>
-<button mat-button (click)="registrate()">Отправить</button>
+<div class="routes" *ngIf="dataIsFull">
+    <mat-card class="departureCard">
+        <mat-card-header>
+            <mat-card-title>Регистрация на рейс {{departureTicket.routeCode}}</mat-card-title>
+            <mat-card-subtitle *ngIf="departureRegistrationIsOpend">Регистрация открыта</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="departureRegistrationIsNotStarted">Регистрация ещё не началсь</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="departureRegistrationIsOver">Регистрация закончилась</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="departureTicket.registered">Рейс забронирован</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Рейс: {{departureTicket.departureCity}}
+                <strong>{{departureTicket.departureAirportCode}}</strong> -
+                <strong>{{departureTicket.arrivalAirportCode}}</strong>
+                {{departureTicket.arrivalCity}}
+            </p>
+            <p>Время отбытия: {{departureTicket.startTime | date :'HH:mm dd MMM yyyy'}}</p>
+            <p>Время прибытия: {{departureTicket.endTime | date :'HH:mm dd MMM yyyy'}}</p>
+            <p>Время в полёте: {{departureTicket.timeInFly}}</p>
+            <p>Место: {{departureTicket.seat}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="updateRegistration(departureRegistration)" [disabled]="!departureRegistrationIsOpend || departureTicket.registered">Забронировать</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="arrivalCard" *ngIf="arrivalTicket.routeId != null">
+        <mat-card-header>
+            <mat-card-title>Регистрация на рейс {{arrivalTicket.routeCode}}</mat-card-title>
+            <mat-card-subtitle *ngIf="arrivalRegistrationIsOpend">Регистрация открыта</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="arrivalRegistrationIsNotStarted">Регистрация ещё не началсь</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="arrivalRegistrationIsOver">Регистрация закончилась</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="arrivalTicket.registered">Рейс забронирован</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Рейс: {{arrivalTicket.departureCity}}
+                <strong>{{arrivalTicket.departureAirportCode}}</strong> -
+                <strong>{{arrivalTicket.arrivalAirportCode}}</strong>
+                {{arrivalTicket.arrivalCity}}
+            </p>
+            <p>Время отбытия: {{arrivalTicket.startTime | date :'HH:mm dd MMM yyyy'}}</p>
+            <p>Время прибытия: {{arrivalTicket.endTime | date :'HH:mm dd MMM yyyy'}}</p>
+            <p>Время в полёте: {{arrivalTicket.timeInFly}}</p>
+            <p>Место: {{arrivalTicket.seat}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="updateRegistration(arrivalRegistration)" [disabled]="!arrivalRegistrationIsOpend || arrivalTicket.registered">Забронировать</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<h1 *ngIf="ticketNotFound">
+    Рейса с заданным кодом бронирования не существует
+</h1>

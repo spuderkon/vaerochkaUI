@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnChanges {
   departureDate: string;
   arrivalDate: string | null = null;
   departureCity: number = 36;
-  arrivalCity: number = 1;
+  arrivalCity: number;
   minDate: Date;
   maxDate: Date;
   registraionEnabled: boolean = false;
@@ -47,7 +47,8 @@ export class AppComponent implements OnInit, OnChanges {
   arrCity = new FormControl('', [Validators.required]);
   depDate = new FormControl('', [Validators.required]);
   arrDate = new FormControl('', []);
-  registrationCode = new FormControl('RONKIQ12', [Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{8}$')]);
+  registrationCode = new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{8}$')]);
+  clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
 
   routeDepartureInfo: any = null;
   tariffDepartureInfo: any = null;
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit, OnChanges {
   departureRoutesListIsFull: boolean = false;
   arrivalRoutesListIsFull: boolean = false;
   regCode: string = '';
+  cliSurn: string = '';
 
   constructor(private service: SharedService, public router: Router) {
     const currentYear = new Date().getFullYear();
@@ -110,11 +112,13 @@ export class AppComponent implements OnInit, OnChanges {
 
   showTicket(): void{
     this.regCode = this.registrationCode.value!;
+    this.cliSurn = this.clientSurname.value!;
     this.ticketEnabled = true;
   }
 
   showRegisterFlight(): void{
     this.regCode = this.registrationCode.value!;
+    this.cliSurn = this.clientSurname.value!;
     this.registerFlightEnabled = true;
   }
 
