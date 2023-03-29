@@ -16,7 +16,7 @@ export class Routeinf {
     end_airport_id: number | null;
     arrive_airport : string | null;
     arrive_city : string | null;
-    time_in_fly : string | null;
+    time_in_fly : number | null;
     arrive_air_code: string | null;
     departure_air_code : string | null;
     available_seats: number | null;

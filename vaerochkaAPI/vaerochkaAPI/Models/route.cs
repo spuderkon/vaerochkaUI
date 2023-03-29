@@ -19,7 +19,7 @@ namespace vaerochkaAPI.Models
 
         public string code { get; set; }
 
-        public string time_in_fly { get; set; }
+        public int time_in_fly { get; set; }
 
         public int aircraft_id { get; set; }
 

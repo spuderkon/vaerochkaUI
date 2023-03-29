@@ -489,7 +489,7 @@
                                             
                                         </tr>
                                         
-                                        <tr *ngIf="!arrivalTicket.luggage">
+                                        <tr *ngIf="!arrivalTicket.luggage && arrivalTicket.routeId != null">
                                             <td>
                                                 <img width="46" height="46" border="0" alt=""
                                                     style="display:inline;padding:0 5px 0 0;vertical-align:middle"
