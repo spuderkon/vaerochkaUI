@@ -47,8 +47,8 @@ export class AppComponent implements OnInit, OnChanges {
   arrCity = new FormControl('', [Validators.required]);
   depDate = new FormControl('', [Validators.required]);
   arrDate = new FormControl('', []);
-  registrationCode = new FormControl('FYHN6716', [Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{8}$')]);
-  clientSurname = new FormControl('LOL', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
+  registrationCode = new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{8}$')]);
+  clientSurname = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
 
   routeDepartureInfo: any = null;
   tariffDepartureInfo: any = null;
@@ -164,7 +164,7 @@ export class AppComponent implements OnInit, OnChanges {
 
   goToRegistration(): void {
     this.totalPrice = this.departureClientInfo.price! + this.arrivalClientInfo.price!;
-    this.registraionEnabled = true
+    this.registraionEnabled = true;
   }
 
   test() {

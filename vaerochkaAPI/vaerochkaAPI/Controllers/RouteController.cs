@@ -34,8 +34,9 @@ namespace vaerochkaAPI.Controllers
               join city as ac1 on a1.city_id = ac1.id
               join city as ac2 on a2.city_id = ac2.id
               left join registration on route.id = registration.route_id
-              where DATEDIFF(hour,route.start_time, '{departureDate.ToString("yyyy-MM-dd" + " " + DateTime.Now.ToString("HH:mm:ss.mmm"))}') <= -2 and ac1.id = {departureCity} and ac2.id = {arrivalCity}
-              GROUP BY route.id, route.start_time, route.end_time, route.code, route.price ,route.airline_id, route.time_in_fly, airline.name, airline.image, route.aircraft_id, aircraft.model ,route.boarding_gate, route.start_airport_id, a1.name, ac1.name, a1.code, route.end_airport_id, a2.name, ac2.name, a2.code, aircraft.business_seats, aircraft.economy_seats";
+              where DATEDIFF(hour,route.start_time, '{departureDate.ToString("yyyy-MM-dd" + " " + DateTime.Now.ToString("HH:mm:ss.mmm"))}') <= -1 and ac1.id = {departureCity} and ac2.id = {arrivalCity}
+              GROUP BY route.id, route.start_time, route.end_time, route.code, route.price ,route.airline_id, route.time_in_fly, airline.name, airline.image, route.aircraft_id, aircraft.model ,route.boarding_gate, route.start_airport_id, a1.name, ac1.name, a1.code, route.end_airport_id, a2.name, ac2.name, a2.code, aircraft.business_seats, aircraft.economy_seats
+              HAVING aircraft.business_seats + aircraft.economy_seats - COUNT(registration.seat) > 0";
       }
       else
       {
@@ -53,7 +54,8 @@ namespace vaerochkaAPI.Controllers
               join city as ac2 on a2.city_id = ac2.id
               left join registration on route.id = registration.route_id
               where DATEDIFF(day,route.start_time, '{departureDate.ToString("yyyy-MM-dd")}') = 0 and ac1.id = {departureCity} and ac2.id = {arrivalCity}
-              GROUP BY route.id, route.start_time, route.end_time, route.code, route.price ,route.airline_id, route.time_in_fly, airline.name, airline.image, route.aircraft_id, aircraft.model ,route.boarding_gate, route.start_airport_id, a1.name, ac1.name, a1.code, route.end_airport_id, a2.name, ac2.name, a2.code, aircraft.business_seats, aircraft.economy_seats";
+              GROUP BY route.id, route.start_time, route.end_time, route.code, route.price ,route.airline_id, route.time_in_fly, airline.name, airline.image, route.aircraft_id, aircraft.model ,route.boarding_gate, route.start_airport_id, a1.name, ac1.name, a1.code, route.end_airport_id, a2.name, ac2.name, a2.code, aircraft.business_seats, aircraft.economy_seats
+              HAVING aircraft.business_seats + aircraft.economy_seats - COUNT(registration.seat) > 0";
       }
       DataTable table = new DataTable();
       using (var con = new SqlConnection(ConfigurationManager.

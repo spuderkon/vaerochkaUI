@@ -259,6 +259,6 @@
         </button>
     </footer> -->
 </div>
-
+<h2 *ngIf="caughtError"><mat-icon>sentiment_satisfied_alt</mat-icon>Что то пошло не так, попробуйте чуть позже</h2>
 <h2 *ngIf="ticketEnabled">Сфотографируйте или запишите код бронирования</h2>
 <app-ticket *ngIf="ticketEnabled" [registrationCode]="booking_code" [clientSurname]="clientSurname.value!"></app-ticket>

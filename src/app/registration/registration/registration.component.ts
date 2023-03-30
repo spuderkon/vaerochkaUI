@@ -49,6 +49,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
   arrivalEconomySeats: string[] = [];
   dataConfirmed: boolean = false;
   ticketEnabled: boolean = false;
+  caughtError: boolean = false;
 
   departurePrice: number = 0;
   arrivalPrice: number = 0;
@@ -82,7 +83,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
     const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth();
     this.minDateBirth = new Date(currentYear - 99, currentMonth, currentDay);
-    this.maxDateBirth = new Date(currentYear - 12, 0, 0);
+    this.maxDateBirth = new Date(currentYear - 14, 0, 0);
     this.minDatePass = new Date(currentYear - 20, currentMonth, currentDay);
     this.maxDatePass = new Date(currentYear + 25, 0, 0);
     this.minValidPeriod = new Date(currentYear, currentMonth, currentDay)
@@ -370,8 +371,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnChanges {
           this.registration.registered = false;
           this.postRegistration(this.registration)
         }
+        this.ticketEnabled = true;
       }
-      this.ticketEnabled = true;
     })
   }
 }

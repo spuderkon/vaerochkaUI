@@ -26,7 +26,7 @@
 
           <ng-container matColumnDef="InJourney">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:200px; text-align: center;"> В пути </th>
-            <td mat-cell *matCellDef="let row" style="text-align: center;">{{row.time_in_fly}} минут</td>
+            <td mat-cell *matCellDef="let row" style="text-align: center;">{{convertNumberToTime(row.time_in_fly)}}</td>
           </ng-container>
       
           <ng-container matColumnDef="Price">

@@ -93,6 +93,12 @@ export class RouteComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
+  convertNumberToTime(value: number): string {
+    let hours = Math.floor(value / 60);
+    let minutes = Math.floor(value % 60);
+    return hours + ' ч., ' + minutes + ' мин.';
+  }
+
   routeIsChoosedChange(id: number, change: boolean): void {
     if (change) {
       let x = this.routes.filter(x => x.route_id == id)
